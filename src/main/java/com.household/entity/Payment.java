@@ -1,6 +1,10 @@
 package com.household.entity;
 
+import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Embedded;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -8,7 +12,12 @@ import java.util.List;
 /**
  * Created by artemvlasov on 02/09/15.
  */
-public class Payment extends BaseEntity {
+@Document(collection = "payments")
+public class Payment {
+    @Id
+    private ObjectId id;
+    @CreatedDate
+    private LocalDateTime localDateTime;
     @Embedded
     private Service service;
     private double paymentSum;
@@ -16,6 +25,22 @@ public class Payment extends BaseEntity {
     private boolean paid;
     private List<Integer> prevMeters;
     private List<Integer> curMeters;
+
+    public ObjectId getId() {
+        return id;
+    }
+
+    public void setId(ObjectId id) {
+        this.id = id;
+    }
+
+    public LocalDateTime getLocalDateTime() {
+        return localDateTime;
+    }
+
+    public void setLocalDateTime(LocalDateTime localDateTime) {
+        this.localDateTime = localDateTime;
+    }
 
     public Service getService() {
         return service;

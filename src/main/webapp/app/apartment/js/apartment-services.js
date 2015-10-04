@@ -3,3 +3,14 @@ var app = angular.module('apartment-services', ['ngResource']);
 app.factory('AddApartment', ['$resource', function($resource) {
     return $resource('/rest/apartment/add');
 }]);
+
+app.factory('ApartmentFactory', ['$resource', function($resource) {
+    return $resource('/rest/apartment/:get/:all', {
+        get: '@get',
+        all: '@all'
+    })
+}]);
+
+app.factory('Cities', ['$resource', function($resource) {
+    return $resource('/rest/city/get/all');
+}]);

@@ -1,0 +1,10 @@
+<div class="block col-md-4">
+    <ul>
+        <li class="street">{{apartment.address.street + ", " + apartment.address.house + ' ap. ' + apartment.address.apartment}}</li>
+        <li><b>City:</b> {{apartment.address.city.name}}</li>
+        <li ng-show="unpaidPayments > 0"><b>Unpaid payments: </b>{{unpaidPayments}}</li>
+    </ul>
+    <div class="col-md-12 buttons">
+        <input type="button" value="Add Payment" ng-click="addPayment(apartment.id)" class="btn btn-success">
+    </div>
+</div>

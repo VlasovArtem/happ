@@ -3,13 +3,15 @@ package com.household.entity;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import org.mongodb.morphia.annotations.Embedded;
+import org.mongodb.morphia.annotations.NotSaved;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 /**
  * Created by artemvlasov on 02/09/15.
  */
 @JsonAutoDetect
 public class Address {
-    @Embedded
+    @NotSaved
     private City city;
     private String street;
     private String house;

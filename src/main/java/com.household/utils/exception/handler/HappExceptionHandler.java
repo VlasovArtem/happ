@@ -1,0 +1,19 @@
+package com.household.utils.exception.handler;
+
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import static org.springframework.http.HttpStatus.*;
+
+/**
+ * Created by artemvlasov on 04/10/15.
+ */
+@ControllerAdvice
+public class HappExceptionHandler {
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity exceptionHandler(Exception ex) {
+        return ResponseEntity.status(FORBIDDEN).body(JsonNodeFactory.instance.objectNode().put("error", ex.getMessage()));
+    }
+}

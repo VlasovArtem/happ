@@ -1,6 +1,11 @@
 html, body {
     height: 100%;
 }
+
+section > h2 {
+    text-align: center;
+}
+
 .main-title {
     height: 80vh;
     display: flex;
@@ -10,4 +15,61 @@ html, body {
 }
 [ng\:cloak], [ng-cloak], .ng-cloak {
     display: none !important;
+}
+.happ-form {
+    padding: 20px;
+    background-color: rgba(195, 188, 189, 0.1);
+    border: 1px solid gainsboro;
+    border-radius: 10px;
+}
+.happ-form > .form-group > label {
+    width: 100%;
+    text-align: center;
+}
+.happ-form-control {
+    background-color: rgba(0, 0, 0, 0);
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid black;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    -webkit-appearance: none;
+}
+
+.happ-form-control:focus {
+    -webkit-box-shadow: inset 0 0 0 rgba(0, 0, 0, .075), 0 1px 0 rgba(102, 175, 233, .6);
+    -moz-box-shadow: inset 0 0 0 rgba(0, 0, 0, .075), 0 1px 0 rgba(102, 175, 233, .6);
+    box-shadow: inset 0 0 0 rgba(0, 0, 0, .075), 0 1px 0 rgba(102, 175, 233, .6);
+}
+
+section > .error {
+    text-align: center;
+    transition: width 1s;
+    font-size: larger;
+    padding: 10px 0;
+    color: #269abc;
+}
+
+.buttons {
+    text-align: center;
+}
+
+/* Apartment Block */
+
+.block {
+    background-color: rgba(195, 188, 189, 0.1);
+    padding: 10px;
+    -webkit-box-shadow: 0 1px 10px 1px rgba(194, 188, 189, 0.43);
+    -moz-box-shadow: 0 1px 10px rgba(194, 188, 189, 0.43);
+    box-shadow: 0 5px 10px rgba(19, 188, 189, 0.43);
+}
+
+.block > ul {
+    list-style: none;
+}
+
+.block .street {
+    text-align: center;
+    font-size: larger;
 }

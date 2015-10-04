@@ -20,7 +20,7 @@ import java.util.List;
  */
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"com.household.controller", "com.household.service"})
+@ComponentScan({"com.household.controller", "com.household.service", "com.household.utils.handler"})
 public class ServletContextConfig extends WebMvcConfigurerAdapter {
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {

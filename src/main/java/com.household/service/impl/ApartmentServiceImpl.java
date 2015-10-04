@@ -3,6 +3,7 @@ package com.household.service.impl;
 import com.household.entity.Apartment;
 import com.household.persistence.ApartmentRepository;
 import com.household.service.ApartmentService;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,7 @@ public class ApartmentServiceImpl implements ApartmentService {
     private ApartmentRepository apartmentRepository;
 
     @Override
-    public Apartment getApartment(String id) {
+    public Apartment getApartment(ObjectId id) {
         return apartmentRepository.findOne(id);
     }
 
@@ -28,6 +29,9 @@ public class ApartmentServiceImpl implements ApartmentService {
 
     @Override
     public void add(Apartment apartment) {
+        if(apartmentRepository.countByAddress(apartment.getAddress()) > 0) {
+            throw new RuntimeException("Apartment already exists");
+        }
         apartmentRepository.save(apartment);
     }
 }

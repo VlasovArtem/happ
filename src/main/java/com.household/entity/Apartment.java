@@ -1,6 +1,7 @@
 package com.household.entity;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Embedded;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -18,11 +19,10 @@ import java.util.List;
 @JsonAutoDetect
 public class Apartment {
     @Id
-    private String id;
+    private ObjectId id;
     @CreatedDate
     private LocalDateTime createdDate;
     @Indexed
-    @Embedded
     private Address address;
     @DBRef
     private List<Payment> payments;

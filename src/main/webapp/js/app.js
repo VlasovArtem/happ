@@ -3,8 +3,9 @@
  */
 var app = angular.module('household', [
     'ngRoute', 'underscore', 'ui.bootstrap',
-    'apartment-controllers', 'apartment-services',
-    'main-controllers', 'main-directives'
+    'apartment-controllers', 'apartment-services', 'apartment-directives',
+    'main-controllers', 'main-directives',
+    'payment-controllers', 'payment-services', 'payment-directives'
 
 ]).config(
     function($routeProvider, $locationProvider) {
@@ -15,7 +16,30 @@ var app = angular.module('household', [
             }).
             when('/apartment/add', {
                 templateUrl: 'app/apartment/add.html',
-                controller: 'AddApartmentCtrl'
+                controller: 'AddApartmentCtrl',
+                resolve: {
+                    cities : function(Cities) {
+                        return Cities.query().$promise;
+                    }
+                }
+            }).
+            when('/apartments', {
+                templateUrl: 'app/apartment/apartments.html',
+                controller: 'ApartmentsCtrl',
+                resolve: {
+                    apartments: function(ApartmentFactory) {
+                        return ApartmentFactory.query({get : 'get', all : 'all'}).$promise;
+                    }
+                }
+            }).
+            when('/payment/add', {
+                templateUrl: 'app/payment/add.html',
+                controller: 'AddPaymentCtrl',
+                resolve: {
+                    services: function(Services) {
+                        return Services.query().$promise;
+                    }
+                }
             }).
             otherwise({
                 redirectTo: '/'
