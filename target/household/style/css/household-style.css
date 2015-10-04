@@ -1,0 +1,13 @@
+html, body {
+    height: 100%;
+}
+.main-title {
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+[ng\:cloak], [ng-cloak], .ng-cloak {
+    display: none !important;
+}

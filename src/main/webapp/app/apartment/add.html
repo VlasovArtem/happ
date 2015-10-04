@@ -1,0 +1,46 @@
+<section id="add-apartment">
+    <h2 class="col-md-12">Add Apartment</h2>
+    <form name="addApartment" class="col-md-offset-3 col-md-6">
+        <div class="form-group has-feedback">
+            <label for="city">City</label>
+            <select class="form-control"
+                    name="city"
+                    id="city"
+                    ng-model="apartment.address.city.name"
+                    ng-options="city.name for city in cities"></select>
+        </div>
+        <div class="form-group has-feedback">
+            <label for="street">Street</label>
+            <input class="form-control"
+                   type="text"
+                   id="street"
+                   name="house"
+                   placeholder="Input street"
+                   ng-model="apartment.address.street"
+                   required/>
+        </div>
+        <div class="form-group has-feedback">
+            <label for="house">House</label>
+            <input type="text"
+                   class="form-control"
+                   id="house"
+                   name="house"
+                   required
+                   placeholder="Input house"
+                   ng-model="apartment.address.house"/>
+        </div>
+        <div class="form-group has-feedback">
+            <label for="apartment">Apartment</label>
+            <input type="number"
+                    class="form-control"
+                    required
+                    name="apartment"
+                    placeholder="Input apartment"
+                    id="apartment"
+                    ng-model="apartment.address.apartment"/>
+        </div>
+        <div class="form-group">
+            <input type="button" class="btn btn-success" value="Add" ng-click="add()"/>
+        </div>
+    </form>
+</section>
