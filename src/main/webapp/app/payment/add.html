@@ -1,0 +1,87 @@
+<section id="add-payment" class="container-fluid">
+    <h2>Add payment</h2>
+    <div apartment="apartment"></div>
+    <div class="row">
+        <div class="col-md-2 info">
+            <label for="type">Please choose type:</label>
+            <select name="type"
+                    id="type"
+                    ng-model="type"
+                    class="form-control happ-form-control"
+                    ng-change="chooseServiceType(type)">
+                <option ng-repeat="type in types" value="{{type}}">{{type | camelCase}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="row" ng-show="services.length > 1">
+        <div class="col-md-3 info">
+            <label for="service">Choose service:</label>
+            <select name="service"
+                    id="service"
+                    ng-model="service"
+                    class="form-control happ-form-control"
+                    ng-options="service.name for service in services">
+            </select>
+        </div>
+    </div>
+    <article class="service happ-form col-md-offset-3 col-md-6" ng-show="service">
+        <h3>Payment information</h3>
+        <article class="service-info">
+            <ul>
+                <li><b>Service name:</b> {{service.name}}</li>
+                <li ng-show="service.service_information"><b>Bank code:</b> {{service.service_information.bank_code}}</li>
+                <li ng-show="service.service_information"><b>Checking account:</b> {{service.service_information.checking_account}}</li>
+            </ul>
+        </article>
+        <form name="paymentForm">
+            <table class="meter-reading" ng-show="service.rates && type != 'MAINTENANCE'">
+                <tr>
+                    <th rowspan="2" width="40%">Meter readings: </th>
+                    <th width="30%">Prev.</th>
+                    <th>Cur.</th>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="number" min="1" ng-model="payment.prev_meter" name="prev" class="form-control prev happ-form-control">
+                    </td>
+                    <td><input type="number" min="1" ng-model="payment.cur_meter" name="cur" class="form-control cur happ-form-control"></td>
+                </tr>
+            </table>
+            <div ng-show="type == 'MAINTENANCE'">
+                <label for="footage">Apartment footage</label>
+                <input type="number" min="1"
+                       ng-model="footage"
+                       id="footage"
+                       name="footage"
+                       class="form-control"
+                       ng-change="countMaintenanceSum(footage)">.
+            </div>
+            <table class="payment-sum">
+                <tr>
+                    <th rowspan="2" width="40%">Payment sum:</th>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="number" min="0.01" ng-model="payment.payment_sum" class="form-control happ-form-control" name="sum">
+                    </td>
+                </tr>
+            </table>
+            <div class="paid">
+                <div class="col-md-3">
+                    <label for="paid">Paid</label>
+                    <input type="checkbox" value="true" ng-model="payment.paid" id="paid" name="paid">
+                </div>
+                <div class="input-group col-md-9">
+                    <input type="text" ng-model="payment.payment_date" class="form-control" datepicker-popup="dd/MM/yyyy" max-date="today" is-open="status.opened" ng-required="true" close-text="Close">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </div>
+
+            </div>
+            <div class="col-md-12 buttons">
+                <input type="button" class="btn btn-success" value="Add" ng-click="addPayment()">
+            </div>
+        </form>
+    </article>
+</section>

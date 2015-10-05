@@ -2,12 +2,13 @@ package com.household.entity;
 
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Embedded;
+import org.mongodb.morphia.annotations.NotSaved;
+import org.mongodb.morphia.annotations.PrePersist;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * Created by artemvlasov on 02/09/15.
@@ -17,14 +18,15 @@ public class Payment {
     @Id
     private ObjectId id;
     @CreatedDate
-    private LocalDateTime localDateTime;
+    private LocalDateTime createdDate;
     @Embedded
+    @NotSaved
     private Service service;
     private double paymentSum;
     private LocalDateTime paymentDate;
     private boolean paid;
-    private List<Integer> prevMeters;
-    private List<Integer> curMeters;
+    private int prevMeter;
+    private int curMeter;
 
     public ObjectId getId() {
         return id;
@@ -34,12 +36,12 @@ public class Payment {
         this.id = id;
     }
 
-    public LocalDateTime getLocalDateTime() {
-        return localDateTime;
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
     }
 
-    public void setLocalDateTime(LocalDateTime localDateTime) {
-        this.localDateTime = localDateTime;
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
     }
 
     public Service getService() {
@@ -74,19 +76,19 @@ public class Payment {
         this.paid = paid;
     }
 
-    public List<Integer> getPrevMeters() {
-        return prevMeters;
+    public int getPrevMeter() {
+        return prevMeter;
     }
 
-    public void setPrevMeters(List<Integer> prevMeters) {
-        this.prevMeters = prevMeters;
+    public void setPrevMeter(int prevMeter) {
+        this.prevMeter = prevMeter;
     }
 
-    public List<Integer> getCurMeters() {
-        return curMeters;
+    public int getCurMeter() {
+        return curMeter;
     }
 
-    public void setCurMeters(List<Integer> curMeters) {
-        this.curMeters = curMeters;
+    public void setCurMeter(int curMeter) {
+        this.curMeter = curMeter;
     }
 }

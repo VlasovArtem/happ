@@ -30,7 +30,7 @@ public class App {
                 new City("Odessa"),
                 "Odessagas",
                 ServiceType.GAS,
-                new double[] {3.6, 7,188},
+                new double[] {3.6, 7.188},
                 new int[] {200}));
         services.add(createService(new ServiceInformation(328168, 26003264781l),
                 new City("Odessa"),

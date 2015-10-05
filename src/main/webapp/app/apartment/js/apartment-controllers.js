@@ -26,17 +26,13 @@ app.controller('AddApartmentCtrl', ['$scope', 'cities', 'AddApartment', '$locati
     }
 }]);
 
-app.controller('ApartmentsCtrl', ['$scope', 'apartments',
-    function($scope, apartments) {
+app.controller('ApartmentsCtrl', ['$scope', 'apartments', '$sessionStorage', '$location',
+    function($scope, apartments, $sessionStorage, $location) {
         $scope.apartments = apartments;
         $scope.unpaidPayments = 0;
-        _.each(apartments.payments, function(value, index) {
-            if(!value.paid) {
-                $scope.unpaidPayments++;
-            }
-        });
-        $scope.addPayment = function(apartmentId) {
-
+        $scope.addPayment = function(apartment) {
+            $sessionStorage.apartment = apartment;
+            $location.path('/payment/add');
         }
     }
 ]);

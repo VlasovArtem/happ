@@ -60,9 +60,13 @@ section > .error {
 .block {
     background-color: rgba(195, 188, 189, 0.1);
     padding: 10px;
-    -webkit-box-shadow: 0 1px 10px 1px rgba(194, 188, 189, 0.43);
-    -moz-box-shadow: 0 1px 10px rgba(194, 188, 189, 0.43);
-    box-shadow: 0 5px 10px rgba(19, 188, 189, 0.43);
+    -webkit-transition-timing-function: ease;
+    -webkit-transition-duration: 0.5s;
+}
+.block:hover {
+    -webkit-box-shadow: 0 1px 10px 1px rgba(118, 178, 28, 0.43);
+    -moz-box-shadow: 0 1px 10px rgba(118, 178, 28, 0.43);
+    box-shadow: 0 5px 10px rgba(118, 178, 28, 0.43)
 }
 
 .block > ul {
@@ -72,4 +76,179 @@ section > .error {
 .block .street {
     text-align: center;
     font-size: larger;
+}
+
+/* Nav bar */
+
+.navbar-happ {
+    background-color: rgba(118, 178, 28, 1) !important;
+    border-radius: 0 !important;
+    border: none !important;
+
+}
+.navbar-happ .navbar-brand,
+.navbar-happ .navbar-nav > li > a,
+.navbar-happ .dropdown-menu > li > a {
+    color: rgba(255, 255, 255, 1) !important;
+}
+
+.navbar-happ .navbar-nav > li > a {
+    padding-bottom: 12px !important;
+}
+
+.navbar-happ .dropdown-menu {
+    background-color: rgba(118, 178, 28, 1);
+}
+.navbar-happ .navbar-nav > .open > a,
+.navbar-happ .navbar-nav > .open > a:hover,
+.navbar-happ .navbar-nav > .open > a:focus,
+.navbar-happ .dropdown-menu > li > a:hover,
+.navbar-happ .dropdown-menu > li > a:focus {
+    background-color: #b9d6d8 !important;
+}
+.nav-icon {
+    height: 45px;
+}
+.navbar-brand {
+    padding: 1px;
+}
+.line {
+    width: 0;
+    height: 3px;
+    background-color: white;
+    display: block;
+}
+.navbar-happ .navbar-nav > li > a:hover > .line {
+    width: 100%;
+    -webkit-transition: width 1s ease;
+    transition: width 1s ease;
+}
+
+/* Add Payment Apartment */
+.apartment-info {
+    font-size: larger;
+    margin: 10px 0;
+}
+.service, .payment-sum, .paid {
+    margin-top: 20px;
+}
+#add-payment .info {
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+.service > h3 {
+    text-align: center;
+    margin-top: 0;
+}
+.service-info ul {
+    list-style: none;
+}
+.meter-reading tr > th:first-child, .payment-sum tr > th:first-child {
+    text-align: left;
+}
+.payment-sum input {
+    width: 90%;
+    margin-left: 5%;
+}
+.meter-reading tr > th {
+    text-align: center;
+}
+.meter-reading .prev, .meter-reading .cur {
+    width: 80%;
+    margin-left: 10%;
+}
+.meter-reading, .payment-sum, .paid {
+    margin-left: 25%;
+    width: 50%;
+}
+.service .buttons {
+    margin: 20px 0 0 0;
+}
+.paid {
+    display: inline-block;
+}
+.paid > div:first-child {
+    padding-left: 0;
+}
+/* Loading image */
+.loading-img {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+}
+.loading-img > .sk-cube-grid {
+    vertical-align: middle;
+}
+
+.sk-cube-grid {
+    width: 100px;
+    height: 100px;
+    margin: 100px auto;
+}
+
+.sk-cube-grid .sk-cube {
+    width: 33%;
+    height: 33%;
+    background-color: rgba(118, 178, 28, 1);
+    float: left;
+    -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+    animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+}
+.sk-cube-grid .sk-cube1 {
+    -webkit-animation-delay: 0.2s;
+    animation-delay: 0.2s; }
+.sk-cube-grid .sk-cube2 {
+    -webkit-animation-delay: 0.3s;
+    animation-delay: 0.3s; }
+.sk-cube-grid .sk-cube3 {
+    -webkit-animation-delay: 0.4s;
+    animation-delay: 0.4s; }
+.sk-cube-grid .sk-cube4 {
+    -webkit-animation-delay: 0.1s;
+    animation-delay: 0.1s; }
+.sk-cube-grid .sk-cube5 {
+    -webkit-animation-delay: 0.2s;
+    animation-delay: 0.2s; }
+.sk-cube-grid .sk-cube6 {
+    -webkit-animation-delay: 0.3s;
+    animation-delay: 0.3s; }
+.sk-cube-grid .sk-cube7 {
+    -webkit-animation-delay: 0s;
+    animation-delay: 0s; }
+.sk-cube-grid .sk-cube8 {
+    -webkit-animation-delay: 0.1s;
+    animation-delay: 0.1s; }
+.sk-cube-grid .sk-cube9 {
+    -webkit-animation-delay: 0.2s;
+    animation-delay: 0.2s; }
+
+@-webkit-keyframes sk-cubeGridScaleDelay {
+    0%, 70%, 100% {
+        -webkit-transform: scale3D(1, 1, 1);
+        transform: scale3D(1, 1, 1);
+    } 35% {
+          -webkit-transform: scale3D(0, 0, 1);
+          transform: scale3D(0, 0, 1);
+      }
+}
+
+@keyframes sk-cubeGridScaleDelay {
+    0%, 70%, 100% {
+        -webkit-transform: scale3D(1, 1, 1);
+        transform: scale3D(1, 1, 1);
+    } 35% {
+          -webkit-transform: scale3D(0, 0, 1);
+          transform: scale3D(0, 0, 1);
+      }
+}
+
+.blurred {
+    -webkit-filter: blur(5px);
+    -moz-filter: blur(5px);
+    -o-filter: blur(5px);
+    -ms-filter: blur(5px);
+    filter: blur(5px);
 }
