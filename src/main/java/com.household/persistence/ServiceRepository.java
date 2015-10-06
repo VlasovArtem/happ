@@ -1,7 +1,7 @@
 package com.household.persistence;
 
 import com.household.entity.Service;
-import com.household.entity.ServiceType;
+import com.household.entity.enums.ServiceType;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 

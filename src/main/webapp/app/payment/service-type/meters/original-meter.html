@@ -1,0 +1,29 @@
+<table class="meter-reading">
+    <div class="error" ng-show="error" ng-bind="error"></div>
+    <tr>
+        <th rowspan="2" width="40%">Meter readings: </th>
+        <th width="30%">Prev.</th>
+        <th>Cur.</th>
+    </tr>
+    <tr>
+        <td>
+            <input type="number"
+                   min="0"
+                   ng-model="payment.prev_meter[0]"
+                   name="prev"
+                   class="form-control prev happ-form-control"
+                   ng-model-options='{ debounce: 1000 }'
+                   autocomplete="off"
+                   ng-change="changed()">
+        </td>
+        <td><input
+                type="number"
+                min="0"
+                ng-model="payment.cur_meter[0]"
+                name="cur"
+                class="form-control cur happ-form-control"
+                ng-model-options='{ debounce: 1000 }'
+                autocomplete="off"
+                ng-change="changed()"></td>
+    </tr>
+</table>

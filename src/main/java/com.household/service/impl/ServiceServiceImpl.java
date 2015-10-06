@@ -1,7 +1,7 @@
 package com.household.service.impl;
 
 import com.household.entity.Service;
-import com.household.entity.ServiceType;
+import com.household.entity.enums.ServiceType;
 import com.household.persistence.ServiceRepository;
 import com.household.service.ServiceService;
 import org.springframework.beans.factory.annotation.Autowired;

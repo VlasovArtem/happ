@@ -69,6 +69,9 @@ var app = angular.module('household', [
                     types: function(ServiceFactory) {
                         return ServiceFactory.query({get: 'get', types: 'types'}).$promise;
                     },
+                    meters: function(ServiceFactory) {
+                        return ServiceFactory.query({get: 'get', meters: 'meters'}).$promise;
+                    },
                     apartment: function($sessionStorage) {
                         return $sessionStorage.apartment;
                     }

@@ -1,6 +1,7 @@
 package com.household.controller;
 
-import com.household.entity.ServiceType;
+import com.household.entity.enums.MeterType;
+import com.household.entity.enums.ServiceType;
 import com.household.service.ServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,11 @@ public class ServiceController {
     @RequestMapping("/get/types")
     public ResponseEntity getServiceTypes() {
         return ResponseEntity.ok(service.getServiceTypes());
+    }
+
+    @RequestMapping("/get/meters")
+    public ResponseEntity getMeterTypes() {
+        return ResponseEntity.ok(MeterType.values());
     }
 
     @RequestMapping("/get/all")

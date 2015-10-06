@@ -1,0 +1,35 @@
+<div class="service-data">
+    <article class="service-info">
+        <ul>
+            <li><b>Service name:</b> {{service.name}}</li>
+            <li><b>Bank code:</b> {{service.service_information.bank_code}}</li>
+            <li><b>Checking account:</b> {{service.service_information.checking_account}}</li>
+        </ul>
+    </article>
+    <form name="paymentForm">
+        <div class="meter-data"></div>
+        <table class="payment-sum">
+            <tr>
+                <th rowspan="2" width="40%">Payment sum:</th>
+            </tr>
+            <tr>
+                <td>
+                    <input type="number" min="0.01" ng-model="payment.payment_sum" class="form-control happ-form-control" name="sum">
+                </td>
+            </tr>
+        </table>
+        <div class="paid">
+            <div class="col-md-3">
+                <label for="paid">Paid</label>
+                <input type="checkbox" value="true" ng-model="payment.paid" id="paid" name="paid">
+            </div>
+            <div class="input-group col-md-9">
+                <input type="text" ng-model="payment.payment_date" class="form-control" datepicker-popup="dd/MM/yyyy" max-date="today" is-open="status.opened" ng-required="true" close-text="Close">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+            </div>
+
+        </div>
+    </form>
+</div>

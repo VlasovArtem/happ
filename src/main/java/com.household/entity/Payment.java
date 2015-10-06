@@ -1,5 +1,6 @@
 package com.household.entity;
 
+import com.household.entity.enums.MeterType;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Embedded;
 import org.mongodb.morphia.annotations.NotSaved;
@@ -8,6 +9,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -17,16 +19,17 @@ import java.time.LocalDateTime;
 public class Payment {
     @Id
     private ObjectId id;
-    @CreatedDate
     private LocalDateTime createdDate;
     @Embedded
     @NotSaved
     private Service service;
+    private MeterType meterType;
+    private Address address;
     private double paymentSum;
-    private LocalDateTime paymentDate;
+    private LocalDate paymentDate;
     private boolean paid;
-    private int prevMeter;
-    private int curMeter;
+    private int[] prevMeter;
+    private int[] curMeter;
 
     public ObjectId getId() {
         return id;
@@ -52,6 +55,22 @@ public class Payment {
         this.service = service;
     }
 
+    public MeterType getMeterType() {
+        return meterType;
+    }
+
+    public void setMeterType(MeterType meterType) {
+        this.meterType = meterType;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
     public double getPaymentSum() {
         return paymentSum;
     }
@@ -60,11 +79,11 @@ public class Payment {
         this.paymentSum = paymentSum;
     }
 
-    public LocalDateTime getPaymentDate() {
+    public LocalDate getPaymentDate() {
         return paymentDate;
     }
 
-    public void setPaymentDate(LocalDateTime paymentDate) {
+    public void setPaymentDate(LocalDate paymentDate) {
         this.paymentDate = paymentDate;
     }
 
@@ -76,19 +95,27 @@ public class Payment {
         this.paid = paid;
     }
 
-    public int getPrevMeter() {
+    public int[] getPrevMeter() {
         return prevMeter;
     }
 
-    public void setPrevMeter(int prevMeter) {
+    public void setPrevMeter(int[] prevMeter) {
         this.prevMeter = prevMeter;
     }
 
-    public int getCurMeter() {
+    public int[] getCurMeter() {
         return curMeter;
     }
 
-    public void setCurMeter(int curMeter) {
+    public void setCurMeter(int[] curMeter) {
         this.curMeter = curMeter;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        if(meterType == null) {
+            meterType = MeterType.ORIGINAL;
+        }
+        createdDate = LocalDateTime.now();
     }
 }

@@ -1,7 +1,7 @@
 package com.household.entity;
 
+import com.household.entity.enums.ServiceType;
 import org.bson.types.ObjectId;
-import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.NotSaved;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;

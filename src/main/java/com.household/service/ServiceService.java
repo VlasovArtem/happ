@@ -1,7 +1,7 @@
 package com.household.service;
 
 import com.household.entity.Service;
-import com.household.entity.ServiceType;
+import com.household.entity.enums.ServiceType;
 
 import java.util.List;
 

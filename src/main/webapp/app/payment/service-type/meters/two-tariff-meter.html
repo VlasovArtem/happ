@@ -1,0 +1,58 @@
+<table class="meter-reading">
+
+    <tr>
+        <th width="40%"></th>
+        <th width="30%">Prev.</th>
+        <th>Cur.</th>
+    </tr>
+    <tr>
+        <td><b>Day: </b></td>
+        <td>
+            <input
+                    type="number"
+                    min="0"
+                    ng-model="payment.prev_meter[0]"
+                    name="dayPrev"
+                    class="form-control prev happ-form-control"
+                    ng-model-options='{ debounce: 1000 }'
+                    autocomplete="off"
+                    ng-change="changed()">
+        </td>
+        <td>
+            <input
+                    type="number"
+                    min="0"
+                    ng-model="payment.cur_meter[0]"
+                    name="dayCur"
+                    class="form-control cur happ-form-control"
+                    ng-model-options='{ debounce: 1000 }'
+                    autocomplete="off"
+                    ng-change="changed()">
+        </td>
+    </tr>
+    <tr>
+        <td><b>Night: </b></td>
+        <td>
+            <input
+                    type="number"
+                    min="0"
+                    ng-model="payment.prev_meter[1]"
+                    name="nightPrev"
+                    class="form-control prev happ-form-control"
+                    ng-model-options='{ debounce: 1000 }'
+                    autocomplete="off"
+                    ng-change="changed()">
+        </td>
+        <td>
+            <input
+                    type="number"
+                    min="0"
+                    ng-model="payment.cur_meter[1]"
+                    name="nightCur"
+                    class="form-control cur happ-form-control"
+                    ng-model-options='{ debounce: 1000 }'
+                    autocomplete="off"
+                    ng-change="changed()">
+        </td>
+    </tr>
+</table>
