@@ -1,0 +1,59 @@
+<section id="by-month" class="container-fluid">
+    <div class="col-md-12 statistic-info">
+        <form name="month" class="col-md-8">
+            <div class="form-inline">
+                <label for="month">Month:</label>
+                <select
+                        name="month"
+                        id="month"
+                        ng-model="currentMonth"
+                        ng-options="month for month in months | monthFilter"
+                        class="form-control happ-form-control">
+                </select>
+            </div>
+            <div class="form-inline">
+                <label for="year">Year:</label>
+                <select
+                        name="year"
+                        id="year"
+                        ng-model="currentYear"
+                        ng-options="year for year in years"
+                        class="form-control happ-form-control">
+                </select>
+            </div>
+            <input type="button" class="btn btn-sm btn-info" ng-click="showNewStatistic()" value="Show">
+        </form>
+    </div>
+    <section ng-show="payments.length > 0">
+        <div class="col-md-8 col-md-offset-2">
+            <h3 class="col-md-12">{{viewMonth}}</h3>
+            <table class="table payment-table">
+                <tr>
+                    <th>Service</th>
+                    <th>Info</th>
+                    <th>Date</th>
+                    <th>Paid</th>
+                    <th>Sum</th>
+                </tr>
+                <tr ng-repeat="payment in payments">
+                    <td ng-bind="payment.service.name"></td>
+                    <td ng-bind="payment.service.type | camelCase"></td>
+                    <td ng-bind="payment.payment_date | dateFilter"></td>
+                    <td><paid paid="{{payment.paid}}"></paid></td>
+                    <td ng-bind="payment.payment_sum"></td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-md-12">
+            <ul class="summary">
+                <li><b>Total payments:</b> {{summary.total}}</li>
+                <li><b>Unpaid:</b> {{summary.unpaid}}</li>
+                <li><b>Paid:</b> {{summary.paid}}</li>
+                <li><b>Month payments sum:</b> {{summary.sum}}</li>
+            </ul>
+        </div>
+    </section>
+    <section ng-show="payments.length == 0">
+        <h2>You has no payments on this period</h2>
+    </section>
+</section>

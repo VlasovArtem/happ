@@ -20,7 +20,7 @@ import java.util.List;
 @JsonAutoDetect
 public class Apartment {
     @Id
-    private ObjectId id;
+    private String id;
     @CreatedDate
     private LocalDateTime createdDate;
     @Indexed
@@ -28,6 +28,22 @@ public class Apartment {
     @DBRef
     @JsonIgnore
     private List<Payment> payments;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
 
     public Address getAddress() {
         return address;

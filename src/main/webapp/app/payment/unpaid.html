@@ -1,0 +1,27 @@
+<section id="unpaid" class="container-fluid">
+    <apartment-info address="address"></apartment-info>
+    <h2>Payments info</h2>
+    <div class="error col-md-12" ng-bind="error" ng-show="error"></div>
+    <table class="table col-md-12">
+        <tr>
+            <th>Service</th>
+            <th>Info</th>
+            <th>Rate</th>
+            <th>Date</th>
+            <th>Sum</th>
+            <th>Meter readings</th>
+            <th></th>
+        </tr>
+        <tr ng-repeat="payment in payments">
+            <td ng-bind="payment.service.name"></td>
+            <td ng-bind="payment.service.type | camelCase"></td>
+            <td ng-bind="payment.service.rates | showArray"></td>
+            <td ng-bind="payment.payment_date | dateFilter"></td>
+            <td ng-bind="payment.payment_sum"></td>
+            <td>{{payment.prev_meter | showArray}} - {{payment.cur_meter | showArray}}</td>
+            <td ng-hide="payment.paid">
+                <input type="button" class="btn btn-sm btn-success" value="Paid" ng-click="setPaid(payment.id)">
+            </td>
+        </tr>
+    </table>
+</section>

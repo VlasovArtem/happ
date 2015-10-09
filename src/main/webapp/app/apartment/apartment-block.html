@@ -2,9 +2,10 @@
     <ul>
         <li class="street">{{apartment.address.street + ", " + apartment.address.house + ' ap. ' + apartment.address.apartment}}</li>
         <li><b>City:</b> {{apartment.address.city.name}}</li>
-        <li ng-show="unpaidPayments > 0"><b>Unpaid payments: </b>{{unpaidPayments}}</li>
     </ul>
     <div class="col-md-12 buttons">
-        <input type="button" value="Add Payment" ng-click="addPayment(apartment)" class="btn btn-success">
+        <input type="button" value="Add Payment" ng-click="addPayment()" class="btn btn-sm btn-success">
+        <button type="button" ng-click="showUnpaid(apartment.id)" class="btn btn-sm btn-primary" ng-show="unpaidPayments > 0">Show Unpaid <span class="badge">{{unpaidPayments}}</span></button>
+        <input type="button" value="Statistic" class="btn btn-sm btn-info" ng-click="showStatistic()">
     </div>
 </div>

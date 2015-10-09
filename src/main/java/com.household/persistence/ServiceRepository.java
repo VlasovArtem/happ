@@ -10,6 +10,6 @@ import java.util.List;
 /**
  * Created by artemvlasov on 05/10/15.
  */
-public interface ServiceRepository extends MongoRepository<Service, ObjectId> {
+public interface ServiceRepository extends MongoRepository<Service, String> {
     List<Service> findByCityNameAndType(String city, ServiceType type);
 }

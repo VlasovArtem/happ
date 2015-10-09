@@ -26,13 +26,10 @@ app.controller('AddApartmentCtrl', ['$scope', 'cities', 'AddApartment', '$locati
     }
 }]);
 
-app.controller('ApartmentsCtrl', ['$scope', 'apartments', '$sessionStorage', '$location',
-    function($scope, apartments, $sessionStorage, $location) {
+app.controller('ApartmentsCtrl', ['$scope', 'apartments',
+    function($scope, apartments) {
+        console.log(apartments);
         $scope.apartments = apartments;
-        $scope.unpaidPayments = 0;
-        $scope.addPayment = function(apartment) {
-            $sessionStorage.apartment = apartment;
-            $location.path('/payment/add');
-        }
+
     }
 ]);

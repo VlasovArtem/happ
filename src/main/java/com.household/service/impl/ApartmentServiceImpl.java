@@ -18,7 +18,7 @@ public class ApartmentServiceImpl implements ApartmentService {
     private ApartmentRepository apartmentRepository;
 
     @Override
-    public Apartment getApartment(ObjectId id) {
+    public Apartment getApartment(String id) {
         return apartmentRepository.findOne(id);
     }
 

@@ -1,7 +1,6 @@
 package com.household.entity;
 
 import com.household.entity.enums.MeterType;
-import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Embedded;
 import org.mongodb.morphia.annotations.NotSaved;
 import org.mongodb.morphia.annotations.PrePersist;
@@ -18,10 +17,10 @@ import java.time.LocalDateTime;
 @Document(collection = "payments")
 public class Payment {
     @Id
-    private ObjectId id;
+    private String id;
+    @CreatedDate
     private LocalDateTime createdDate;
     @Embedded
-    @NotSaved
     private Service service;
     private MeterType meterType;
     private Address address;
@@ -31,11 +30,11 @@ public class Payment {
     private int[] prevMeter;
     private int[] curMeter;
 
-    public ObjectId getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(ObjectId id) {
+    public void setId(String id) {
         this.id = id;
     }
 

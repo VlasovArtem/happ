@@ -35,11 +35,11 @@
             </select>
         </div>
     </div>
-    <article class="service happ-form col-md-offset-3 col-md-6" ng-show="service" service-payment>
+    <article class="service happ-form col-md-offset-3 col-md-6" ng-show="service || type == 'MAINTENANCE'" service-payment>
         <h3>Payment information</h3>
         <div class="service-payment-info"></div>
         <div class="col-md-12 buttons">
-            <input type="button" class="btn btn-success" value="Add" ng-click="addPayment()">
+            <input type="button" class="btn btn-success" value="Add" ng-click="addPayment()" ng-disabled="paymentForm.$invalid">
         </div>
     </article>
 </section>

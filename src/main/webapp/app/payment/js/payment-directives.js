@@ -125,22 +125,48 @@ app.directive('regularService', function($compile) {
     }
 });
 
-app.directive('maintenanceService', function() {
+app.directive('maintenanceService', function($sessionStorage) {
     return {
         restrict: 'E',
         replace: true,
         link: function(scope, element, attr) {
-            scope.countMaintenanceSum = function(footageOfApartments) {
-                if(footageOfApartments > 0) {
-                    scope.payment.payment_sum = (scope.service.rates[0] * footageOfApartments).toFixed(2);
+            scope.validationMessage = {
+                serviceName: {
+                    required: 'Service name is required'},
+                footage: {
+                    required: 'Footage of the apartment is required'
+                },
+                rate: {
+                    required: 'Rate for maintenance is required'
+                },
+                sum: {
+                    required: 'Payment sum is required'
                 }
             };
+            scope.payment = angular.copy(scope.initPayment);
+            scope.payment.service = {
+                rates: [],
+                volumes: [],
+                type: scope.type
+            };
+            scope.countMaintenanceSum = function() {
+                if(scope.payment.service.rates && scope.payment.service.volumes) {
+                    if(scope.payment.service.rates[0] > 0 && scope.payment.service.volumes[0] > 0) {
+                        var sum = scope.payment.service.rates[0] * scope.payment.service.volumes[0];
+                        scope.payment.payment_sum = Number(sum.toFixed(2));
+                    }
+                }
+            };
+            scope.userPreviousData = function() {
+                scope.payment.service = scope.previousPayment.service;
+                scope.payment.payment_sum = scope.previousPayment.payment_sum;
+            }
         },
         templateUrl: 'app/payment/service-type/maintenance.html'
     }
 });
 
-app.directive('servicePayment', function(ServiceFactory, PaymentFactory, $compile, $filter) {
+app.directive('servicePayment', function(ServiceFactory, PaymentFactory, $compile, $filter, $location) {
     return {
         restrict: 'A',
         link: function(scope, element, attr) {
@@ -156,16 +182,47 @@ app.directive('servicePayment', function(ServiceFactory, PaymentFactory, $compil
                 angular.element('.service-data').remove();
                 scope.payment = angular.copy(scope.initPayment);
                 if(angular.isDefined(type)) {
-                    ServiceFactory.query({get: 'get', all: 'all', city: scope.apartment.address.city.name, type: type})
-                        .$promise
-                        .then(function (data) {
-                            if(data.length == 1) {
-                                scope.service = data[0];
-                                PaymentFactory.last({address: scope.apartment.address, service_name: scope.service.name});
-                            } else {
-                                scope.services = data;
+                    var regularServiceTypes = ["GAS", "WATER", "ELECTRICITY"];
+                    if(_.contains(regularServiceTypes, type)) {
+                        ServiceFactory.query({
+                            get: 'get',
+                            all: 'all',
+                            city: scope.apartment.address.city.name,
+                            type: type
+                        })
+                            .$promise
+                            .then(function (data) {
+                                if (data.length == 1) {
+                                    scope.service = data[0];
+                                    PaymentFactory.last({
+                                            addressId: scope.apartment.address.id,
+                                            type: type
+                                        },
+                                        function (data) {
+                                            if(data) {
+                                                scope.initPayment.prev_meter = data.cur_meter;
+                                                scope.payment.prev_meter = data.cur_meter;
+                                            }
+                                        });
+                                } else {
+                                    scope.services = data;
+                                }
+                            });
+                    } else {
+                        PaymentFactory.last({
+                            addressId: scope.apartment.address.id,
+                            type: type
+                        }, function(data) {
+                            if(data) {
+                                scope.service = data.service;
+                                scope.previousPayment = data;
+                                scope.initPayment.payment_sum = data.payment_sum;
+                                scope.initPayment.service = data.service;
+                                scope.payment.payment_sum = data.payment_sum;
+                                scope.payment.service = data.service;
                             }
-                        });
+                        })
+                    }
                     var appendedDirective;
                     var appendedElement;
                     if(_.isEqual(type, 'MAINTENANCE')) {
@@ -181,12 +238,165 @@ app.directive('servicePayment', function(ServiceFactory, PaymentFactory, $compil
             };
 
             scope.addPayment = function () {
-                scope.payment.service = scope.service;
+                if(angular.isDefined(scope.service)) {
+                    scope.payment.service = scope.service;
+                }
                 scope.payment.payment_date = $filter('ToLocalDateFilter')(scope.payment.payment_date);
                 scope.payment.address = scope.apartment.address;
-                PaymentFactory.save(scope.payment)
+                if(!scope.payment.service.city) {
+                    scope.payemnt.service.city = scope.apartment.address.city;
+                }
+                var convertedPrevMeter = [];
+                _.each(scope.payment.prev_meter, function(meter) {
+                    if(meter != 0) {
+                        convertedPrevMeter.push(meter);
+                    }
+                });
+                scope.payment.prev_meter = convertedPrevMeter.length > 0 ? convertedPrevMeter : null;
+                console.log(scope.payment);
+                PaymentFactory.save(scope.payment, function() {
+                    $location.path('/apartments')
+                })
             };
             scope.payment = angular.copy(scope.initPayment);
         }
     }
-})
+});
+
+app.directive('statistic', function($sessionStorage, $compile) {
+    var link = function(scope, element, attr) {
+        scope.apartment = $sessionStorage.apartment;
+        var statistics = {
+            by_month: {
+                tag: '<statistic-by-month class="statistic"></statistic-by-month>',
+                class: '.by-month'
+            },
+            by_service: {
+                tag: '<statistic-by-service class="statistic"></statistic-by-service>',
+                class: '.by-service'
+            },
+            all: {
+                tag: '<statistic-all class="statistic"></statistic-all>',
+                class: '.all'
+            }
+        };
+        scope.switch = function(link) {
+            angular.element('.statistic').remove();
+            var switchedStatistic = statistics[link];
+            var el = switchedStatistic.tag;
+            element.append(el);
+            angular.element('.statistic-tab > li').removeClass('active');
+            angular.element(switchedStatistic.class).addClass('active');
+            $compile(angular.element('.statistic'))(scope);
+
+        };
+        scope.switch('by_month');
+    };
+    return {
+        restrict: 'E',
+        link: link,
+        templateUrl: 'app/payment/statistic-block.html'
+    }
+});
+
+app.directive('statisticByMonth', function(PaymentFactory, StatisticService) {
+    var controller = ['$scope', function($scope) {
+        $scope.months = StatisticService.months
+        $scope.years = StatisticService.getYears();
+        $scope.currentMonth = $scope.months[new Date().getMonth()];
+        $scope.viewMonth = angular.copy($scope.currentMonth);
+        $scope.currentYear = new Date().getFullYear();
+        $scope.showNewStatistic = function() {
+            PaymentFactory.query({
+                get: 'get',
+                stat: 'stat',
+                month: 'month',
+                addressId: $scope.apartment.address.id,
+                monthNum: $scope.months.indexOf($scope.currentMonth) + 1,
+                year: $scope.currentYear
+            }, function(data) {
+                $scope.payments = data;
+                $scope.summary = StatisticService.getSummary(data);
+                $scope.viewMonth = angular.copy($scope.currentMonth);
+            })
+        };
+        $scope.showNewStatistic();
+    }];
+    return {
+        controller: controller,
+        templateUrl: 'app/payment/statistic-by-month.html'
+    }
+});
+
+app.directive('statisticByService', function(PaymentFactory, ServiceFactory, StatisticService) {
+    var controller = ['$scope', function($scope) {
+        $scope.years = StatisticService.getYears();
+        ServiceFactory.query({get: 'get', types: 'types'}, function(data) {
+            $scope.types = data;
+            $scope.currentType = data[data.indexOf('ELECTRICITY')];
+            $scope.viewType = angular.copy($scope.currentType);
+            $scope.currentYear = new Date().getFullYear();
+            $scope.showNewStatistic();
+        });
+        $scope.showNewStatistic = function() {
+            PaymentFactory.query({
+                get: 'get',
+                stat: 'stat',
+                service: 'service',
+                addressId: $scope.apartment.address.id,
+                type: $scope.currentType,
+                year: $scope.currentYear
+            }, function(data) {
+                $scope.payments = data;
+                $scope.viewType = angular.copy($scope.currentType);
+                $scope.summary = StatisticService.getSummary(data);
+            });
+        }
+    }];
+    return {
+        controller: controller,
+        templateUrl: 'app/payment/statistic-by-service.html'
+    }
+});
+
+app.directive('statisticAll', function(PaymentFactory, StatisticService) {
+    var controller = ['$scope', function($scope) {
+        $scope.years = StatisticService.getYears();
+        $scope.currentYear = new Date().getFullYear();
+        $scope.showNewStatistic = function() {
+            PaymentFactory.query({
+                get: 'get',
+                stat: 'stat',
+                all: 'all',
+                addressId: $scope.apartment.address.id,
+                year: $scope.currentYear
+            }, function(data) {
+                $scope.payments = data;
+                $scope.summary = StatisticService.getSummary(data);
+            })
+        };
+        $scope.showNewStatistic();
+    }];
+    return {
+        controller: controller,
+        templateUrl: 'app/payment/statistic-all.html'
+    }
+});
+
+app.directive('paid', function() {
+    return {
+        restrict: 'E',
+        replace: true,
+        scope: {
+            paid: '@'
+        },
+        link: function(scope, element, attr) {
+            if(scope.paid == 'true') {
+                element.append('<span class="paid glyphicon glyphicon-ok"></span>')
+            } else {
+                element.append('<span class="unpaid glyphicon glyphicon-remove"></span>')
+            }
+        }
+
+    }
+});

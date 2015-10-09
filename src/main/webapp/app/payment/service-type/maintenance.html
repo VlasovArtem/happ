@@ -1,11 +1,92 @@
 <div class="service-data">
-    <form name="paymentForm">
-        <label for="footage">Apartment footage</label>
-        <input type="number" min="1"
-               ng-model="footage"
-               id="footage"
-               name="footage"
-               class="form-control"
-               ng-change="countMaintenanceSum(footage)">.
+    <article class="service-info" ng-show="previousPayment">
+        Previous payment info
+        <ul>
+            <li><b>Service name:</b> {{previousPayment.service.name}}</li>
+            <li><b>Payment sum:</b> {{previousPayment.payment_sum}}</li>
+            <li><b>Apartment footage:</b> {{previousPayment.service.volumes[0]}}</li>
+            <li><b>Rate (1 m<sup>3</sup>):</b> {{previousPayment.service.rates[0]}}</li>
+        </ul>
+        <input type="button" class="btn btn-warning" value="Use previous" ng-click="userPreviousData()">
+    </article>
+    <form name="paymentForm" class="col-md-offset-1 col-md-10 payment-form">
+        <table>
+            <tr>
+                <td><b>Service name:</b></td>
+                <td><input
+                        type="text"
+                        ng-model="payment.service.name"
+                        id="serviceName"
+                        name="serviceName"
+                        autocomplete="off"
+                        required
+                        class="form-control happ-form-control">
+                    <validation model="paymentForm.serviceName" messages="validationMessage.serviceName"></validation>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <b>Apartment footage:</b>
+                </td>
+                <td>
+                    <input
+                            type="number"
+                            min="1"
+                            ng-model="payment.service.volumes[0]"
+                            id="footage"
+                            name="footage"
+                            autocomplete="off"
+                            required
+                            class="form-control happ-form-control has-feedback"
+                            ng-model-options='{ debounce: 1000 }'
+                            ng-change="countMaintenanceSum()">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <b>Rate:</b>
+                </td>
+                <td>
+                    <input
+                            type="number"
+                            min="0.01"
+                            ng-model="payment.service.rates[0]"
+                            id="rate"
+                            name="rate"
+                            autocomplete="off"
+                            required
+                            class="form-control happ-form-control has-feedback"
+                            ng-model-options='{ debounce: 1000 }'
+                            ng-change="countMaintenanceSum()">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <b>Payment sum:</b>
+                </td>
+                <td>
+                    <input
+                            type="number"
+                            min="0.01"
+                            ng-model="payment.payment_sum"
+                            class="form-control happ-form-control"
+                            name="sum"
+                            autocomplete="off"
+                            required>
+                </td>
+            </tr>
+        </table>
+        <div class="paid">
+            <div class="col-md-3">
+                <label for="paid">Paid</label>
+                <input type="checkbox" value="true" ng-model="payment.paid" id="paid" name="paid">
+            </div>
+            <div class="input-group col-md-9">
+                <input type="text" ng-model="payment.payment_date" class="form-control" datepicker-popup="dd/MM/yyyy" max-date="today" is-open="status.opened" ng-required="true" close-text="Close">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+            </div>
+        </div>
     </form>
 </div>

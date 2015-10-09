@@ -3,21 +3,30 @@
  */
 var app = angular.module('household', [
     'ngRoute', 'underscore', 'ui.bootstrap', 'ngStorage',
-    'apartment-controllers', 'apartment-services', 'apartment-directives',
+    'apartment-controllers', 'apartment-services', 'apartment-directives', 'apartment-filters',
     'main-controllers', 'main-directives', 'main-filters',
     'payment-controllers', 'payment-services', 'payment-directives', 'payment-filters'
 ]).config(
     function($routeProvider, $locationProvider, $httpProvider, $provide) {
+        var isSafari = /Safari/.test(navigator.userAgent) && /Apple Computer/.test(navigator.vendor);
         var addLoading = function() {
-            $('nav').addClass('blurred');
-            $('.view').addClass('blurred');
-            $('footer').addClass('blurred');
+            if(isSafari) {
+                $('.view').addClass('white');
+            } else {
+                $('nav').addClass('blurred');
+                $('.view').addClass('blurred');
+                $('footer').addClass('blurred');
+            }
             $('.loading-img').show();
         };
         var removeLoading = function() {
-            $('nav').removeClass('blurred');
-            $('.view').removeClass('blurred');
-            $('footer').removeClass('blurred');
+            if(isSafari) {
+                $('.view').removeClass('white');
+            } else {
+                $('nav').removeClass('blurred');
+                $('.view').removeClass('blurred');
+                $('footer').removeClass('blurred');
+            }
             $(".loading-img").hide();
         };
         $provide.factory('myHttpInterceptor', function($q) {
@@ -31,9 +40,10 @@ var app = angular.module('household', [
                     return $q.reject(rejection);
                 },
                 'request': function(config) {
-                    if(config.url.indexOf('page') > -1) {
-                        addLoading();
-                    }
+                    //if(config.url.indexOf('page') > -1) {
+                    //    addLoading();
+                    //}
+                    addLoading();
                     return config;
                 }
             }
@@ -72,6 +82,24 @@ var app = angular.module('household', [
                     meters: function(ServiceFactory) {
                         return ServiceFactory.query({get: 'get', meters: 'meters'}).$promise;
                     },
+                    apartment: function($sessionStorage) {
+                        return $sessionStorage.apartment;
+                    }
+                }
+            }).
+            when('/payment/unpaid', {
+                templateUrl: 'app/payment/unpaid.html',
+                controller: 'UnpaidPaymentCtrl',
+                resolve: {
+                    payments: function(PaymentFactory, $sessionStorage) {
+                        return PaymentFactory.query({unpaid: 'unpaid', addressId : $sessionStorage.apartment.address.id}).$promise;
+                    }
+                }
+            }).
+            when('/payment/statistic', {
+                templateUrl: 'app/payment/statistic.html',
+                controller: 'PaymentStatisticCtrl',
+                resolve: {
                     apartment: function($sessionStorage) {
                         return $sessionStorage.apartment;
                     }

@@ -1,6 +1,5 @@
 package com.household.entity;
 
-import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Embedded;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -16,7 +15,7 @@ import java.util.Set;
 @Document(collection = "users")
 public class User {
     @Id
-    private ObjectId id;
+    private String id;
     @CreatedDate
     private LocalDateTime createdDate;
     @LastModifiedDate
@@ -28,11 +27,11 @@ public class User {
     @Embedded
     private Set<Apartment> apartments;
 
-    public ObjectId getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(ObjectId id) {
+    public void setId(String id) {
         this.id = id;
     }
 

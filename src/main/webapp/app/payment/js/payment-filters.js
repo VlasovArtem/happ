@@ -13,3 +13,18 @@ app.filter('ToLocalDateFilter', function() {
         }
     }
 });
+
+app.filter('monthFilter', function() {
+    return function(months, year) {
+        if(year < new Date().getFullYear() && new Date().getMonth() == 11) {
+            return months
+        } else {
+            var currentMonth = new Date().getMonth();
+            var filteredMonths = [];
+            for(var i = 0; i <= new Date().getMonth(); i++) {
+                filteredMonths.push(months[i]);
+            }
+            return filteredMonths;
+        }
+    }
+});

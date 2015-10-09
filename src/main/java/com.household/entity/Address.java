@@ -4,6 +4,7 @@ package com.household.entity;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import org.mongodb.morphia.annotations.Embedded;
 import org.mongodb.morphia.annotations.NotSaved;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
 /**
@@ -11,11 +12,31 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
  */
 @JsonAutoDetect
 public class Address {
+    @Id
+    private String id;
     @NotSaved
     private City city;
     private String street;
     private String house;
     private int apartment;
+
+    public Address() {
+    }
+
+    public Address(City city, String street, String house, int apartment) {
+        this.city = city;
+        this.street = street;
+        this.house = house;
+        this.apartment = apartment;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public City getCity() {
         return city;

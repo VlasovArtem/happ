@@ -1,8 +1,7 @@
 package com.household.entity;
 
 import com.household.entity.enums.ServiceType;
-import org.bson.types.ObjectId;
-import org.mongodb.morphia.annotations.NotSaved;
+import org.mongodb.morphia.annotations.Embedded;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -13,9 +12,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "services")
 public class Service {
     @Id
-    private ObjectId id;
+    private String id;
     private ServiceInformation serviceInformation;
-    @NotSaved
+    @Embedded
     private City city;
     @Indexed
     private String name;
@@ -23,11 +22,11 @@ public class Service {
     private double[] rates;
     private int[] volumes;
 
-    public ObjectId getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(ObjectId id) {
+    public void setId(String id) {
         this.id = id;
     }
 
