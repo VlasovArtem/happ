@@ -4,14 +4,21 @@
         <ul>
             <li><b>Имя сервиса:</b> {{previousPayment.service.name}}</li>
             <li><b>Сумма оплаты:</b> {{previousPayment.payment_sum}}</li>
-            <li ng-show="previousPayment.service.volumes && previousPayment.service.volumes.length > 0"><b>Метраж квартиры:</b> {{previousPayment.service.volumes[0]}}</li>
-            <li ng-show="previousPayment.service.rates && previousPayment.service.rates.length > 0"><b>Тариф (1 м<sup>3</sup>):</b> {{previousPayment.service.rates[0]}}</li>
-            <li><b>Лицевой счёт</b> {{previousPayment.personal_account}}</li>
         </ul>
         <input type="button" class="btn btn-warning" value="Использовать" ng-click="userPreviousData()">
     </article>
     <form name="paymentForm" class="col-md-12 payment-form">
         <table>
+            <tr>
+                <th>Тип сервиса:</th>
+                <td><select
+                        ng-model="payment.service.type.subtypes[0]"
+                        class="form-control happ-form-control"
+                        required
+                        ng-options="(subtype.name | camelCase) for subtype in type.subtypes">
+                    <option value="" disabled selected>Выберите тип сервиса</option>
+                </select></td>
+            </tr>
             <tr>
                 <td><b>Имя сервиса:</b></td>
                 <td><input
@@ -29,51 +36,17 @@
                 </td>
             </tr>
             <tr>
-                <td><b>Лицевой счёт:</b></td>
-                <td>
-                    <input type="text"
+                <td><b>Лицевой счет:</b></td>
+                <td><input type="text"
                            ng-model="payment.personal_account"
                            id="personalAccount"
                            name="personalAccount"
+                           autocomplete="off"
+                           maxlength="16"
                            class="form-control happ-form-control">
-                </td>
-            </tr>
-            <tr ng-show="payment.service.rates && payment.service.rates.length > 0">
-                <td>
-                    <b>Метраж квартиры:</b>
-                </td>
-                <td>
-                    <input
-                            type="number"
-                            min="1"
-                            max="500"
-                            ng-model="payment.service.volumes[0]"
-                            id="footage"
-                            name="footage"
-                            autocomplete="off"
-                            class="form-control happ-form-control has-feedback"
-                            ng-model-options='{ debounce: 1000 }'
-                            ng-change="countMaintenanceSum()">
                     <div validation-messages
-                         model-controller="paymentForm.footage"
+                         model-controller="paymentForm.personalAccount"
                          messages="validationMessage"></div>
-                </td>
-            </tr>
-            <tr ng-show="payment.service.rates && payment.service.rates.length > 0">
-                <td>
-                    <b>Тариф:</b>
-                </td>
-                <td>
-                    <input
-                            type="number"
-                            min="0.01"
-                            ng-model="payment.service.rates[0]"
-                            id="rate"
-                            name="rate"
-                            autocomplete="off"
-                            class="form-control happ-form-control has-feedback"
-                            ng-model-options='{ debounce: 1000 }'
-                            ng-change="countMaintenanceSum()">
                 </td>
             </tr>
             <tr>

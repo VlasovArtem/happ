@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 public class City {
     @Id
     private String name;
+    private String alias;
 
     public City() {
     }
@@ -30,5 +31,13 @@ public class City {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getAlias() {
+        return alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
     }
 }

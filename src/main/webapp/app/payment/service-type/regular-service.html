@@ -1,16 +1,29 @@
 <div class="service-data">
-    <article class="service-info">
-        <ul>
-            <li><b>Service name:</b> {{service.name}}</li>
-            <li><b>Bank code:</b> {{service.service_information.bank_code}}</li>
-            <li><b>Checking account:</b> {{service.service_information.checking_account}}</li>
-        </ul>
+    <article class="service-info row">
+        <table class="col-md-6">
+            <tr>
+                <td><b>Имя сервиса:</b></td>
+                <td>{{service.name}}</td>
+            </tr>
+            <tr>
+                <td><b>МФО:</b></td>
+                <td>{{service.service_information.bank_code}}</td>
+            </tr>
+            <tr>
+                <td><b>№ счёта:</b></td>
+                <td>{{service.service_information.checking_account}}</td>
+            </tr>
+            <tr>
+                <td><b>Лицевой счёт:</b></td>
+                <td><input type="text" class="form-control happ-form-control" ng-model="payment.personal_account"></td>
+            </tr>
+        </table>
     </article>
     <form name="paymentForm">
         <div class="meter-data"></div>
         <table class="payment-sum">
             <tr>
-                <th rowspan="2" width="40%">Payment sum:</th>
+                <th rowspan="2" width="40%">Сумма оплаты:</th>
             </tr>
             <tr>
                 <td>
@@ -20,7 +33,7 @@
         </table>
         <div class="paid">
             <div class="col-md-3">
-                <label for="paid">Paid</label>
+                <label for="paid">Оплачено</label>
                 <input type="checkbox" value="true" ng-model="payment.paid" id="paid" name="paid">
             </div>
             <div class="input-group col-md-9">

@@ -2,17 +2,17 @@
     <div class="col-md-12 statistic-info">
         <form class="col-md-8">
             <div class="form-inline">
-                <label for="service">Service:</label>
+                <label for="service">Сервис:</label>
                 <select
                         name="service"
                         id="service"
                         ng-model="currentType"
-                        class="form-control happ-form-control">
-                    <option ng-repeat="type in types" value="{{type}}">{{type | camelCase}}</option>
+                        class="form-control happ-form-control"
+                        ng-options="(type.name | camelCase) for type in types">
                 </select>
             </div>
             <div class="form-inline">
-                <label for="year">Year:</label>
+                <label for="year">Год:</label>
                 <select
                         name="year"
                         id="year"
@@ -21,39 +21,11 @@
                         class="form-control happ-form-control">
                 </select>
             </div>
-            <input type="button" class="btn btn-sm btn-info" ng-click="showNewStatistic()" value="Show">
+            <input type="button" class="btn btn-sm btn-info" ng-click="showNewStatistic()" value="Показать">
         </form>
     </div>
-    <section ng-show="payments.length > 0">
-        <div class="col-md-8 col-md-offset-2">
-            <h3 class="col-md-12">{{viewType}}</h3>
-            <table class="table payment-table">
-                <tr>
-                    <th>Service</th>
-                    <th>Info</th>
-                    <th>Date</th>
-                    <th>Paid</th>
-                    <th>Sum</th>
-                </tr>
-                <tr ng-repeat="payment in payments">
-                    <td ng-bind="payment.service.name"></td>
-                    <td ng-bind="payment.service.type | camelCase"></td>
-                    <td ng-bind="payment.payment_date | dateFilter"></td>
-                    <td><paid paid="{{payment.paid}}"></paid></td>
-                    <td ng-bind="payment.payment_sum"></td>
-                </tr>
-            </table>
-        </div>
-        <div class="col-md-12">
-            <ul class="summary">
-                <li><b>Total payments:</b> {{summary.total}}</li>
-                <li><b>Unpaid:</b> {{summary.unpaid}}</li>
-                <li><b>Paid:</b> {{summary.paid}}</li>
-                <li><b>Month payments sum:</b> {{summary.sum}}</li>
-            </ul>
-        </div>
-    </section>
+    <statistic-info view-info="{{viewType}}"></statistic-info>
     <section ng-show="payments.length == 0">
-        <h2>You has no payments for this service.</h2>
+        <h2>У вас нет платежей за этот год</h2>
     </section>
 </section>

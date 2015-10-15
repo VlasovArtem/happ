@@ -14,3 +14,11 @@ app.factory('ApartmentFactory', ['$resource', function($resource) {
 app.factory('Cities', ['$resource', function($resource) {
     return $resource('/rest/city/get/all');
 }]);
+
+app.factory('StreetsFactory', ['$resource', function ($resource) {
+    return $resource('/rest/street/search')
+}]);
+
+app.factory('StatisticFactory', ['$resource', function($resource) {
+    return $resource('/rest/stat/:unpaid/:sum');
+}]);

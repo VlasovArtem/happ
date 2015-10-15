@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Embedded;
+import org.mongodb.morphia.annotations.PrePersist;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -23,7 +24,6 @@ public class Apartment {
     private String id;
     @CreatedDate
     private LocalDateTime createdDate;
-    @Indexed
     private Address address;
     @DBRef
     @JsonIgnore
@@ -59,5 +59,10 @@ public class Apartment {
 
     public void setPayments(List<Payment> payments) {
         this.payments = payments;
+    }
+
+    @PrePersist
+    public void generateId() {
+        address.setId(new ObjectId().toString());
     }
 }

@@ -28,3 +28,15 @@ app.filter('monthFilter', function() {
         }
     }
 });
+
+app.filter('paymentMeterFilter', function($filter) {
+    return function(payment) {
+            var meter = "";
+        if(payment.prev_meter && payment.prev_meter.length > 0 && payment.cur_meter && payment.cur_meter.length > 0) {
+            meter = $filter('showArray')(payment.prev_meter) + ' - ' + $filter('showArray')(payment.cur_meter);
+            return meter;
+        } else {
+            return meter;
+        }
+    }
+});

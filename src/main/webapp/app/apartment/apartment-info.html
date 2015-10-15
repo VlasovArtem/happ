@@ -1,8 +1,8 @@
 <article class="service-info col-md-12">
     <ul>
-        <li><b>City:</b> {{address.city.name}}</li>
-        <li><b>Street:</b> {{address.street}}</li>
-        <li><b>House:</b> {{address.house}}</li>
-        <li><b>Apartment:</b> {{address.apartment}}</li>
+        <li><b>Город:</b> {{address.city.name}}</li>
+        <li><b>Улица:</b> {{address.street | streetConverter}}</li>
+        <li><b>Дом:</b> {{address.house}}</li>
+        <li><b>Квартира:</b> {{address.apartment}}</li>
     </ul>
 </article>

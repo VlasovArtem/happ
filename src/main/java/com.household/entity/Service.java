@@ -1,6 +1,5 @@
 package com.household.entity;
 
-import com.household.entity.enums.ServiceType;
 import org.mongodb.morphia.annotations.Embedded;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -18,6 +17,7 @@ public class Service {
     private City city;
     @Indexed
     private String name;
+    private String alias;
     private ServiceType type;
     private double[] rates;
     private int[] volumes;
@@ -52,6 +52,14 @@ public class Service {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getAlias() {
+        return alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
     }
 
     public ServiceType getType() {

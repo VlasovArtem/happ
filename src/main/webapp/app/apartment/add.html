@@ -1,55 +1,51 @@
 <section id="add-apartment">
-    <h2 class="col-md-12">Add Apartment</h2>
+    <h2 class="col-md-12">Добавить Квартиру</h2>
     <div class="error col-md-12" ng-bind="error" ng-show="error"></div>
     <form name="addApartment" class="col-md-offset-3 col-md-6 happ-form" test>
         <div class="form-group has-feedback col-md-6 col-sm-12 city">
-            <label for="city">City</label>
+            <label for="city">Город</label>
             <select
                     class="happ-form-control form-control"
                     name="city"
                     id="city"
                     ng-model="apartment.address.city"
                     required
-                    ng-options="city.name for city in cities">
-                <option value="" disabled selected>Choose city</option>
+                    ng-options="city.name for city in cities"
+                    ng-change="changeCity()">
+                <option value="" disabled selected>Выбирите город</option>
             </select>
         </div>
         <div class="form-group has-feedback col-md-6 col-sm-12">
-            <label for="street">Street</label>
-            <input class="happ-form-control form-control"
-                   type="text"
-                   id="street"
-                   name="street"
-                   autocomplete="off"
-                   placeholder="Input street"
-                   ng-model="apartment.address.street"
-                   required/>
+            <label>Улица</label>
+            <street-select></street-select>
         </div>
         <div class="form-group has-feedback col-md-6 col-sm-12">
-            <label for="house">House</label>
+            <label for="house">Дом</label>
             <input type="text"
                    class="happ-form-control form-control"
                    id="house"
                    name="house"
                    autocomplete="off"
                    required
-                   placeholder="Input house"
+                   ng-disabled="!apartment.address.street"
+                   placeholder="Номер дома..."
                    ng-model="apartment.address.house"/>
         </div>
         <div class="form-group has-feedback col-md-6 col-sm-12">
-            <label for="apartment">Apartment</label>
+            <label for="apartment">Квартира</label>
             <input type="number"
                    class="happ-form-control form-control"
                    required
                    name="apartment"
                    autocomplete="off"
                    min="1"
-                   placeholder="Input apartment"
+                   ng-disabled="!apartment.address.street"
+                   placeholder="Номер квартиры..."
                    id="apartment"
                    ng-model="apartment.address.apartment"/>
         </div>
         <div class="col-md-12 buttons">
-            <input type="button" class="btn btn-success" value="Add" ng-click="add()" ng-disabled="addApartment.$invalid"/>
+            <input type="button" class="btn btn-success" value="Добавить" ng-click="add()" ng-disabled="addApartment.$invalid"/>
         </div>
     </form>
 </section>

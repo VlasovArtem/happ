@@ -1,7 +1,7 @@
 package com.household.controller;
 
 import com.household.entity.enums.MeterType;
-import com.household.entity.enums.ServiceType;
+import com.household.entity.enums.ServiceTypeAlias;
 import com.household.service.ServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +29,7 @@ public class ServiceController {
     }
 
     @RequestMapping("/get/all")
-    public ResponseEntity getAll(@RequestParam String city, @RequestParam ServiceType type) {
+    public ResponseEntity getAll(@RequestParam String city, @RequestParam String type) {
         return ResponseEntity.ok(service.getAll(city, type));
     }
 }

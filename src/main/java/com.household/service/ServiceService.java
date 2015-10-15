@@ -1,7 +1,8 @@
 package com.household.service;
 
 import com.household.entity.Service;
-import com.household.entity.enums.ServiceType;
+import com.household.entity.ServiceType;
+import com.household.entity.enums.ServiceTypeAlias;
 
 import java.util.List;
 
@@ -9,6 +10,6 @@ import java.util.List;
  * Created by artemvlasov on 05/10/15.
  */
 public interface ServiceService {
-    List<Service> getAll(String city, ServiceType type);
+    List<Service> getAll(String city, String type);
     List<ServiceType> getServiceTypes();
 }

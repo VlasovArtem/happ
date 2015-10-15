@@ -29,9 +29,14 @@ public class ApartmentServiceImpl implements ApartmentService {
 
     @Override
     public void add(Apartment apartment) {
-        if(apartmentRepository.countByAddress(apartment.getAddress()) > 0) {
+        if(apartmentRepository.countByAddressCityAndAddressStreetAndAddressHouseAndAddressApartment(
+                apartment.getAddress().getCity(),
+                apartment.getAddress().getStreet(),
+                apartment.getAddress().getHouse(),
+                apartment.getAddress().getApartment()) > 0) {
             throw new RuntimeException("Apartment already exists");
         }
+        apartment.getAddress().setId(ObjectId.get().toString());
         apartmentRepository.save(apartment);
     }
 }

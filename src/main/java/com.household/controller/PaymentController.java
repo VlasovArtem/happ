@@ -1,21 +1,12 @@
 package com.household.controller;
 
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.household.entity.Address;
-import com.household.entity.City;
 import com.household.entity.Payment;
-import com.household.entity.enums.ServiceType;
+import com.household.entity.enums.ServiceTypeAlias;
 import com.household.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.websocket.server.PathParam;
 
 import java.time.Month;
 
@@ -39,7 +30,7 @@ public class PaymentController {
     }
 
     @RequestMapping(value = "/last", method = GET, produces = APPLICATION_JSON_VALUE)
-    public Payment last(@RequestParam String addressId, @RequestParam ServiceType type) {
+    public Payment last(@RequestParam String addressId, @RequestParam String type) {
         return service.findLastPayment(addressId, type);
     }
 
@@ -65,7 +56,7 @@ public class PaymentController {
     }
 
     @RequestMapping(value = "/get/stat/service", method = GET)
-    public ResponseEntity getPage (@RequestParam String addressId, @RequestParam ServiceType type, @RequestParam int year) {
+    public ResponseEntity getPage (@RequestParam String addressId, @RequestParam String type, @RequestParam int year) {
         return ResponseEntity.ok(service.get(addressId, type, year));
     }
 

@@ -2,7 +2,7 @@
  * Created by artemvlasov on 03/09/15.
  */
 var app = angular.module('household', [
-    'ngRoute', 'underscore', 'ui.bootstrap', 'ngStorage',
+    'ngRoute', 'underscore', 'ui.bootstrap', 'ngStorage', 'ngSanitize', 'ui.select',
     'apartment-controllers', 'apartment-services', 'apartment-directives', 'apartment-filters',
     'main-controllers', 'main-directives', 'main-filters',
     'payment-controllers', 'payment-services', 'payment-directives', 'payment-filters'
@@ -40,9 +40,6 @@ var app = angular.module('household', [
                     return $q.reject(rejection);
                 },
                 'request': function(config) {
-                    //if(config.url.indexOf('page') > -1) {
-                    //    addLoading();
-                    //}
                     addLoading();
                     return config;
                 }
@@ -82,7 +79,9 @@ var app = angular.module('household', [
                     meters: function(ServiceFactory) {
                         return ServiceFactory.query({get: 'get', meters: 'meters'}).$promise;
                     },
-                    apartment: function($sessionStorage) {
+                    apartment: function($sessionStorage, Payment, Service) {
+                        Service.initService($sessionStorage.apartment);
+                        Payment.initPayment($sessionStorage.apartment);
                         return $sessionStorage.apartment;
                     }
                 }

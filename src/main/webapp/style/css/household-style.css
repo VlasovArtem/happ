@@ -26,7 +26,7 @@ section > h2 {
     width: 100%;
     text-align: center;
 }
-.happ-form-control {
+.happ-form-control, .ui-select-bootstrap > input[type=text], .ui-select-bootstrap .ui-select-toggle {
     background-color: rgba(0, 0, 0, 0);
     border-radius: 0;
     border: none;
@@ -55,6 +55,33 @@ section > h2 {
     text-align: center;
 }
 
+.has-error .form-control, .has-error .form-control:focus {
+    border-color: transparent;
+    border-bottom-color: #a94442;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+.has-success .form-control, .has-success .form-control:focus {
+    border-color: transparent;
+    border-bottom-color: #3c763d;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+apartment > div{
+    margin-bottom: 20px;
+}
+
+apartment .badge {
+    display: inline;
+}
+
+.test {
+    color: #080808;
+}
+
 /* Apartment Block */
 
 .block {
@@ -71,6 +98,18 @@ section > h2 {
 
 .block > ul {
     list-style: none;
+    -webkit-padding-start: 0;
+}
+
+.block > ul li:not(:first-child) {
+    display: inline;
+    width: 50%;
+}
+.block > ul li:last-child {
+    float: right;
+}
+.block > ul li:first-child {
+    padding-bottom: 10px;
 }
 
 .block .street {
@@ -129,7 +168,7 @@ section > h2 {
     font-size: larger;
     margin: 10px 0;
 }
-.service, .payment-sum, .paid {
+.service, .payment-sum, .service-data .paid {
     margin-top: 20px;
 }
 #add-payment .info {
@@ -157,21 +196,36 @@ section > h2 {
     width: 80%;
     margin-left: 10%;
 }
-.meter-reading, .payment-sum, .paid {
-    margin-left: 25%;
-    width: 50%;
+.meter-reading, .payment-sum, .service-data .paid {
+    margin-left: 15%;
+    width: 70%;
 }
 .service .buttons {
     margin: 20px 0 0 0;
 }
-.paid {
+.service-data .paid {
     display: inline-block;
 }
-.paid > div:first-child {
+.service-data .paid > div:first-child {
     padding-left: 0;
 }
 
-/* Payment statistic */
+.payment-form > table tr > td:first-child {
+    width: 30%;
+}
+.payment-form > table tr > td:last-child {
+    width: 70%;
+}
+
+.service-info > table {
+    margin-bottom: 20px;
+    margin-left: 20px;
+}
+.service-info > table tr {
+    height: 34px;
+}
+
+    /* Payment statistic */
 .statistic-info {
     padding: 20px;
 }
@@ -211,6 +265,10 @@ h3 {
     align-items: center;
     justify-content: center;
     position: absolute;
+}
+
+.center {
+    text-align: center;
 }
 .loading-img > .sk-cube-grid {
     vertical-align: middle;

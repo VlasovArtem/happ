@@ -5,7 +5,7 @@ var app = angular.module('main-filters', []);
 
 app.filter('camelCase', function() {
     return function(object) {
-        if(angular.isDefined(object)) {
+        if(angular.isDefined(object) && !_.isNull(object)) {
             var convertedString = _.isString(object) ? object : object.toString();
             convertedString = convertedString.replace("_", " ");
             var finalText = "";

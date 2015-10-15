@@ -3,9 +3,8 @@ package com.household.entity;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import org.mongodb.morphia.annotations.Embedded;
-import org.mongodb.morphia.annotations.NotSaved;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * Created by artemvlasov on 02/09/15.
@@ -14,16 +13,17 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 public class Address {
     @Id
     private String id;
-    @NotSaved
+    @Embedded
     private City city;
-    private String street;
+    @Embedded
+    private Street street;
     private String house;
     private int apartment;
 
     public Address() {
     }
 
-    public Address(City city, String street, String house, int apartment) {
+    public Address(City city, Street street, String house, int apartment) {
         this.city = city;
         this.street = street;
         this.house = house;
@@ -46,11 +46,11 @@ public class Address {
         this.city = city;
     }
 
-    public String getStreet() {
+    public Street getStreet() {
         return street;
     }
 
-    public void setStreet(String street) {
+    public void setStreet(Street street) {
         this.street = street;
     }
 

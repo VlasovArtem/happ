@@ -1,0 +1,30 @@
+<section ng-show="payments.length > 0">
+    <div class="col-md-8 col-md-offset-2">
+        <h3 class="col-md-12" ng-show="viewInfo">{{viewInfo}}</h3>
+        <table class="table payment-table">
+            <tr>
+                <th>Сервис</th>
+                <th>Информация</th>
+                <th class="center">Дата</th>
+                <th class="center">Оплачено</th>
+                <th>Сумма</th>
+            </tr>
+            <tr ng-repeat="payment in payments">
+                <td ng-bind="payment.service.name"></td>
+                <td  ng-bind="payment.service.type.name | camelCase"></td>
+                <td class="center" ng-bind="payment.payment_date | dateFilter"></td>
+                <td class="center"><paid paid="{{payment.paid}}"></paid></td>
+                <td ng-bind="payment.payment_sum"></td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-md-12">
+        <ul class="summary">
+            <li><b>Количество платежей:</b> {{summary.total}}</li>
+            <li><b>Неоплаченных:</b> {{summary.unpaid}}</li>
+            <li><b>Оплаченных:</b> {{summary.paid}}</li>
+            <li><b>Неоплаченная сумма:</b> {{summary.unpaid_month_sum}}</li>
+            <li><b>Месячная сумма:</b> {{summary.sum}}</li>
+        </ul>
+    </div>
+</section>

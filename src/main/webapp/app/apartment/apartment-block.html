@@ -1,11 +1,14 @@
-<div class="block col-md-4">
-    <ul>
-        <li class="street">{{apartment.address.street + ", " + apartment.address.house + ' ap. ' + apartment.address.apartment}}</li>
-        <li><b>City:</b> {{apartment.address.city.name}}</li>
-    </ul>
-    <div class="col-md-12 buttons">
-        <input type="button" value="Add Payment" ng-click="addPayment()" class="btn btn-sm btn-success">
-        <button type="button" ng-click="showUnpaid(apartment.id)" class="btn btn-sm btn-primary" ng-show="unpaidPayments > 0">Show Unpaid <span class="badge">{{unpaidPayments}}</span></button>
-        <input type="button" value="Statistic" class="btn btn-sm btn-info" ng-click="showStatistic()">
+<div class="col-md-4">
+    <div class="block container-fluid">
+        <ul>
+            <li class="street" ng-bind="apartment.address | addressConverter"></li>
+            <li><b>Город:</b> {{apartment.address.city.name}}</li>
+            <li ng-show="unpaidSum"><b>Неоплаченная сумма:</b> {{unpaidSum}}</li>
+        </ul>
+        <div class="col-md-12 buttons">
+            <input type="button" value="Добавить оплату" ng-click="addPayment()" class="btn btn-sm btn-success">
+            <input type="button" value="Статистика" class="btn btn-sm btn-info" ng-click="showStatistic()">
+            <button type="button" ng-click="showUnpaid(apartment.id)" class="btn btn-sm btn-primary" ng-show="unpaidPayments">Неоплаченные <span class="badge">{{unpaidPayments}}</span></button>
+        </div>
     </div>
 </div>

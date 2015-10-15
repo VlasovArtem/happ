@@ -7,7 +7,6 @@ app.directive('originalMeter', function() {
     return {
         restrict: 'E',
         link: function(scope, element, attr) {
-            scope.payment.prev_meter = [0];
             var countSum = function() {
                 var sum = scope.countPaymentSum(scope.payment.prev_meter[0], scope.payment.cur_meter[0]);
                 scope.updateSum(sum)
@@ -37,7 +36,6 @@ app.directive('twoTariffMeter', function() {
     return {
         restrict: 'E',
         link: function(scope, element, attr) {
-            scope.payment.prev_meter = [0, 0];
             var countSum = function() {
                 var daySum = Number(scope.countPaymentSum(scope.payment.prev_meter[0], scope.payment.cur_meter[0]));
                 var nightSum = Number(scope.countPaymentSum(scope.payment.prev_meter[1], scope.payment.cur_meter[1]));
@@ -67,14 +65,11 @@ app.directive('twoTariffMeter', function() {
     }
 });
 
-app.directive('regularService', function($compile) {
+app.directive('regularService', function($compile, Payment) {
     return {
         restrict: 'E',
         replace: true,
         link: function(scope, element, attr) {
-            scope.status = {
-                opened: false
-            };
             angular.element('.meter-data').append('<original-meter></original-meter>');
             $compile(angular.element('.meter-data'))(scope);
             scope.changeMeterType = function(type) {
@@ -86,13 +81,9 @@ app.directive('regularService', function($compile) {
                     angular.element('.meter-data').append('<original-meter></original-meter>');
                 }
                 $compile(angular.element('.meter-data'))(scope);
-                scope.payment.prev_meter = [0, 0];
-                scope.payment.cur_meter = [];
-                scope.payment.payment_sum = null;
+                scope.payment = Payment.clearPayment();
             };
-            scope.open = function($event) {
-                scope.status.opened = true;
-            };
+            scope.findLast();
             scope.countPaymentSum = function(prev, cur) {
                 var countSettlementMeterReading = cur - prev;
                 var sum = 0;
@@ -125,30 +116,26 @@ app.directive('regularService', function($compile) {
     }
 });
 
-app.directive('maintenanceService', function($sessionStorage) {
+app.directive('maintenanceService', function() {
     return {
         restrict: 'E',
         replace: true,
         link: function(scope, element, attr) {
             scope.validationMessage = {
                 serviceName: {
-                    required: 'Service name is required'},
-                footage: {
-                    required: 'Footage of the apartment is required'
+                    required: 'Service name is required',
+                    maxlength: 'Max length of service name is 50 characters'
                 },
-                rate: {
-                    required: 'Rate for maintenance is required'
+                footage: {
+                    required: 'Footage of the apartment is required',
+                    min: 'Footage cannot be negative',
+                    max: 'Footage cannot be greater than 500'
                 },
                 sum: {
                     required: 'Payment sum is required'
                 }
             };
-            scope.payment = angular.copy(scope.initPayment);
-            scope.payment.service = {
-                rates: [],
-                volumes: [],
-                type: scope.type
-            };
+            scope.findLast();
             scope.countMaintenanceSum = function() {
                 if(scope.payment.service.rates && scope.payment.service.volumes) {
                     if(scope.payment.service.rates[0] > 0 && scope.payment.service.volumes[0] > 0) {
@@ -166,102 +153,131 @@ app.directive('maintenanceService', function($sessionStorage) {
     }
 });
 
-app.directive('servicePayment', function(ServiceFactory, PaymentFactory, $compile, $filter, $location) {
+app.directive('otherService', function() {
     return {
-        restrict: 'A',
+        replace: true,
         link: function(scope, element, attr) {
-            scope.today = new Date();
-            scope.today.setHours(0, 0, 0, 0);
-            scope.initPayment = {
-                prev_meter: [0, 0],
-                cur_meter: [],
-                payment_date: new Date(),
-                meter_type: scope.meters[scope.meters.indexOf('ORIGINAL')]
+            scope.validationMessage = {
+                serviceName: {
+                    required: 'Service name is required',
+                    maxlength: 'Max length of service name is 50 characters'
+                },
+                personalAccount: {
+                    maxlenght: 'Personal account max length is 16'
+                },
+                sum: {
+                    required: 'Payment sum is required'
+                }
             };
-            scope.chooseServiceType = function(type) {
-                angular.element('.service-data').remove();
-                scope.payment = angular.copy(scope.initPayment);
-                if(angular.isDefined(type)) {
-                    var regularServiceTypes = ["GAS", "WATER", "ELECTRICITY"];
-                    if(_.contains(regularServiceTypes, type)) {
+            scope.findLast();
+
+        },
+        templateUrl: 'app/payment/service-type/other.html'
+    }
+});
+
+app.directive('servicePayment',
+    function(ServiceFactory, PaymentFactory, PaymentSaveFactory, $compile, $filter, $location, Service, Payment, PreviousPayment) {
+        return {
+            restrict: 'A',
+            link: function(scope, element, attr) {
+                scope.status = {
+                    opened: false
+                };
+                scope.open = function($event) {
+                    scope.status.opened = true;
+                };
+                scope.today = new Date();
+                scope.today.setHours(0, 0, 0, 0);
+                scope.chooseServiceType = function(type) {
+                    angular.element('.service-data').remove();
+                    scope.payment = Payment.clearPayment();
+                    if(angular.isDefined(type.alias)) {
                         ServiceFactory.query({
                             get: 'get',
                             all: 'all',
-                            city: scope.apartment.address.city.name,
-                            type: type
-                        })
-                            .$promise
-                            .then(function (data) {
-                                if (data.length == 1) {
-                                    scope.service = data[0];
-                                    PaymentFactory.last({
-                                            addressId: scope.apartment.address.id,
-                                            type: type
-                                        },
-                                        function (data) {
-                                            if(data) {
-                                                scope.initPayment.prev_meter = data.cur_meter;
-                                                scope.payment.prev_meter = data.cur_meter;
-                                            }
-                                        });
-                                } else {
-                                    scope.services = data;
-                                }
+                            city: scope.apartment.address.city.alias,
+                            type: type.alias
+                        }, function (services) {
+                            _.each(services, function(service) {
+                                Service.updateService(service);
                             });
-                    } else {
-                        PaymentFactory.last({
-                            addressId: scope.apartment.address.id,
-                            type: type
-                        }, function(data) {
-                            if(data) {
-                                scope.service = data.service;
-                                scope.previousPayment = data;
-                                scope.initPayment.payment_sum = data.payment_sum;
-                                scope.initPayment.service = data.service;
-                                scope.payment.payment_sum = data.payment_sum;
-                                scope.payment.service = data.service;
+                            if (services.length == 1) {
+                                scope.service = services[0];
+                            } else {
+                                scope.services = services;
                             }
-                        })
-                    }
-                    var appendedDirective;
-                    var appendedElement;
-                    if(_.isEqual(type, 'MAINTENANCE')) {
-                        appendedDirective = 'maintenance-service';
-                        appendedElement = '<maintenance-service></maintenance-service>'
-                    } else {
-                        appendedDirective = 'regular-service';
-                        appendedElement = '<regular-service></regular-service>'
-                    }
-                    angular.element('.service-payment-info').append(appendedElement);
-                    $compile(angular.element(appendedDirective))(scope)
-                }
-            };
+                        });
+                        var appendedDirective;
+                        var appendedElement;
+                        if(_.isEqual(type.group, 'MAINTENANCE')) {
+                            appendedDirective = 'maintenance-service';
+                            appendedElement = '<maintenance-service></maintenance-service>'
+                        } else if(_.contains(["GAS", "WATER", "ELECTRICITY"], type.group)) {
+                            appendedDirective = 'regular-service';
+                            appendedElement = '<regular-service></regular-service>'
+                        } else {
+                            appendedDirective = 'other-service';
+                            appendedElement = '<other-service></other-service>'
+                        }
 
-            scope.addPayment = function () {
-                if(angular.isDefined(scope.service)) {
-                    scope.payment.service = scope.service;
-                }
-                scope.payment.payment_date = $filter('ToLocalDateFilter')(scope.payment.payment_date);
-                scope.payment.address = scope.apartment.address;
-                if(!scope.payment.service.city) {
-                    scope.payemnt.service.city = scope.apartment.address.city;
-                }
-                var convertedPrevMeter = [];
-                _.each(scope.payment.prev_meter, function(meter) {
-                    if(meter != 0) {
-                        convertedPrevMeter.push(meter);
+                        angular.element('.service-payment-info').append(appendedElement);
+                        $compile(angular.element(appendedDirective))(scope)
                     }
-                });
-                scope.payment.prev_meter = convertedPrevMeter.length > 0 ? convertedPrevMeter : null;
-                console.log(scope.payment);
-                PaymentFactory.save(scope.payment, function() {
-                    $location.path('/apartments')
-                })
-            };
-            scope.payment = angular.copy(scope.initPayment);
+                };
+                scope.findLast = function() {
+                    PaymentFactory.last({
+                            addressId: scope.apartment.address.id,
+                            type: scope.type.alias
+                        },
+                        function (prevPayment) {
+                            if(prevPayment) {
+                                if(scope.type.group == "ELECTRICITY") {
+                                    scope.changeMeterType(prevPayment.meter_type);
+                                }
+                                PreviousPayment.updatePayment(prevPayment, scope.payment);
+                                if(scope.type.group == "MAINTENANCE" && scope.type.group == "OTHER") {
+                                    Service.updateService(scope.payment.service);
+                                    scope.previousPayment = prevPayment;
+                                }
+                            }
+                        }, function() {
+                            scope.previousPayment = null;
+                            scope.payment = Payment.clearPayment();
+                            if(scope.type.group == "OTHER") {
+                                scope.payment.service.type = {
+                                    subtypes: []
+                                };
+                            }
+                        }
+                    );
+                };
+                scope.addPayment = function () {
+                    if(scope.service) {
+                        scope.payment.service = scope.service;
+                    }
+                    scope.payment.payment_date = $filter('ToLocalDateFilter')(scope.payment.payment_date);
+                    scope.payment.address = scope.apartment.address;
+                    if(!scope.payment.service.city) {
+                        scope.payment.service.city = scope.apartment.address.city;
+                    }
+                    var convertedPrevMeter = [];
+                    _.each(scope.payment.prev_meter, function(meter) {
+                        if(meter != 0) {
+                            convertedPrevMeter.push(meter);
+                        }
+                    });
+                    scope.payment.prev_meter = convertedPrevMeter.length > 0 ? convertedPrevMeter : null;
+                    Service.perPersistService(scope.payment.service);
+                    Payment.prePersistPayment(scope.payment);
+                    PaymentSaveFactory.save(scope.payment, function() {
+                        $location.path('/apartments')
+                    })
+                };
+                scope.payment = angular.copy(scope.initPayment);
+            }
         }
-    }
-});
+    });
 
 app.directive('statistic', function($sessionStorage, $compile) {
     var link = function(scope, element, attr) {
@@ -301,7 +317,7 @@ app.directive('statistic', function($sessionStorage, $compile) {
 
 app.directive('statisticByMonth', function(PaymentFactory, StatisticService) {
     var controller = ['$scope', function($scope) {
-        $scope.months = StatisticService.months
+        $scope.months = StatisticService.months;
         $scope.years = StatisticService.getYears();
         $scope.currentMonth = $scope.months[new Date().getMonth()];
         $scope.viewMonth = angular.copy($scope.currentMonth);
@@ -333,8 +349,8 @@ app.directive('statisticByService', function(PaymentFactory, ServiceFactory, Sta
         $scope.years = StatisticService.getYears();
         ServiceFactory.query({get: 'get', types: 'types'}, function(data) {
             $scope.types = data;
-            $scope.currentType = data[data.indexOf('ELECTRICITY')];
-            $scope.viewType = angular.copy($scope.currentType);
+            $scope.currentType = data[0];
+            $scope.viewType = angular.copy($scope.currentType.name);
             $scope.currentYear = new Date().getFullYear();
             $scope.showNewStatistic();
         });
@@ -344,7 +360,7 @@ app.directive('statisticByService', function(PaymentFactory, ServiceFactory, Sta
                 stat: 'stat',
                 service: 'service',
                 addressId: $scope.apartment.address.id,
-                type: $scope.currentType,
+                type: $scope.currentType.alias,
                 year: $scope.currentYear
             }, function(data) {
                 $scope.payments = data;
@@ -400,3 +416,15 @@ app.directive('paid', function() {
 
     }
 });
+
+app.directive('statisticInfo', function() {
+    return {
+        replace: true,
+        link: function(scope, elem, attr) {
+            if(attr.viewInfo) {
+                scope.viewInfo = attr.viewInfo;
+            }
+        },
+        templateUrl: 'app/payment/statistic-info.html'
+    }
+})

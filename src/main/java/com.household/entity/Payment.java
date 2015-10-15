@@ -22,7 +22,10 @@ public class Payment {
     private LocalDateTime createdDate;
     @Embedded
     private Service service;
+    private String personalAccount;
     private MeterType meterType;
+    private String description;
+    @Embedded
     private Address address;
     private double paymentSum;
     private LocalDate paymentDate;
@@ -54,12 +57,28 @@ public class Payment {
         this.service = service;
     }
 
+    public String getPersonalAccount() {
+        return personalAccount;
+    }
+
+    public void setPersonalAccount(String personalAccount) {
+        this.personalAccount = personalAccount;
+    }
+
     public MeterType getMeterType() {
         return meterType;
     }
 
     public void setMeterType(MeterType meterType) {
         this.meterType = meterType;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Address getAddress() {
@@ -108,13 +127,5 @@ public class Payment {
 
     public void setCurMeter(int[] curMeter) {
         this.curMeter = curMeter;
-    }
-
-    @PrePersist
-    public void prePersist() {
-        if(meterType == null) {
-            meterType = MeterType.ORIGINAL;
-        }
-        createdDate = LocalDateTime.now();
     }
 }
