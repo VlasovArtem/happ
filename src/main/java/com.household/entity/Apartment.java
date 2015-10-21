@@ -28,6 +28,8 @@ public class Apartment {
     @DBRef
     @JsonIgnore
     private List<Payment> payments;
+    @DBRef
+    private User owner;
 
     public String getId() {
         return id;
@@ -59,6 +61,14 @@ public class Apartment {
 
     public void setPayments(List<Payment> payments) {
         this.payments = payments;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 
     @PrePersist

@@ -1,8 +1,10 @@
 package com.household.service.impl;
 
 import com.household.entity.Apartment;
+import com.household.entity.User;
 import com.household.persistence.ApartmentRepository;
 import com.household.service.ApartmentService;
+import com.household.utils.security.AuthenticatedUserPrincipalUtil;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,7 +38,16 @@ public class ApartmentServiceImpl implements ApartmentService {
                 apartment.getAddress().getApartment()) > 0) {
             throw new RuntimeException("Apartment already exists");
         }
+        User user = new User();
+        user.setId(AuthenticatedUserPrincipalUtil.getAuthenticationPrincipal().get().getId());
+        apartment.setOwner(user);
         apartment.getAddress().setId(ObjectId.get().toString());
         apartmentRepository.save(apartment);
+    }
+
+    @Override
+    public long count() {
+        return apartmentRepository.getUserApartmentsCount(new ObjectId(AuthenticatedUserPrincipalUtil
+                .getAuthenticationPrincipal().get().getId()));
     }
 }

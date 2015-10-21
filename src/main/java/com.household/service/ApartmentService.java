@@ -10,6 +10,10 @@ import java.util.List;
  */
 public interface ApartmentService {
     Apartment getApartment(String id);
+
     List<Apartment> getAll();
+
     void add(Apartment apartment);
+
+    long count();
 }

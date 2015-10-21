@@ -32,9 +32,13 @@
     <script src="app/main/js/main-controllers.js"></script>
     <script src="app/main/js/main-directives.js"></script>
     <script src="app/main/js/main-filters.js"></script>
+    <script src="app/main/js/main-services.js"></script>
+    <script src="app/user/js/user-controllers.js"></script>
+    <script src="app/user/js/user-directives.js"></script>
+    <script src="app/user/js/user-services.js"></script>
 </head>
 <body ng-cloak class="ng-cloak">
-<nav class="navbar navbar-default navbar-happ">
+<nav class="navbar navbar-default navbar-happ" ng-controller="MainCtrl">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button"
@@ -50,20 +54,21 @@
             <a class="navbar-brand" href="/"><img ng-src="style/images/nav-icon1.png" class="nav-icon"></a>
         </div>
         <div class="collapse navbar-collapse" id="navbar-collapse">
-            <ul class="nav navbar-nav">
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false">Квартиры<span class="caret"></span><span class="line"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="/apartment/add">Добавить</a></li>
-                        <li><a href="/apartments">Добавленные</a></li>
-                    </ul>
+            <ul class="nav navbar-right navbar-nav">
+                <li>
+                    <a href="/apartments">
+                        <span class="content">Квартиры</span>
+                        <span class="house-badge">{{count}}</span>
+                        <span class="line"></span></a>
+                </li>
+                <li>
+                    <a href="/signup">Регистрация <span class="glyphicon glyphicon-user"></span><span class="line"></span></a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
 <loading></loading>
-<div ng-view class="view test"></div>
+<div ng-view class="view"></div>
 </body>
 </html>

@@ -1,5 +1,6 @@
 package com.household.config;
 
+import com.household.config.security.SecurityConfig;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.HttpPutFormContentFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
@@ -12,7 +13,9 @@ import javax.servlet.Filter;
 public class AppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[] {AppConfig.class};
+        return new Class<?>[] {
+                AppConfig.class,
+                SecurityConfig.class};
     }
 
     @Override

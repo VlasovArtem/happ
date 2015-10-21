@@ -18,14 +18,4 @@ public class HappExceptionHandler {
     public ResponseEntity exceptionHandler(Exception ex) {
         return ResponseEntity.status(FORBIDDEN).body(JsonNodeFactory.instance.objectNode().put("error", ex.getMessage()));
     }
-//    @ExceptionHandler(NoSuchElementException.class)
-//    public ResponseEntity PreviousPaymentExceptionHandler(Exception ex) {
-//        System.out.println("Exception");
-//        if("No value present".equals(ex.getMessage())) {
-//            return ResponseEntity.status(OK).build();
-//        }
-//        return ResponseEntity
-//                .status(FORBIDDEN)
-//                .body(JsonNodeFactory.instance.objectNode().put("error", ex.getMessage()));
-//    }
 }

@@ -4,8 +4,9 @@
 var app = angular.module('household', [
     'ngRoute', 'underscore', 'ui.bootstrap', 'ngStorage', 'ngSanitize', 'ui.select',
     'apartment-controllers', 'apartment-services', 'apartment-directives', 'apartment-filters',
-    'main-controllers', 'main-directives', 'main-filters',
-    'payment-controllers', 'payment-services', 'payment-directives', 'payment-filters'
+    'main-controllers', 'main-directives', 'main-filters', 'main-services',
+    'payment-controllers', 'payment-services', 'payment-directives', 'payment-filters',
+    'user-services', 'user-directives', 'user-controllers'
 ]).config(
     function($routeProvider, $locationProvider, $httpProvider, $provide) {
         var isSafari = /Safari/.test(navigator.userAgent) && /Apple Computer/.test(navigator.vendor);
@@ -49,7 +50,12 @@ var app = angular.module('household', [
         $locationProvider.html5Mode(true);
         $routeProvider
             .when('/', {
-                templateUrl: 'app/main.html'
+                templateUrl: 'app/main.html',
+                controller: 'MainCtrl'
+            }).
+            when('/signup', {
+                templateUrl: 'app/user/registration.html',
+                controller: 'UserRegistrationCtrl'
             }).
             when('/apartment/add', {
                 templateUrl: 'app/apartment/add.html',
@@ -108,3 +114,17 @@ var app = angular.module('household', [
                 redirectTo: '/'
             })
     });
+app.run(['$rootScope', 'auth', function($rootScope, auth) {
+    auth.init('/', '/', '/logout');
+    $rootScope.$on('$routeChangeStart', function(event, next, current) {
+        if(!_.isUndefined(next)) {
+            if(next.$$route) {
+                if(next.$$route.originalPath == '/') {
+                    $('nav').addClass('hide');
+                } else {
+                    $('nav').removeClass('hide');
+                }
+            }
+        }
+    });
+}]);

@@ -5,6 +5,9 @@ html, body {
 section > h2 {
     text-align: center;
 }
+.view {
+    height: 100%;
+}
 
 .main-title {
     height: 80vh;
@@ -16,6 +19,111 @@ section > h2 {
 [ng\:cloak], [ng-cloak], .ng-cloak {
     display: none !important;
 }
+
+/* Main page */
+#main-page {
+    width: 100%;
+    height: 100%;
+    background: url("../images/background1.jpg") no-repeat center center;
+}
+#main-page > .content > .navbar-happ {
+    background-color: transparent !important;
+    margin: 50px 0 0 30px !important;
+}
+#main-page > .content > .navbar-happ .navbar-nav {
+    margin: 0 0 0 10px !important;
+}
+#main-page > .content > .navbar-happ .navbar-nav > .open > a,
+#main-page > .content > .navbar-happ .navbar-nav > .open > a:hover,
+#main-page > .content > .navbar-happ .navbar-nav > .open > a:focus,
+#main-page > .content > .navbar-happ .dropdown-menu > li > a:hover,
+#main-page > .content > .navbar-happ .dropdown-menu > li > a:focus {
+    background-color: transparent !important;
+}
+#main-page > .content > .navbar-happ .dropdown-menu {
+    background-color: transparent !important;
+    border: none !important;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
+}
+#main-page > .content > .navbar-happ .dropdown-menu > li > a:hover {
+    color: rgba(118, 178, 28, 1) !important;
+}
+#main-page > .content > .navbar-happ .navbar-brand,
+#main-page > .content > .navbar-happ .navbar-nav > li > a,
+#main-page > .content > .navbar-happ .dropdown-menu > li > a {
+    font-size: large;
+}
+#main-page > .content .login-form .form-control {
+    border-radius: 0;
+}
+.main-info-block {
+    padding: 30px 20px;
+    background-color: rgba(0,0,0,0.5);
+}
+.login-form .form-group:last-child {
+    margin-bottom: 0;
+}
+.login-form > h3 {
+    color: white;
+    margin-top: -5px;
+    margin-bottom: 15px;
+}
+.overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0,0,0,0.4);
+}
+.main-info {
+    margin-top: 150px;
+}
+#main-page > .content > .navbar-happ .navbar-nav > li > a:hover > .line {
+    width: 100%;
+    -webkit-transition: width 1s ease;
+    transition: width 1s ease;
+}
+.glyphicon {
+    color: white;
+}
+#main-page > .content > .navbar-fixed-bottom ul > li > a {
+    font-size: medium !important;
+}
+#main-page > .content > .navbar-fixed-bottom ul > li > a:hover {
+    color: rgba(118, 178, 28, 1) !important;
+    -webkit-transition: color .5s ease;
+    transition: color .5s ease;
+}
+#main-page > .content > .navbar-fixed-bottom {
+    margin: 0 !important;
+}
+.house-badge {
+    padding: 0 5px;
+    background-color: rgba(118, 178, 28, 1) !important;
+    color: rgba(255, 255, 255, 1) !important;
+}
+
+#main-page > .content > .navbar-happ .navbar-nav > li > a > span:last-child {
+    margin-top: 10px;
+    height: 5px;
+}
+#main-page {
+    color: white;
+}
+
+/* Registration */
+#registration .happ-form > .form-group > label {
+    text-align: left;
+}
+
+body > nav .house-badge {
+    background-color: rgba(255, 255, 255, 1) !important;
+    color: rgba(118, 178, 28, 1) !important;
+}
+
 .happ-form {
     padding: 20px;
     background-color: rgba(195, 188, 189, 0.1);
@@ -52,6 +160,7 @@ section > h2 {
 }
 
 .buttons {
+    padding-top: 20px;
     text-align: center;
 }
 

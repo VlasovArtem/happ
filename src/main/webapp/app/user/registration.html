@@ -1,0 +1,90 @@
+<section id="registration">
+    <h2>Регистрация</h2>
+    <form name="regForm" class="col-md-offset-4 col-md-4 happ-form">
+        <div class="form-group has-feedback col-md-6">
+            <label for="firstname">Имя</label>
+            <input type="text"
+                   ng-model="user.firstname"
+                   id="firstname"
+                   name="firstname"
+                   class="form-control happ-form-control"
+                   placeholder="Введите имя"
+                   minlength="3"
+                   maxlength="25"
+                   ng-pattern="/^[а-яА-Яa-zA-z]*$/"
+                   autocomplete="off">
+            <div validation-messages
+                 model-controller="regForm.firstname"
+                 messages="validationMessages"></div>
+        </div>
+        <div class="form-group has-feedback col-md-6">
+            <label for="lastname">Фамилия</label>
+            <input type="text"
+                   ng-model="user.lastname"
+                   id="lastname"
+                   name="lastname"
+                   maxlength="25"
+                   class="form-control happ-form-control"
+                   placeholder="Введите фамилию"
+                   minlength="2"
+                   ng-pattern="/^[а-яА-Яa-zA-z '.]*$/"
+                   autocomplete="off">
+            <div validation-messages
+                 model-controller="regForm.lastname"
+                 messages="validationMessages"></div>
+        </div>
+        <div class="form-group has-feedback col-md-12">
+            <label for="email">Email</label>
+            <input type="email"
+                   ng-model="user.email"
+                   id="email"
+                   name="email"
+                   class="form-control happ-form-control"
+                   placeholder="Введите email"
+                   required
+                   minlength="9"
+                   maxlength="254"
+                   autocomplete="off">
+            <div validation-messages
+                 model-controller="regForm.email"
+                 messages="validationMessages"></div>
+        </div>
+        <div class="form-group has-feedback col-md-12">
+            <label for="login">Логин</label>
+            <input type="text"
+                   ng-model="user.login"
+                   id="login"
+                   name="login"
+                   class="form-control happ-form-control"
+                   placeholder="Введите логин"
+                   required
+                   ng-pattern="/^[А-Яа-яA-Za-z0-9_\- .]*$/"
+                   minlength="6"
+                   maxlength="100"
+                   autocomplete="off">
+            <div validation-messages
+                 model-controller="regForm.login"
+                 messages="validationMessages"></div>
+        </div>
+        <div class="form-group has-feedback col-md-12">
+            <label for="password">Пароль</label>
+            <input type="password"
+                   ng-model="user.password"
+                   id="password"
+                   name="password"
+                   class="form-control happ-form-control"
+                   placeholder="Введите пароль"
+                   required
+                   minlength="8"
+                   maxlength="128"
+                   autocomplete="off">
+            <div validation-messages
+                 model-controller="regForm.password"
+                 messages="validationMessages"></div>
+        </div>
+        <div class="form-group buttons col-md-12">
+            <input type="button" class="btn btn-success" value="Регистрация" ng-click="registration()" ng-disabled="regForm.$invalid">
+            <input type="button" class="btn btn-danger" value="Cancel" ng-click="cancel()">
+        </div>
+    </form>
+</section>

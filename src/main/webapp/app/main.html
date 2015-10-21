@@ -1,1 +1,90 @@
-<h1 class="main-title">Household Application. </br> All your payments in one place</h1>
+<section id="main-page" class="container-fluid">
+    <div class="overlay"></div>
+    <h2 class="hide">Happ project main page</h2>
+    <div class="row content">
+        <nav class="navbar navbar-default navbar-happ">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button"
+                            class="navbar-toggle collapsed"
+                            data-toggle="collapse"
+                            data-target="#navbar-collapse"
+                            aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/"><img ng-src="style/images/nav-icon1.png" class="nav-icon"></a>
+                </div>
+                <div class="collapse navbar-collapse" id="navbar-collapse" ng-show="auth.authenticated != undefined">
+                    <ul class="nav navbar-nav navbar-right" ng-show="authenticated()">
+                        <li>
+                            <a href="/apartments">
+                                <span class="content">Квартиры</span>
+                                <span class="house-badge">{{count}}</span>
+                                <span class="line"></span></a>
+                        </li>
+                        <li>
+                            <a href="" ng-click="logout()">Выход <span class="glyphicon glyphicon-user"></span><span
+                                    class="line"></span></a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right" ng-hide="authenticated()">
+                        <li>
+                            <a href="/signup">Регистрация <span class="glyphicon glyphicon-user"></span><span class="line"></span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="col-md-12 main-info" ng-hide="authenticated()">
+            <div class="main-info-block col-md-offset-1 col-md-4">
+                <article class="login-form col-md-12">
+                    <h3>Вход</h3>
+                    <form name="loginForm">
+                        <div class="form-group">
+                            <input type="text"
+                                   ng-model="loginInfo.loginData"
+                                   class="form-control"
+                                   placeholder="Введите login или email">
+                        </div>
+                        <div class="form-group">
+                            <input type="password"
+                                   ng-model="loginInfo.password"
+                                   class="form-control"
+                                   placeholder="Введите пароль">
+                        </div>
+                        <div class="form-group">
+                            <input type="button" class="btn btn-success form-control" value="Войти" ng-click="login(loginInfo)">
+                        </div>
+                    </form>
+                </article>
+            </div>
+        </div>
+        <div class="col-md-12 main-info" ng-show="authenticated()">
+            <div class="main-info-block col-md-offset-7 col-md-4">
+                <article class="login-form col-md-12">
+                    <h3>Ифнформация о квартирах</h3>
+                    <table>
+                        <tr>
+                            <th>Количество добавленных квартир:</th>
+                            <td></td>
+                        </tr>
+                    </table>
+                </article>
+            </div>
+        </div>
+        <nav class="navbar navbar-default navbar-happ navbar-fixed-bottom">
+            <div class="container-fluid">
+                <ul class="nav navbar-nav">
+                    <li><a href="/">© Happ Project 2015</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="https://github.com/VlasovArtem/happ" target="_blank">Github</a></li>
+                    <li><a href="https://ua.linkedin.com/in/vlasovartem" target="_blank">LinkedIn</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</section>
