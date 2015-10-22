@@ -2,7 +2,6 @@ package com.household.controller;
 
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.household.entity.Payment;
-import com.household.entity.enums.ServiceTypeAlias;
 import com.household.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,18 +29,18 @@ public class PaymentController {
     }
 
     @RequestMapping(value = "/last", method = GET, produces = APPLICATION_JSON_VALUE)
-    public Payment last(@RequestParam String addressId, @RequestParam String type) {
-        return service.findLastPayment(addressId, type);
+    public Payment last(@RequestParam String apartmentId, @RequestParam String type) {
+        return service.findLastPayment(apartmentId, type);
     }
 
     @RequestMapping(value = "/unpaid/count", method = GET)
-    public ResponseEntity countUnpaid (@RequestParam String addressId) {
-        return ResponseEntity.ok(JsonNodeFactory.instance.objectNode().put("count", service.countUnpaid(addressId)));
+    public ResponseEntity countUnpaid (@RequestParam String apartmentId) {
+        return ResponseEntity.ok(JsonNodeFactory.instance.objectNode().put("count", service.countUnpaid(apartmentId)));
     }
 
     @RequestMapping(value = "/unpaid", method = GET)
-    public ResponseEntity unpaid (@RequestParam String addressId) {
-        return ResponseEntity.ok(service.findUnpaid(addressId));
+    public ResponseEntity unpaid (@RequestParam String apartmentId) {
+        return ResponseEntity.ok(service.findUnpaid(apartmentId));
     }
 
     @RequestMapping(value = "/paid/{id}", method = PUT)
@@ -51,18 +50,18 @@ public class PaymentController {
     }
 
     @RequestMapping(value = "/get/stat/month", method = GET)
-    public ResponseEntity getPage (@RequestParam String addressId, @RequestParam int monthNum, @RequestParam int year) {
-        return ResponseEntity.ok(service.get(addressId, Month.of(monthNum), year));
+    public ResponseEntity getPage (@RequestParam String apartmentId, @RequestParam int monthNum, @RequestParam int year) {
+        return ResponseEntity.ok(service.get(apartmentId, Month.of(monthNum), year));
     }
 
     @RequestMapping(value = "/get/stat/service", method = GET)
-    public ResponseEntity getPage (@RequestParam String addressId, @RequestParam String type, @RequestParam int year) {
-        return ResponseEntity.ok(service.get(addressId, type, year));
+    public ResponseEntity getPage (@RequestParam String apartmentId, @RequestParam String type, @RequestParam int year) {
+        return ResponseEntity.ok(service.get(apartmentId, type, year));
     }
 
     @RequestMapping(value = "/get/stat/all", method = GET)
-    public ResponseEntity getPage (@RequestParam String addressId, @RequestParam int year) {
-        return ResponseEntity.ok(service.get(addressId, year));
+    public ResponseEntity getPage (@RequestParam String apartmentId, @RequestParam int year) {
+        return ResponseEntity.ok(service.get(apartmentId, year));
     }
 
 }

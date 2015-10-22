@@ -25,11 +25,7 @@ public class Apartment {
     @CreatedDate
     private LocalDateTime createdDate;
     private Address address;
-    @DBRef
-    @JsonIgnore
-    private List<Payment> payments;
-    @DBRef
-    private User owner;
+    private String ownerId;
 
     public String getId() {
         return id;
@@ -55,20 +51,12 @@ public class Apartment {
         this.address = address;
     }
 
-    public List<Payment> getPayments() {
-        return payments;
+    public String getOwnerId() {
+        return ownerId;
     }
 
-    public void setPayments(List<Payment> payments) {
-        this.payments = payments;
-    }
-
-    public User getOwner() {
-        return owner;
-    }
-
-    public void setOwner(User owner) {
-        this.owner = owner;
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
     }
 
     @PrePersist

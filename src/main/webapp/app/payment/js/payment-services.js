@@ -122,7 +122,7 @@ app.service('Payment', function(Service) {
             personal_account: null,
             meter_type: 'ORIGINAL',
             description: null,
-            address: apartment.address,
+            apartment_id: apartment.id,
             payment_sum: null,
             payment_date: new Date(),
             paid: false,

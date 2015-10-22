@@ -56,20 +56,34 @@
                                    placeholder="Введите пароль">
                         </div>
                         <div class="form-group">
+                            <input type="checkbox" ng-model="loginInfo.rememberMe" value="true"> Remember Me
+                        </div>
+                        <div class="form-group">
                             <input type="button" class="btn btn-success form-control" value="Войти" ng-click="login(loginInfo)">
                         </div>
                     </form>
                 </article>
             </div>
         </div>
-        <div class="col-md-12 main-info" ng-show="authenticated()">
+        <div class="col-md-12 main-info" ng-show="authenticated()" account-info>
             <div class="main-info-block col-md-offset-7 col-md-4">
                 <article class="login-form col-md-12">
-                    <h3>Ифнформация о квартирах</h3>
-                    <table>
+                    <h3>Информация о квартирах</h3>
+                    <table class="information-table">
                         <tr>
-                            <th>Количество добавленных квартир:</th>
-                            <td></td>
+                            <th>Добавленных</th>
+                            <th><span class="glyphicon glyphicon-home"></span></th>
+                            <td>{{info.apartmentsCount}}</td>
+                        </tr>
+                        <tr>
+                            <th>Неоплаченная сумма</th>
+                            <th><span class="glyphicon glyphicon-eur"></span></th>
+                            <td>{{info.totalPaymentSum}}</td>
+                        </tr>
+                        <tr>
+                            <th>Неоплаченных счетов</th>
+                            <th><span class="glyphicon glyphicon-list-alt"></span></th>
+                            <td>{{info.totalPaymentsCount}}</td>
                         </tr>
                     </table>
                 </article>

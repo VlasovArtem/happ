@@ -113,6 +113,18 @@ section > h2 {
 #main-page {
     color: white;
 }
+.information-table {
+    width: 100%;
+}
+.information-table th {
+    font-size: large;
+    vertical-align: middle;
+}
+.information-table td {
+    text-align: left;
+    font-size: x-large;
+    color: rgba(118, 178, 28, 1);
+}
 
 /* Registration */
 #registration .happ-form > .form-group > label {

@@ -53,14 +53,20 @@
             </button>
             <a class="navbar-brand" href="/"><img ng-src="style/images/nav-icon1.png" class="nav-icon"></a>
         </div>
-        <div class="collapse navbar-collapse" id="navbar-collapse">
-            <ul class="nav navbar-right navbar-nav">
+        <div class="collapse navbar-collapse" id="navbar-collapse" ng-show="auth.authenticated != undefined">
+            <ul class="nav navbar-right navbar-nav" ng-show="authenticated()">
                 <li>
                     <a href="/apartments">
                         <span class="content">Квартиры</span>
                         <span class="house-badge">{{count}}</span>
                         <span class="line"></span></a>
                 </li>
+                <li>
+                    <a href="" ng-click="logout()">Выход <span class="glyphicon glyphicon-user"></span><span
+                            class="line"></span></a>
+                </li>
+            </ul>
+            <ul class="nav navbar-right navbar-nav" ng-hide="authenticated()">
                 <li>
                     <a href="/signup">Регистрация <span class="glyphicon glyphicon-user"></span><span class="line"></span></a>
                 </li>

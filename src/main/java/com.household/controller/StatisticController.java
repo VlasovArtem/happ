@@ -19,8 +19,12 @@ public class StatisticController {
     private StatisticService statisticService;
 
     @RequestMapping(value = "/unpaid/sum", method = GET)
-    public ResponseEntity getApartmentUnpaidSum(@RequestParam String addressId) {
-        System.out.println(addressId);
-        return ResponseEntity.ok(statisticService.getUnpaidStat(addressId));
+    public ResponseEntity getApartmentUnpaidSum(@RequestParam String apartmentId) {
+        return ResponseEntity.ok(statisticService.getUnpaidStat(apartmentId));
+    }
+
+    @RequestMapping(value = "/account/stat", method = GET)
+    public ResponseEntity getAccountStat() {
+        return ResponseEntity.ok(statisticService.getAccountApartmentStat());
     }
 }

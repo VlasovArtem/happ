@@ -1,7 +1,6 @@
 package com.household.service.impl;
 
 import com.household.entity.Payment;
-import com.household.entity.enums.ServiceTypeAlias;
 import com.household.persistence.PaymentRepository;
 import com.household.service.PaymentService;
 import org.bson.types.ObjectId;
@@ -30,24 +29,24 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public Payment findLastPayment (String addressId, String type) {
+    public Payment findLastPayment (String apartmentId, String type) {
         Pageable request = new PageRequest(0, 1, new Sort(Sort.Direction.ASC, "paymentDate"));
-        return paymentRepository.findByAddressIdAndServiceTypeAlias(new ObjectId(addressId), type, request).getContent().stream().findFirst().get();
+        return paymentRepository.findByApartmentIdAndServiceTypeAlias(apartmentId, type, request).getContent().stream().findFirst().get();
     }
 
     @Override
-    public long countUnpaid (String addressId) {
-        return paymentRepository.countByAddressIdAndPaidFalse(new ObjectId(addressId));
+    public long countUnpaid (String apartmentId) {
+        return paymentRepository.countByApartmentIdAndPaidFalse(apartmentId);
     }
 
     @Override
-    public List<Payment> findUnpaid (String addressId) {
-        return paymentRepository.findByAddressIdAndPaidFalse(new ObjectId(addressId), new Sort(Sort.Direction.ASC, "paymentDate"));
+    public List<Payment> findUnpaid (String apartmentId) {
+        return paymentRepository.findByApartmentIdAndPaidFalse(apartmentId, new Sort(Sort.Direction.ASC, "paymentDate"));
     }
 
     @Override
-    public List<Payment> find (String addressId) {
-        return paymentRepository.findByAddressId(new ObjectId(addressId), new Sort(Sort.Direction.ASC, "paymentDate"));
+    public List<Payment> find (String apartmentId) {
+        return paymentRepository.findByApartmentId(apartmentId, new Sort(Sort.Direction.ASC, "paymentDate"));
     }
 
     @Override
@@ -58,23 +57,23 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public List<Payment> get (String addressId, Month month, int year) {
+    public List<Payment> get (String apartmentId, Month month, int year) {
         LocalDate monthStart = LocalDate.of(year, month, 1);
         LocalDate monthEnd = LocalDate.of(year, month, monthStart.lengthOfMonth());
-        return paymentRepository.findPaymentsBetweenDates(new ObjectId(addressId), monthStart, monthEnd);
+        return paymentRepository.findPaymentsBetweenDates(apartmentId, monthStart, monthEnd);
     }
 
     @Override
-    public List<Payment> get(String addressId, String type, int year) {
+    public List<Payment> get (String apartmentId, String type, int year) {
         LocalDate yearStart = LocalDate.of(year, Month.JANUARY, 1);
         LocalDate yearEnd = LocalDate.of(year, Month.DECEMBER, 31);
-        return paymentRepository.findPaymentsByServiceTypeAlias(new ObjectId(addressId), type, yearStart, yearEnd);
+        return paymentRepository.findPaymentsByServiceTypeAlias(apartmentId, type, yearStart, yearEnd);
     }
 
     @Override
-    public List<Payment> get(String addressId, int year) {
+    public List<Payment> get (String apartmentId, int year) {
         LocalDate yearStart = LocalDate.of(year, Month.JANUARY, 1);
         LocalDate yearEnd = LocalDate.of(year, Month.DECEMBER, 31);
-        return paymentRepository.findPayments(new ObjectId(addressId), yearStart, yearEnd);
+        return paymentRepository.findPayments(apartmentId, yearStart, yearEnd);
     }
 }

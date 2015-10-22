@@ -1,7 +1,7 @@
 /**
  * Created by artemvlasov on 23/09/15.
  */
-var app = angular.module('main-directives', []);
+var app = angular.module('main-directives', ['ngResource']);
 
 app.directive('apartment', function() {
     return {
@@ -49,5 +49,17 @@ app.directive('validationMessages', function () {
             }, true);
         },
         template: '<small class="help-block error-info" ng-repeat="message in errorMessages" ng-show= "!modelController.$pristine && $first" class="warning">{{message}}</small>'
+    }
+});
+
+app.directive('accountInfo', function(StatisticFactory) {
+    return {
+        scope: true,
+        link: function(scope, element, attr) {
+            StatisticFactory.get({account : 'account', stat : 'stat'}).$promise.then(function(data) {
+                console.log(data);
+                scope.info = data;
+            })
+        }
     }
 });

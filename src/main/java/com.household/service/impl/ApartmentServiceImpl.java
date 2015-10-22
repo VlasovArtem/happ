@@ -26,7 +26,8 @@ public class ApartmentServiceImpl implements ApartmentService {
 
     @Override
     public List<Apartment> getAll() {
-        return apartmentRepository.findAll();
+        return apartmentRepository.findByOwnerId(AuthenticatedUserPrincipalUtil
+                .getAuthenticationPrincipal().get().getId());
     }
 
     @Override
@@ -38,16 +39,14 @@ public class ApartmentServiceImpl implements ApartmentService {
                 apartment.getAddress().getApartment()) > 0) {
             throw new RuntimeException("Apartment already exists");
         }
-        User user = new User();
-        user.setId(AuthenticatedUserPrincipalUtil.getAuthenticationPrincipal().get().getId());
-        apartment.setOwner(user);
+        apartment.setOwnerId(AuthenticatedUserPrincipalUtil.getAuthenticationPrincipal().get().getId());
         apartment.getAddress().setId(ObjectId.get().toString());
         apartmentRepository.save(apartment);
     }
 
     @Override
     public long count() {
-        return apartmentRepository.getUserApartmentsCount(new ObjectId(AuthenticatedUserPrincipalUtil
-                .getAuthenticationPrincipal().get().getId()));
+        return apartmentRepository.countByOwnerId(AuthenticatedUserPrincipalUtil
+                .getAuthenticationPrincipal().get().getId());
     }
 }

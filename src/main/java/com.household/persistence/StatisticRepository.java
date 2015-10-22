@@ -2,24 +2,30 @@ package com.household.persistence;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.household.entity.Apartment;
 import com.household.entity.Payment;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+import com.mongodb.MongoClient;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
+import java.security.acl.LastOwnerException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
-import static org.springframework.data.mongodb.core.aggregation.Aggregation.group;
-import static org.springframework.data.mongodb.core.aggregation.Aggregation.match;
-import static org.springframework.data.mongodb.core.aggregation.Aggregation.newAggregation;
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
 
 /**
  * Created by artemvlasov on 15/10/15.
@@ -29,11 +35,11 @@ public class StatisticRepository {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    public JsonNode getUnpaidStatistic(String addressId) {
+    public JsonNode getUnpaidStatistic(String apartmentId) {
         Aggregation aggregation = newAggregation(
                 match(new Criteria()
                         .andOperator(
-                                Criteria.where("address._id").is(new ObjectId(addressId)),
+                                Criteria.where("apartmentId").is(apartmentId),
                                 Criteria.where("paid").is(false))),
                 group().sum("paymentSum").as("unpaidSum").count().as("unpaid")
         );
@@ -46,11 +52,25 @@ public class StatisticRepository {
         return null;
     }
 
-    public JsonNode getAddressStatisticByMonth(String addressId, int month, int year) {
-        LocalDate monthStart = LocalDate.of(year, month, 1);
-        LocalDate monthEnd = LocalDate.of(year, month, monthStart.lengthOfMonth());
-        Date convertedMonthStart = Date.from(monthStart.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-        Date convertedMonthEnd = Date.from(monthEnd.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+    public JsonNode getAccountApartmentsStatisticByCurrentMonth(String ownerId) throws IOException {
+        Aggregation apartments = newAggregation(
+                match(Criteria.where("ownerId").is(ownerId)),
+                project("ownerId")
+        );
+        List<String> apartmentsId = mongoTemplate.aggregate(apartments, Apartment.class, Apartment.class).getMappedResults()
+                .stream()
+                .map(Apartment::getId).collect(Collectors.toList());
+        Aggregation payments = newAggregation(
+                match(Criteria.where("apartmentId").in(apartmentsId).and("paid").is(false)),
+                group("apartmentId").sum("paymentSum").as("apartmentUnpaidSum").count().as("paymentCount"),
+                group().sum("apartmentUnpaidSum").as("totalPaymentSum").count().as("apartmentsCount").sum
+                        ("paymentCount").as("totalPaymentsCount")
+        );
+        String result = mongoTemplate.aggregate(payments, Payment.class, String.class).getUniqueMappedResult();
+        return new ObjectMapper().readTree(result);
+    }
+
+    public JsonNode getApartmentStatisticByMonth(String apartmentId, int month, int year) {
         DBObject dbObject =
                 new BasicDBObject("$group",
                         new BasicDBObject("_id",
@@ -85,9 +105,10 @@ public class StatisticRepository {
         Aggregation aggregation = newAggregation(
                 match(new Criteria()
                         .andOperator(
-                                Criteria.where("paymentDate").gte(convertedMonthStart),
-                                Criteria.where("paymentDate").lte(convertedMonthEnd),
-                                Criteria.where("address._id").is(new ObjectId(addressId)))),
+                                Criteria.where("paymentDate").gte(localDateConverte(year, month, 1)),
+                                Criteria.where("paymentDate").lte(localDateConverte(year, month, LocalDate.of(year,
+                                        month, 1).lengthOfMonth())),
+                                Criteria.where("apartmentId").is(apartmentId))),
                 context -> {
                     return context.getMappedObject(dbObject);
                 }
@@ -99,5 +120,9 @@ public class StatisticRepository {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private Date localDateConverte(int year, int month, int date) {
+        return Date.from(LocalDate.of(year, month, date).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
     }
 }

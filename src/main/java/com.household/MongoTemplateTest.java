@@ -1,60 +1,41 @@
 package com.household;
 
-import com.household.entity.User;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.household.entity.Apartment;
+import com.household.entity.Payment;
 import com.mongodb.MongoClient;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.Fields;
 import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
 
 /**
  * Created by artemvlasov on 15/10/15.
  */
 public class MongoTemplateTest {
     public static void main(String[] args) {
-//                MongoOperations mo = new MongoTemplate(new MongoClient(), "household");
-//                LocalDate today = LocalDate.now();
-//                LocalDateTime firstStart = LocalDateTime.now();
-//                System.err.println("Start: " + firstStart);
-//                final TestStat testStat = new TestStat();
-//                mo.find(Query.query(
-//                        Criteria.where("address.id").is(new ObjectId("561cd909ad6d06d4c3bb0047"))
-//                ), Payment.class).stream().forEach(p -> {
-//                        if(p.isPaid()) {
-//                                testStat.setPaidPayments(testStat.getPaidPayments() + 1);
-//                        } else {
-//                                testStat.setUnpaidPayments(testStat.getUnpaidPayments() + 1);
-//                                testStat.setUnpaidMonthSum(testStat.getUnpaidMonthSum() + p.getPaymentSum());
-//                        }
-//                        testStat.setMonthSum(testStat.getMonthSum() + p.getPaymentSum());
-//                });
+        MongoOperations mongoTemplate = new MongoTemplate(new MongoClient(), "household");
+        Aggregation apartments = newAggregation(
+                match(Criteria.where("ownerId").is("5627bc99ad6d068db81c99f5")),
+                project("ownerId")
+        );
+        List<String> apartmentsId = mongoTemplate.aggregate(apartments, Apartment.class, Apartment.class).getMappedResults()
+                .stream()
+                .map(Apartment::getId).collect(Collectors.toList());
+        Aggregation payments = newAggregation(
+                match(Criteria.where("apartmentId").in(apartmentsId).and("paid").is(false)),
+                group("apartmentId").sum("paymentSum").as("apartmentUnpaidSum").count().as("paymentCount"),
+                group().sum("apartmentUnpaidSum").as("totalPaymentSum").count().as("apartmentsCount").sum
+                        ("paymentCount").as("totalPaymentsCount")
+        );
+        String result = mongoTemplate.aggregate(payments, Payment.class, String.class).getUniqueMappedResult();
+        System.out.println(result);
 
-//                LocalDateTime firstEnd = LocalDateTime.now();
-//                System.err.println("End: " + firstEnd);
-//                System.err.println("Duration: " + Duration.between(firstStart, firstEnd).getNano());
-
-        MongoOperations mo = new MongoTemplate(new MongoClient(), "household");
-        User user = mo.find(Query.query(
-                new Criteria().andOperator(
-                        new Criteria().orOperator(
-                                Criteria.where("login").is("vlasovartem"),
-                                Criteria.where("email").is("vlasovartem")),
-                        Criteria.where("deleted").is(false))), User.class).get(0);
-        System.out.println(user);
-//                Aggregation aggregation = newAggregation(
-//                        match(new Criteria()
-//                                .andOperator(
-//                                        Criteria.where("address._id").is(new ObjectId("561cd909ad6d06d4c3bb0047")),
-//                                        Criteria.where("paid").is(false))),
-//                        group().sum("paymentSum").as("unpaidSum")
-//                );
-//                String object = mo.aggregate(aggregation, Payment.class, String.class).getUniqueMappedResult();
-//                JsonNode mapper = null;
-//                try {
-//                        mapper = new ObjectMapper().readTree(object);
-//                        System.out.println(mapper.findValue("unpaidSum").asDouble());
-//                } catch (IOException e) {
-//                        e.printStackTrace();
-//                }
     }
 }

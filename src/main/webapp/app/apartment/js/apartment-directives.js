@@ -10,7 +10,7 @@ app.directive('apartment', function ($sessionStorage, PaymentFactory, $location,
             apartment: '=apart'
         },
         link: function(scope, element, attr) {
-            StatisticFactory.get({unpaid : 'unpaid', sum : 'sum', addressId : scope.apartment.address.id},
+            StatisticFactory.get({unpaid : 'unpaid', sum : 'sum', apartmentId : scope.apartment.id},
                 function(data) {
                     if(data) {
                         scope.unpaidPayments = data.unpaid;

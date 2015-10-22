@@ -6,6 +6,7 @@ import org.mongodb.morphia.annotations.NotSaved;
 import org.mongodb.morphia.annotations.PrePersist;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
@@ -20,13 +21,12 @@ public class Payment {
     private String id;
     @CreatedDate
     private LocalDateTime createdDate;
+    private String apartmentId;
     @Embedded
     private Service service;
     private String personalAccount;
     private MeterType meterType;
     private String description;
-    @Embedded
-    private Address address;
     private double paymentSum;
     private LocalDate paymentDate;
     private boolean paid;
@@ -47,6 +47,14 @@ public class Payment {
 
     public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public String getApartmentId() {
+        return apartmentId;
+    }
+
+    public void setApartmentId(String apartmentId) {
+        this.apartmentId = apartmentId;
     }
 
     public Service getService() {
@@ -79,14 +87,6 @@ public class Payment {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
     }
 
     public double getPaymentSum() {

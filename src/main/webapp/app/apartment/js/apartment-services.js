@@ -20,5 +20,5 @@ app.factory('StreetsFactory', ['$resource', function ($resource) {
 }]);
 
 app.factory('StatisticFactory', ['$resource', function($resource) {
-    return $resource('/rest/stat/:unpaid/:sum');
+    return $resource('/rest/stat/:unpaid/:sum/:account/:stat');
 }]);

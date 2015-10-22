@@ -227,7 +227,7 @@ app.directive('servicePayment',
                 };
                 scope.findLast = function() {
                     PaymentFactory.last({
-                            addressId: scope.apartment.address.id,
+                            apartmentId: scope.apartment.id,
                             type: scope.type.alias
                         },
                         function (prevPayment) {
@@ -257,7 +257,7 @@ app.directive('servicePayment',
                         scope.payment.service = scope.service;
                     }
                     scope.payment.payment_date = $filter('ToLocalDateFilter')(scope.payment.payment_date);
-                    scope.payment.address = scope.apartment.address;
+                    //scope.payment.apartment_id = scope.apartment.id;
                     if(!scope.payment.service.city) {
                         scope.payment.service.city = scope.apartment.address.city;
                     }
@@ -270,9 +270,10 @@ app.directive('servicePayment',
                     scope.payment.prev_meter = convertedPrevMeter.length > 0 ? convertedPrevMeter : null;
                     Service.perPersistService(scope.payment.service);
                     Payment.prePersistPayment(scope.payment);
-                    PaymentSaveFactory.save(scope.payment, function() {
-                        $location.path('/apartments')
-                    })
+                    console.log(scope.payment);
+                    //PaymentSaveFactory.save(scope.payment, function() {
+                    //    $location.path('/apartments')
+                    //})
                 };
                 scope.payment = angular.copy(scope.initPayment);
             }
@@ -327,7 +328,7 @@ app.directive('statisticByMonth', function(PaymentFactory, StatisticService) {
                 get: 'get',
                 stat: 'stat',
                 month: 'month',
-                addressId: $scope.apartment.address.id,
+                apartmentId: $scope.apartment.id,
                 monthNum: $scope.months.indexOf($scope.currentMonth) + 1,
                 year: $scope.currentYear
             }, function(data) {
@@ -359,7 +360,7 @@ app.directive('statisticByService', function(PaymentFactory, ServiceFactory, Sta
                 get: 'get',
                 stat: 'stat',
                 service: 'service',
-                addressId: $scope.apartment.address.id,
+                apartmentId: $scope.apartment.id,
                 type: $scope.currentType.alias,
                 year: $scope.currentYear
             }, function(data) {
@@ -384,7 +385,7 @@ app.directive('statisticAll', function(PaymentFactory, StatisticService) {
                 get: 'get',
                 stat: 'stat',
                 all: 'all',
-                addressId: $scope.apartment.address.id,
+                apartmentId: $scope.apartment.id,
                 year: $scope.currentYear
             }, function(data) {
                 $scope.payments = data;

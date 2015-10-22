@@ -38,8 +38,10 @@ app.controller('AddApartmentCtrl', ['$scope', 'cities', 'AddApartment', '$locati
 
 app.controller('ApartmentsCtrl', ['$scope', 'apartments',
     function($scope, apartments) {
-        console.log(apartments);
         $scope.apartments = apartments;
+        $scope.apartmentTracking = function(apartment) {
+            return apartment.address.street.name + '-' + apartment.address.street.type + '-' + apartment.apartment + '-' + apartment.house;
+        }
 
     }
 ]);
