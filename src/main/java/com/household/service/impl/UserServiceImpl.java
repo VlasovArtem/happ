@@ -6,11 +6,13 @@ import com.household.entity.User;
 import com.household.entity.UserRole;
 import com.household.persistence.ApartmentRepository;
 import com.household.persistence.StatisticRepository;
+import com.household.persistence.custom.impl.StatisticRepositoryImpl;
 import com.household.persistence.UserRepository;
 import com.household.service.UserService;
 import com.household.utils.exception.UserRegistrationException;
 import com.household.utils.security.AuthenticatedUserPrincipalUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -28,10 +30,6 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private StatisticRepository statisticRepository;
-    @Autowired
-    private ApartmentRepository apartmentRepository;
 
     @Override
     public void registration(User user) {
@@ -46,17 +44,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserRole authentication() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(AuthenticatedUserPrincipalUtil.containAuthorities(UserRole.ADMIN)) {
             return UserRole.ADMIN;
         } else {
             return UserRole.USER;
         }
-    }
-
-    @Override
-    public ObjectNode authenticationAccountInfo() {
-        ObjectNode info = JsonNodeFactory.instance.objectNode();
-        return null;
     }
 }

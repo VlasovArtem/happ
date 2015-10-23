@@ -12,7 +12,7 @@ import java.util.Collections;
  * Created by artemvlasov on 03/09/15.
  */
 @Configuration
-@EnableMongoRepositories(basePackages = "com.household.persistence")
+@EnableMongoRepositories(basePackages = {"com.household.persistence"})
 @EnableMongoAuditing
 public class AppConfig extends AbstractMongoConfiguration {
     @Override

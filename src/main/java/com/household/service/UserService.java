@@ -1,6 +1,5 @@
 package com.household.service;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.household.entity.User;
 import com.household.entity.UserRole;
 
@@ -10,5 +9,4 @@ import com.household.entity.UserRole;
 public interface UserService {
     void registration (User user);
     UserRole authentication();
-    ObjectNode authenticationAccountInfo();
 }

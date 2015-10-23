@@ -1,24 +1,19 @@
-package com.household.persistence;
+package com.household.persistence.custom.impl;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.household.entity.Apartment;
 import com.household.entity.Payment;
+import com.household.persistence.StatisticRepository;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
-import com.mongodb.MongoClient;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
-import java.security.acl.LastOwnerException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
@@ -31,7 +26,7 @@ import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
  * Created by artemvlasov on 15/10/15.
  */
 @Repository
-public class StatisticRepository {
+public class StatisticRepositoryImpl implements StatisticRepository {
     @Autowired
     private MongoTemplate mongoTemplate;
 
@@ -105,8 +100,8 @@ public class StatisticRepository {
         Aggregation aggregation = newAggregation(
                 match(new Criteria()
                         .andOperator(
-                                Criteria.where("paymentDate").gte(localDateConverte(year, month, 1)),
-                                Criteria.where("paymentDate").lte(localDateConverte(year, month, LocalDate.of(year,
+                                Criteria.where("paymentDate").gte(localDateConverter(year, month, 1)),
+                                Criteria.where("paymentDate").lte(localDateConverter(year, month, LocalDate.of(year,
                                         month, 1).lengthOfMonth())),
                                 Criteria.where("apartmentId").is(apartmentId))),
                 context -> {
@@ -122,7 +117,7 @@ public class StatisticRepository {
         return null;
     }
 
-    private Date localDateConverte(int year, int month, int date) {
+    private Date localDateConverter(int year, int month, int date) {
         return Date.from(LocalDate.of(year, month, date).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
     }
 }

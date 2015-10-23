@@ -12,12 +12,9 @@
         <spring.version>4.2.2.RELEASE</spring.version>
         <jackson.version>2.6.1</jackson.version>
         <spring.security.version>4.0.2.RELEASE</spring.security.version>
+        <spring.data.mongodb.version>1.8.0.RELEASE</spring.data.mongodb.version>
+        <spring.data.commons.version>1.11.0.RELEASE</spring.data.commons.version>
     </properties>
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.2.5.RELEASE</version>
-    </parent>
     <dependencies>
 
         <!-- JUnit -->
@@ -62,14 +59,19 @@
             <version>${spring.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-commons</artifactId>
-            <version>1.10.2.RELEASE</version>
+            <version>${spring.data.commons.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-mongodb</artifactId>
-            <version>1.7.2.RELEASE</version>
+            <version>${spring.data.mongodb.version}</version>
         </dependency>
 
         <!-- Spring Security Dependencies -->
@@ -92,10 +94,6 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
             <version>${spring.security.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
         <!-- Jackson -->
