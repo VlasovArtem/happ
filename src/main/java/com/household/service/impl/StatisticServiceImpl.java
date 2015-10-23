@@ -5,6 +5,7 @@ import com.household.persistence.StatisticRepository;
 import com.household.service.StatisticService;
 import com.household.utils.security.AuthenticatedUserPrincipalUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
