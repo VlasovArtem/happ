@@ -22,15 +22,17 @@ public class AppConfig extends AbstractMongoConfiguration {
 
     @Override
     public Mongo mongo() throws Exception {
-        String openshiftHost = System.getenv("OPENSHIFT_MONGODB_DB_HOST");
-        int openshiftPort = Integer.parseInt(System.getenv("OPENSHIFT_MONGODB_DB_PORT"));
-        String username = System.getenv("OPENSHIFT_MONGODB_DB_USERNAME");
-        String password = System.getenv("OPENSHIFT_MONGODB_DB_PASSWORD");
-        String databaseName = System.getenv("OPENSHIFT_APP_NAME");
-        ServerAddress serverAddress = new DBAddress(openshiftHost, openshiftPort, databaseName);
-        MongoCredential mongoCredential = MongoCredential.createMongoCRCredential(username, databaseName, password
-                .toCharArray());
-        return new MongoClient(serverAddress, Collections.singletonList(mongoCredential));
+        String url = System.getenv("OPENSHIFT_MONGODB_DB_URL");
+//        String openshiftHost = System.getenv("OPENSHIFT_MONGODB_DB_HOST");
+//        int openshiftPort = Integer.parseInt(System.getenv("OPENSHIFT_MONGODB_DB_PORT"));
+//        String username = System.getenv("OPENSHIFT_MONGODB_DB_USERNAME");
+//        String password = System.getenv("OPENSHIFT_MONGODB_DB_PASSWORD");
+//        String databaseName = System.getenv("OPENSHIFT_APP_NAME");
+//        ServerAddress serverAddress = new DBAddress(openshiftHost, openshiftPort, databaseName);
+//        MongoCredential mongoCredential = MongoCredential.createMongoCRCredential(username, databaseName, password
+//                .toCharArray());
+//        return new MongoClient(serverAddress, Collections.singletonList(mongoCredential));
+        return new MongoClient(new MongoClientURI(url));
     }
 
     @Override
