@@ -38,13 +38,13 @@ app.directive('validationMessages', function () {
                     angular.forEach(newValue, function (value, key) {
                         scope.errorMessages.push(scope.messages[scope.modelController.$name][key]);
                     });
-                    if(scope.errorMessages.length > 0) {
-                        elm.parent().addClass('has-error');
-                        elm.parent().removeClass('has-success');
-                    } else {
-                        elm.parent().addClass('has-success');
-                        elm.parent().removeClass('has-error');
-                    }
+                    //if(scope.errorMessages.length > 0) {
+                    //    elm.parent().addClass('has-error');
+                    //    elm.parent().removeClass('has-success');
+                    //} else {
+                    //    elm.parent().addClass('has-success');
+                    //    elm.parent().removeClass('has-error');
+                    //}
                 }
             }, true);
         },

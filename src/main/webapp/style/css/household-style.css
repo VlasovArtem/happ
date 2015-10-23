@@ -146,16 +146,16 @@ body > nav .house-badge {
     width: 100%;
     text-align: center;
 }
-.happ-form-control, .ui-select-bootstrap > input[type=text], .ui-select-bootstrap .ui-select-toggle {
-    background-color: rgba(0, 0, 0, 0);
-    border-radius: 0;
-    border: none;
-    border-bottom: 1px solid black;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
-    -webkit-appearance: none;
-}
+/*.happ-form-control, .ui-select-bootstrap > input[type=text], .ui-select-bootstrap .ui-select-toggle {*/
+    /*background-color: rgba(0, 0, 0, 0);*/
+    /*border-radius: 0;*/
+    /*border: none;*/
+    /*border-bottom: 1px solid black;*/
+    /*-webkit-box-shadow: none;*/
+    /*-moz-box-shadow: none;*/
+    /*box-shadow: none;*/
+    /*-webkit-appearance: none;*/
+/*}*/
 
 .happ-form-control:focus {
     -webkit-box-shadow: inset 0 0 0 rgba(0, 0, 0, .075), 0 1px 0 rgba(102, 175, 233, .6);
@@ -176,14 +176,14 @@ body > nav .house-badge {
     text-align: center;
 }
 
-.has-error .form-control, .has-error .form-control:focus {
+.has-error .happ-form-control, .has-error .happ-form-control:focus {
     border-color: transparent;
     border-bottom-color: #a94442;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
 }
-.has-success .form-control, .has-success .form-control:focus {
+.has-success .happ-form-control, .has-success .happ-form-control:focus {
     border-color: transparent;
     border-bottom-color: #3c763d;
     -webkit-box-shadow: none;
@@ -467,4 +467,57 @@ h3 {
 
 .white {
     display: none;
+}
+.happ-form-group {
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+.float-label {
+    font-size: small;
+    padding: 0 0 5px 12px;
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+}
+.is-active .float-label {
+    visibility: visible;
+    opacity: 1;
+    -webkit-transition: all .5s ease;
+    transition: all .5s ease;
+}
+.ui-select-bootstrap > input[type=text], .ui-select-bootstrap .ui-select-toggle, .test-happ-form-control {
+    border-radius: 2px;
+    height: 45px;
+    background-color: transparent;
+    -webkit-appearance: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+.ui-select-bootstrap > input[type=text]:focus, .ui-select-bootstrap .ui-select-toggle:focus, .test-happ-form-control:focus {
+    border-color: rgba(118, 178, 28, 1);
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+.is-active.is-focused .float-label {
+    color: rgba(118, 178, 28, 1);
+}
+.is-active .float-label {
+    color: darkgrey;
+}
+.happ-form-group.is-active input, .happ-form-group.is-active select {
+    padding: 2rem 0.85rem 0.45rem 12px !important;
+    -webkit-transition: padding .2s ease;
+    transition: padding .2s ease;
+}
+.ui-select-toggle {
+    padding-top: 12px;
+}
+.happ-form-group .btn-default-focus {
+    background-color: transparent;
+    outline: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
 }
