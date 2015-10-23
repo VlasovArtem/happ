@@ -10,6 +10,7 @@
         <jackson.version>2.6.1</jackson.version>
         <spring.security.version>4.0.2.RELEASE</spring.security.version>
         <spring.data.mongodb.version>1.8.0.RELEASE</spring.data.mongodb.version>
+        <spring.data.commons.version>1.11.0.RELEASE</spring.data.commons.version>
     </properties>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -67,7 +68,7 @@
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-commons</artifactId>
-            <version>1.10.2.RELEASE</version>
+            <version>${spring.data.commons.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.data</groupId>
