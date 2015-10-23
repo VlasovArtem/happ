@@ -83,11 +83,20 @@ section > h2 {
 }
 #main-page > .content > .navbar-happ .navbar-nav > li > a:hover > .line {
     width: 100%;
-    -webkit-transition: width 1s ease;
-    transition: width 1s ease;
+    background-color: rgba(118, 178, 28, 1);
+    -webkit-transition: all 1s ease;
+    transition: all 1s ease;
 }
+#main-page > .content > .navbar-happ .navbar-nav > li > a:hover > .glyphicon {
+    color: rgba(118, 178, 28, 1);
+    -webkit-transition: all 1s ease;
+    transition: all 1s ease;
+}
+
 .glyphicon {
     color: white;
+    -webkit-transition: all 1s ease;
+    transition: all 1s ease;
 }
 #main-page > .content > .navbar-fixed-bottom ul > li > a {
     font-size: medium !important;
@@ -277,6 +286,8 @@ apartment .badge {
     height: 3px;
     background-color: white;
     display: block;
+    -webkit-transition: all 1s ease;
+    transition: all 1s ease;
 }
 .navbar-happ .navbar-nav > li > a:hover > .line {
     width: 100%;
