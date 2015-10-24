@@ -3,6 +3,7 @@ package com.household.service.impl;
 import com.household.entity.Apartment;
 import com.household.entity.User;
 import com.household.persistence.ApartmentRepository;
+import com.household.persistence.UserRepository;
 import com.household.service.ApartmentService;
 import com.household.utils.security.AuthenticatedUserPrincipalUtil;
 import org.bson.types.ObjectId;
@@ -18,6 +19,8 @@ import java.util.List;
 public class ApartmentServiceImpl implements ApartmentService {
     @Autowired
     private ApartmentRepository apartmentRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public Apartment getApartment(String id) {
@@ -40,8 +43,10 @@ public class ApartmentServiceImpl implements ApartmentService {
             throw new RuntimeException("Apartment already exists");
         }
         apartment.setOwnerId(AuthenticatedUserPrincipalUtil.getAuthenticationPrincipal().get().getId());
-        apartment.getAddress().setId(ObjectId.get().toString());
-        apartmentRepository.save(apartment);
+        Apartment savedApartment = apartmentRepository.save(apartment);
+        User user = userRepository.findOne(AuthenticatedUserPrincipalUtil.getAuthenticationPrincipal().get().getId());
+        user.getApartments().add(savedApartment);
+        userRepository.save(user);
     }
 
     @Override

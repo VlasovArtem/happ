@@ -52,14 +52,16 @@ app.directive('validationMessages', function () {
     }
 });
 
-app.directive('accountInfo', function(StatisticFactory) {
+app.directive('accountInfo', function(StatisticFactory, $rootScope, auth) {
     return {
         scope: true,
         link: function(scope, element, attr) {
-            StatisticFactory.get({account : 'account', stat : 'stat'}).$promise.then(function(data) {
-                console.log(data);
-                scope.info = data;
-            })
+            if(auth.authenticated) {
+                StatisticFactory.get({account: 'account', stat: 'stat'}).$promise.then(function (data) {
+                    $rootScope.count = data.apartmentsCount;
+                    scope.info = data;
+                })
+            }
         }
     }
 });

@@ -4,17 +4,10 @@
 var service = angular.module('user-services', ['ngResource']);
 
 service.factory('UserFactory', ['$resource', function($resource) {
-    return $resource('/rest/user/:registration/:login/:authentication/:info', {
+    return $resource('/rest/user/:login/:authentication/:info', {
         registration: '@registration',
         login: '@login'
     }, {
-        registration: {
-            params: {
-                registration: 'registration'
-            },
-            method: 'POST',
-
-        },
         login: {
             params: {
                 login: 'login'
@@ -25,4 +18,8 @@ service.factory('UserFactory', ['$resource', function($resource) {
             }
         }
     })
+}]);
+
+service.factory('UserRegistrationFactory', ['$resource', function($resource) {
+    return $resource('/rest/user/registration')
 }]);

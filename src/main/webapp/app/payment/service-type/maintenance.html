@@ -97,8 +97,14 @@
         </table>
         <div class="paid">
             <div class="col-md-3">
-                <label for="paid">Оплачено</label>
-                <input type="checkbox" value="true" ng-model="payment.paid" id="paid" name="paid">
+                <div class="form-group">
+                    <div class="squaredFour">
+                        <input type="checkbox" value="true" id="squaredFour" name="paid"
+                               ng-model="payment.paid"/>
+                        <label for="squaredFour"></label>
+                    </div>
+                    <label>Оплачено</label>
+                </div>
             </div>
             <div class="input-group col-md-9">
                 <input type="text" ng-model="payment.payment_date" class="form-control" datepicker-popup="dd/MM/yyyy" max-date="today" is-open="status.opened" ng-required="true" close-text="Close">
