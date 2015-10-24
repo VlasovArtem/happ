@@ -2,10 +2,9 @@
     <h2 class="col-md-12">Добавить Квартиру</h2>
     <div class="error col-md-12" ng-bind="error" ng-show="error"></div>
     <form name="addApartment" class="col-md-offset-3 col-md-6 happ-form" test>
-        <div class="form-group has-feedback col-md-6 col-sm-12 city">
-            <label for="city">Город</label>
+        <div class="happ-form-group col-md-6 col-sm-12 city">
             <select
-                    class="happ-form-control form-control"
+                    class="test-happ-form-control form-control"
                     name="city"
                     id="city"
                     ng-model="apartment.address.city"
@@ -15,29 +14,34 @@
                 <option value="" disabled selected>Выбирите город</option>
             </select>
         </div>
-        <div class="form-group has-feedback col-md-6 col-sm-12">
-            <label>Улица</label>
+        <div class="happ-form-group col-md-6 col-sm-12">
             <street-select></street-select>
         </div>
-        <div class="form-group has-feedback col-md-6 col-sm-12">
-            <label for="house">Дом</label>
+        <div class="happ-form-group col-md-6 col-sm-12"
+             ng-class="addApartment.house.$viewValue.length > 0 ? 'is-active' : ''">
+            <label class="float-label">Дом</label>
             <input type="text"
-                   class="happ-form-control form-control"
+                   class="test-happ-form-control form-control"
                    id="house"
                    name="house"
                    autocomplete="off"
+                   ng-focus="setFocus('house')"
+                   ng-blur="setBlur('house')"
                    required
                    ng-disabled="!apartment.address.street"
                    placeholder="Номер дома..."
                    ng-model="apartment.address.house"/>
         </div>
-        <div class="form-group has-feedback col-md-6 col-sm-12">
-            <label for="apartment">Квартира</label>
+        <div class="happ-form-group col-md-6 col-sm-12"
+             ng-class="addApartment.apartment.$viewValue.length > 0 ? 'is-active' : ''">
+            <label class="float-label">Квартира</label>
             <input type="number"
-                   class="happ-form-control form-control"
+                   class="test-happ-form-control form-control"
                    required
                    name="apartment"
                    autocomplete="off"
+                   ng-focus="setFocus('apartment')"
+                   ng-blur="setBlur('apartment')"
                    min="1"
                    ng-disabled="!apartment.address.street"
                    placeholder="Номер квартиры..."

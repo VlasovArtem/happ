@@ -11,6 +11,12 @@ app.controller('AddApartmentCtrl', ['$scope', 'cities', 'AddApartment', '$locati
                 required : "City is required"
             }
         };
+        $scope.setFocus = function(id) {
+            angular.element('#' + id).parents('.happ-form-group').addClass('is-focused');
+        };
+        $scope.setBlur = function(id) {
+            angular.element('#' + id).parents('.happ-form-group').removeClass('is-focused');
+        };
         $scope.apartment = {};
         $scope.changeCity = function() {
             $scope.streets = [];

@@ -16,15 +16,22 @@ app.controller('UserRegistrationCtrl', ['$scope', '$route', '$location', 'UserFa
         })
     };
 
+    $scope.setFocus = function(id) {
+        angular.element('#' + id).parents('.happ-form-group').addClass('is-focused');
+    };
+    $scope.setBlur = function(id) {
+        angular.element('#' + id).parents('.happ-form-group').removeClass('is-focused');
+    };
+
     $scope.validationMessages = {
         firstname: {
             pattern : "Поле поддерживает следующие символы a-z, а-я ",
-            minlength : "Минимальная длинна имени 6 символов",
+            minlength : "Минимальная длинна имени 3 символов",
             maxlength : "Максимальная длинна имени 25 символов"
         },
         lastname: {
             pattern: "Поле поддерживает следующие символы a-z, а-я,', ,. ",
-            minlength: "Минимальная длинна имени 6 символов",
+            minlength: "Минимальная длинна имени 2 символов",
             maxlength: "Максимальная длинна имени 25 символов"
         },
         email: {

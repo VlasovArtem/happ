@@ -85,9 +85,9 @@ public class UserValidator extends EntityValidator {
      * Enum contains error messages and patterns for validating data
      */
     public enum PersonValidationInfo {
-        FIRSTNAME("First name should not contains any digits and length should be 6 - 100",
+        FIRSTNAME("First name should not contains any digits and length should be 3 - 25",
                 "^[\\p{L}]{3,25}$"),
-        LASTNAME("Last name should not contains any digits and length should be 6 - 100",
+        LASTNAME("Last name should not contains any digits and length should be 2 - 25",
                 "^[\\p{L} .'\\-]{2,25}$"),
         LOGIN("Login should contains next characters: a-z 0-9 _ -. And length should be 6 - 100",
                 "^[A-Za-z0-9_\\- .]{6,100}$"),
