@@ -1,14 +1,16 @@
 <section id="registration">
     <h2>Регистрация</h2>
-    <form name="regForm" class="col-md-offset-4 col-md-4 happ-form">
-        <div class="form-group has-feedback col-md-6">
-            <label for="firstname">Имя</label>
+    <form name="regForm" class="col-md-offset-3 col-md-6 happ-form">
+        <div class="happ-form-group col-md-6" ng-class="regForm.firstname.$viewValue.length > 0 ? 'is-active' : ''">
+            <label class="float-label">Имя</label>
             <input type="text"
                    ng-model="user.firstname"
                    id="firstname"
                    name="firstname"
-                   class="form-control happ-form-control"
+                   class="form-control test-happ-form-control"
                    placeholder="Введите имя"
+                   ng-focus="setFocus('firstname')"
+                   ng-blur="setBlur('firstname')"
                    minlength="3"
                    maxlength="25"
                    ng-pattern="/^[а-яА-Яa-zA-z]*$/"
@@ -17,15 +19,17 @@
                  model-controller="regForm.firstname"
                  messages="validationMessages"></div>
         </div>
-        <div class="form-group has-feedback col-md-6">
-            <label for="lastname">Фамилия</label>
+        <div class="happ-form-group has-feedback col-md-6" ng-class="regForm.lastname.$viewValue.length > 0 ? 'is-active' : ''">
+            <label class="float-label">Фамилия</label>
             <input type="text"
                    ng-model="user.lastname"
                    id="lastname"
                    name="lastname"
                    maxlength="25"
-                   class="form-control happ-form-control"
+                   class="form-control test-happ-form-control"
                    placeholder="Введите фамилию"
+                   ng-focus="setFocus('lastname')"
+                   ng-blur="setBlur('lastname')"
                    minlength="2"
                    ng-pattern="/^[а-яА-Яa-zA-z '.]*$/"
                    autocomplete="off">
@@ -33,14 +37,16 @@
                  model-controller="regForm.lastname"
                  messages="validationMessages"></div>
         </div>
-        <div class="form-group has-feedback col-md-12">
-            <label for="email">Email</label>
+        <div class="happ-form-group has-feedback col-md-12" ng-class="regForm.email.$viewValue.length > 0 ? 'is-active' : ''">
+            <label class="float-label">Email</label>
             <input type="email"
                    ng-model="user.email"
                    id="email"
                    name="email"
-                   class="form-control happ-form-control"
+                   class="form-control test-happ-form-control"
                    placeholder="Введите email"
+                   ng-focus="setFocus('email')"
+                   ng-blur="setBlur('email')"
                    required
                    minlength="9"
                    maxlength="254"
@@ -49,14 +55,16 @@
                  model-controller="regForm.email"
                  messages="validationMessages"></div>
         </div>
-        <div class="form-group has-feedback col-md-12">
-            <label for="login">Логин</label>
+        <div class="happ-form-group has-feedback col-md-12" ng-class="regForm.login.$viewValue.length > 0 ? 'is-active' : ''">
+            <label class="float-label">Логин</label>
             <input type="text"
                    ng-model="user.login"
                    id="login"
                    name="login"
-                   class="form-control happ-form-control"
+                   class="form-control test-happ-form-control"
                    placeholder="Введите логин"
+                   ng-focus="setFocus('login')"
+                   ng-blur="setBlur('login')"
                    required
                    ng-pattern="/^[А-Яа-яA-Za-z0-9_\- .]*$/"
                    minlength="6"
@@ -66,14 +74,16 @@
                  model-controller="regForm.login"
                  messages="validationMessages"></div>
         </div>
-        <div class="form-group has-feedback col-md-12">
-            <label for="password">Пароль</label>
+        <div class="happ-form-group has-feedback col-md-12" ng-class="regForm.password.$viewValue.length > 0 ? 'is-active' : ''">
+            <label class="float-label">Пароль</label>
             <input type="password"
                    ng-model="user.password"
                    id="password"
                    name="password"
-                   class="form-control happ-form-control"
+                   class="form-control test-happ-form-control"
                    placeholder="Введите пароль"
+                   ng-focus="setFocus('password')"
+                   ng-blur="setBlur('password')"
                    required
                    minlength="8"
                    maxlength="128"
