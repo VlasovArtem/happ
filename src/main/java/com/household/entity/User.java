@@ -1,6 +1,7 @@
 package com.household.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.mongodb.morphia.annotations.Embedded;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -25,7 +26,6 @@ public class User {
     private String lastname;
     private String email;
     private String login;
-    @JsonIgnore
     private String password;
     private boolean deleted;
     private UserRole role;
@@ -88,10 +88,12 @@ public class User {
         this.login = login;
     }
 
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
 
+    @JsonProperty("password")
     public void setPassword(String password) {
         this.password = password;
     }
