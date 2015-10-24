@@ -60,10 +60,10 @@ app.directive('streetSelect', function (StreetsFactory) {
         },
         template:
             '<ui-select ng-model="apartment.address.street" reset-search-input="false" ng-disabled="!apartment.address.city">' +
-                '<ui-select-match placeholder="Введите улицу...">{{$select.selected.name}}</ui-select-match>' +
+                '<ui-select-match placeholder="Введите улицу...">{{$select.selected.type + " " + $select.selected.name}}</ui-select-match>' +
                 '<ui-select-choices repeat="street in streets" refresh="refreshCityStreets($select.search)" refresh-delay="1000">' +
                     '<div ng-bind-html="street | streetConverter | highlight: $select.search"></div>' +
                 '</ui-select-choices>' +
             '</ui-select>'
     }
-})
+});

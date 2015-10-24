@@ -46,17 +46,22 @@
                         <div class="form-group">
                             <input type="text"
                                    ng-model="loginInfo.loginData"
-                                   class="form-control"
+                                   class="happ-form-control form-control"
                                    placeholder="Введите login или email">
                         </div>
                         <div class="form-group">
                             <input type="password"
                                    ng-model="loginInfo.password"
-                                   class="form-control"
+                                   class="happ-form-control form-control"
                                    placeholder="Введите пароль">
                         </div>
                         <div class="form-group">
-                            <input type="checkbox" ng-model="loginInfo.rememberMe" value="true"> Remember Me
+                            <div class="squaredFour">
+                                <input type="checkbox" value="true" id="squaredFour" name="check"
+                                       ng-model="loginInfo.rememberMe"/>
+                                <label for="squaredFour"></label>
+                            </div>
+                            <label>Remember Me</label>
                         </div>
                         <div class="form-group">
                             <input type="button" class="btn btn-success form-control" value="Войти" ng-click="login(loginInfo)">
@@ -65,8 +70,8 @@
                 </article>
             </div>
         </div>
-        <div class="col-md-12 main-info" ng-show="authenticated()" account-info>
-            <div class="main-info-block col-md-offset-7 col-md-4">
+        <div class="col-md-12 main-info" ng-show="authenticated()">
+            <div class="main-info-block col-md-offset-7 col-md-4" account-info>
                 <article class="login-form col-md-12">
                     <h3>Информация о квартирах</h3>
                     <table class="information-table">

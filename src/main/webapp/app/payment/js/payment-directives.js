@@ -213,7 +213,7 @@ app.directive('servicePayment',
                         if(_.isEqual(type.group, 'MAINTENANCE')) {
                             appendedDirective = 'maintenance-service';
                             appendedElement = '<maintenance-service></maintenance-service>'
-                        } else if(_.contains(["GAS", "WATER", "ELECTRICITY"], type.group)) {
+                        } else if(_.contains(['GAS', 'WATER', 'ELECTRICITY', 'HEATING'], type.group)) {
                             appendedDirective = 'regular-service';
                             appendedElement = '<regular-service></regular-service>'
                         } else {
@@ -257,7 +257,6 @@ app.directive('servicePayment',
                         scope.payment.service = scope.service;
                     }
                     scope.payment.payment_date = $filter('ToLocalDateFilter')(scope.payment.payment_date);
-                    //scope.payment.apartment_id = scope.apartment.id;
                     if(!scope.payment.service.city) {
                         scope.payment.service.city = scope.apartment.address.city;
                     }
@@ -270,10 +269,9 @@ app.directive('servicePayment',
                     scope.payment.prev_meter = convertedPrevMeter.length > 0 ? convertedPrevMeter : null;
                     Service.perPersistService(scope.payment.service);
                     Payment.prePersistPayment(scope.payment);
-                    console.log(scope.payment);
-                    //PaymentSaveFactory.save(scope.payment, function() {
-                    //    $location.path('/apartments')
-                    //})
+                    PaymentSaveFactory.save(scope.payment, function() {
+                        $location.path('/apartments')
+                    })
                 };
                 scope.payment = angular.copy(scope.initPayment);
             }

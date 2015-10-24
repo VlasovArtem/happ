@@ -1,5 +1,6 @@
 <section id="add-payment" class="container-fluid">
     <h2>Добавить оплату</h2>
+    <div class="error col-md-12" ng-bind="error" ng-class="error ? 'show-error' : ''"></div>
     <div apartment="apartment"></div>
     <div class="row">
         <div class="col-md-2 info">
@@ -10,7 +11,7 @@
                     class="form-control happ-form-control"
                     ng-change="chooseServiceType(type)"
                     ng-options="(type.name | camelCase) for type in types">
-                <option value="" disabled selected>Выберите сервис</option>
+                <option value="" disabled selected>Выберите сервис...</option>
             </select>
         </div>
         <div class="col-md-2 info" ng-show="type.group == 'ELECTRICITY'">

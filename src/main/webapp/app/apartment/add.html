@@ -1,6 +1,6 @@
 <section id="add-apartment">
     <h2 class="col-md-12">Добавить Квартиру</h2>
-    <div class="error col-md-12" ng-bind="error" ng-show="error"></div>
+    <div class="error col-md-12" ng-bind="error" ng-class="error ? 'show-error' : ''"></div>
     <form name="addApartment" class="col-md-offset-3 col-md-6 happ-form" test>
         <div class="happ-form-group col-md-6 col-sm-12 city">
             <select

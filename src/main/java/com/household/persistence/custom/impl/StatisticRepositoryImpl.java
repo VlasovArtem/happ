@@ -2,6 +2,7 @@ package com.household.persistence.custom.impl;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.household.entity.Apartment;
 import com.household.entity.Payment;
 import com.household.persistence.StatisticRepository;
@@ -18,6 +19,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
@@ -55,6 +57,7 @@ public class StatisticRepositoryImpl implements StatisticRepository {
         List<String> apartmentsId = mongoTemplate.aggregate(apartments, Apartment.class, Apartment.class).getMappedResults()
                 .stream()
                 .map(Apartment::getId).collect(Collectors.toList());
+        System.out.println(apartmentsId);
         Aggregation payments = newAggregation(
                 match(Criteria.where("apartmentId").in(apartmentsId).and("paid").is(false)),
                 group("apartmentId").sum("paymentSum").as("apartmentUnpaidSum").count().as("paymentCount"),
@@ -62,7 +65,15 @@ public class StatisticRepositoryImpl implements StatisticRepository {
                         ("paymentCount").as("totalPaymentsCount")
         );
         String result = mongoTemplate.aggregate(payments, Payment.class, String.class).getUniqueMappedResult();
-        return new ObjectMapper().readTree(result);
+        JsonNode mapper = new ObjectMapper().readTree(result);
+        mapper.fields().forEachRemaining(stringJsonNodeEntry -> {
+            if("apartmentsCount".equals(stringJsonNodeEntry.getKey())) {
+                if(stringJsonNodeEntry.getValue().asInt() != apartmentsId.size()) {
+                    stringJsonNodeEntry.setValue(JsonNodeFactory.instance.numberNode(apartmentsId.size()));
+                }
+            }
+        });
+        return mapper;
     }
 
     public JsonNode getApartmentStatisticByMonth(String apartmentId, int month, int year) {
