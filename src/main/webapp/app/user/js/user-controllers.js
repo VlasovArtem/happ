@@ -3,13 +3,13 @@
  */
 var app = angular.module('user-controllers', []);
 
-app.controller('UserRegistrationCtrl', ['$scope', '$route', '$location', 'UserFactory', function($scope, $route, $location, UserFactory) {
+app.controller('UserRegistrationCtrl', ['$scope', '$route', '$location', 'UserFactory', 'UserRegistrationFactory', function($scope, $route, $location, UserFactory, UserRegistrationFactory) {
     $scope.cancel = function() {
         $route.reload();
     };
 
     $scope.registration = function() {
-        UserFactory.registration($scope.user, function() {
+        UserRegistrationFactory.save($scope.user, function() {
             $location.path('/');
         }, function(data) {
             $scope.error = data.data.error;

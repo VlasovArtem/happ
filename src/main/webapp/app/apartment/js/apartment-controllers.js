@@ -3,8 +3,8 @@
  */
 var app = angular.module('apartment-controllers', []);
 
-app.controller('AddApartmentCtrl', ['$scope', 'cities', 'AddApartment', '$location', '$route',
-    function($scope, cities, AddApartment, $location, $route) {
+app.controller('AddApartmentCtrl', ['$scope', 'cities', 'AddApartment', '$location', '$compile',
+    function($scope, cities, AddApartment, $location, $compile) {
         $scope.cities = cities;
         $scope.validationMessage = {
             city : {
