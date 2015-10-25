@@ -8,6 +8,7 @@ import com.household.service.ApartmentService;
 import com.household.utils.security.AuthenticatedUserPrincipalUtil;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -53,5 +54,14 @@ public class ApartmentServiceImpl implements ApartmentService {
     public long count() {
         return apartmentRepository.countByOwnerId(AuthenticatedUserPrincipalUtil
                 .getAuthenticationPrincipal().get().getId());
+    }
+
+    @Override
+    public void delete(String apartmentId) {
+        if(apartmentRepository.countByOwnerIdAndId(AuthenticatedUserPrincipalUtil.getAuthenticationPrincipal().get()
+                .getId(), apartmentId) == 0) {
+            throw new RuntimeException("User is not authorize to remove this apartment");
+        }
+        apartmentRepository.delete(apartmentId);
     }
 }
