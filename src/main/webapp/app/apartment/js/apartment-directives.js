@@ -3,7 +3,7 @@
  */
 var app = angular.module('apartment-directives', []);
 
-app.directive('apartment', function ($sessionStorage, PaymentFactory, $location, StatisticFactory) {
+app.directive('apartment', function ($sessionStorage, PaymentFactory, $location, StatisticFactory, ApartmentFactory, $route) {
     return {
         restrict: 'E',
         scope: {
@@ -29,6 +29,10 @@ app.directive('apartment', function ($sessionStorage, PaymentFactory, $location,
             scope.showStatistic = function() {
                 $sessionStorage.apartment = scope.apartment;
                 $location.path('/payment/statistic')
+            };
+            scope.removeApartment = function() {
+                ApartmentFactory.delete({delete : 'delete', id : scope.apartment.id});
+                $route.reload();
             }
         },
         templateUrl: 'app/apartment/apartment-block.html'

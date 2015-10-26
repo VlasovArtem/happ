@@ -20,6 +20,15 @@ section > h2 {
     display: none !important;
 }
 
+/* Sections */
+#success-info {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(118, 178, 28, 1);
+}
+
 /* Main page */
 #main-page {
     width: 100%;
@@ -57,6 +66,27 @@ section > h2 {
 }
 #main-page > .content .login-form .form-control {
     border-radius: 0;
+}
+.main-info .btn {
+    border-radius: 0;
+}
+.main-info .btn-success {
+    background-color: rgba(118, 178, 28, 1);
+}
+.main-info .btn-success:hover {
+    background-color: rgba(118, 145, 35, 1);
+}
+.main-info .additional-info > h4 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.hr-line {
+    border: 0;
+    height: 2px;
+    background-image: -webkit-linear-gradient(left, rgba(255,255,255,0), rgba(255,255,255,0.2), rgba(255, 255, 255, .75), rgba(255,255,255,0.2), rgba(255,255,255,0));
+    background-image:    -moz-linear-gradient(left, rgba(255,255,255,0), rgba(255,255,255,0.2), rgba(255, 255, 255, .75), rgba(255,255,255,0.2), rgba(255,255,255,0));
+    background-image:     -ms-linear-gradient(left, rgba(255,255,255,0), rgba(255,255,255,0.2), rgba(255, 255, 255, .75), rgba(255,255,255,0.2), rgba(255,255,255,0));
+    background-image:      -o-linear-gradient(left, rgba(255,255,255,0), rgba(255,255,255,0.2), rgba(255, 255, 255, .75), rgba(255,255,255,0.2), rgba(255,255,255,0));
 }
 .main-info-block {
     padding: 30px 20px;
@@ -233,7 +263,7 @@ apartment .badge {
     -webkit-transition-timing-function: ease;
     -webkit-transition-duration: 0.5s;
 }
-.block:hover {
+.block:hover, .remove-apartment:hover + .block {
     -webkit-box-shadow: 0 1px 10px 1px rgba(118, 178, 28, 0.43);
     -moz-box-shadow: 0 1px 10px rgba(118, 178, 28, 0.43);
     box-shadow: 0 5px 10px rgba(118, 178, 28, 0.43)
@@ -258,6 +288,22 @@ apartment .badge {
 .block .street {
     text-align: center;
     font-size: larger;
+}
+
+.remove-apartment {
+    position: absolute;
+    right: 25px;
+    top: 10px;
+    color: rgba(216, 28, 39, .4);
+    font-size: x-large;
+    -webkit-transition: color .5s ease;
+    transition: color .5s ease;
+    cursor: pointer;
+}
+.remove-apartment:hover {
+    color: rgba(216, 28, 39, 1);
+    -webkit-transition: color .5s ease;
+    transition: color .5s ease;
 }
 
 /* Nav bar */

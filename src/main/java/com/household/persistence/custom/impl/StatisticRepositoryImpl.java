@@ -57,7 +57,6 @@ public class StatisticRepositoryImpl implements StatisticRepository {
         List<String> apartmentsId = mongoTemplate.aggregate(apartments, Apartment.class, Apartment.class).getMappedResults()
                 .stream()
                 .map(Apartment::getId).collect(Collectors.toList());
-        System.out.println(apartmentsId);
         Aggregation payments = newAggregation(
                 match(Criteria.where("apartmentId").in(apartmentsId).and("paid").is(false)),
                 group("apartmentId").sum("paymentSum").as("apartmentUnpaidSum").count().as("paymentCount"),

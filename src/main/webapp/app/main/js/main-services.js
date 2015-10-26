@@ -28,7 +28,7 @@ app.service('auth', ['$resource', '$location', '$route', 'UserFactory',
                 UserFactory.login($.param(credentials), function() {
                     auth.authenticated = true;
                     auth.authentication();
-                    $location.path(auth.homePath);
+                    //$location.path(auth.homePath);
                     $route.reload();
                 }, function() {
                     auth.authenticated = false;
