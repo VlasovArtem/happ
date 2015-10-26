@@ -17,4 +17,5 @@ public interface ApartmentRepository extends MongoRepository<Apartment, String>,
     List<Apartment> findByOwnerId(String ownerId);
     long countByOwnerId (String ownerId);
     long countByAddressCityAndAddressStreetAndAddressHouseAndAddressApartment(City city, Street street, String house, int apartment);
+    long countByOwnerIdAndId (String ownerId, String apartmentId);
 }

@@ -16,4 +16,6 @@ public interface ApartmentService {
     void add(Apartment apartment);
 
     long count();
+
+    void delete(String apartmentId);
 }

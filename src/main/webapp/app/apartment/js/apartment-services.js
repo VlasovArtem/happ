@@ -5,7 +5,7 @@ app.factory('AddApartment', ['$resource', function($resource) {
 }]);
 
 app.factory('ApartmentFactory', ['$resource', function($resource) {
-    return $resource('/rest/apartment/:get/:all/:count', {
+    return $resource('/rest/apartment/:get/:all/:count/:delete/:id', {
         get: '@get',
         all: '@all'
     })

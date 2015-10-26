@@ -60,7 +60,10 @@ app.directive('accountInfo', function(StatisticFactory, $rootScope, auth) {
                 StatisticFactory.get({account: 'account', stat: 'stat'}).$promise.then(function (data) {
                     $rootScope.count = data.apartmentsCount;
                     scope.info = data;
-                })
+                    scope.emptyAccountInfo = false;
+                }, function() {
+                    scope.emptyAccountInfo = true;
+                });
             }
         }
     }

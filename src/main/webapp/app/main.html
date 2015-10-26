@@ -72,7 +72,7 @@
         </div>
         <div class="col-md-12 main-info" ng-show="authenticated()">
             <div class="main-info-block col-md-offset-7 col-md-4" account-info>
-                <article class="login-form col-md-12">
+                <article class="login-form col-md-12" ng-hide="emptyAccountInfo">
                     <h3>Информация о квартирах</h3>
                     <table class="information-table">
                         <tr>
@@ -91,6 +91,14 @@
                             <td>{{info.totalPaymentsCount}}</td>
                         </tr>
                     </table>
+                    <hr class="hr-line">
+                </article>
+                <article class="additional-info">
+                    <h4 ng-show="emptyAccountInfo">Ваша персональная статистика пуста</h4>
+                    <div class="form-group">
+                        <input type="button" class="btn btn-success form-control" value="Добавить новую квартиру"
+                               ng-click="addApartment()">
+                    </div>
                 </article>
             </div>
         </div>

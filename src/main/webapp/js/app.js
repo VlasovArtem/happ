@@ -75,6 +75,10 @@ var app = angular.module('household', [
                     }
                 }
             }).
+            when('/success', {
+                templateUrl: 'app/main/success.html',
+                controller: 'SuccessCtrl'
+            }).
             when('/payment/add', {
                 templateUrl: 'app/payment/add.html',
                 controller: 'AddPaymentCtrl',
@@ -119,7 +123,7 @@ app.run(['$rootScope', 'auth', function($rootScope, auth) {
     $rootScope.$on('$routeChangeStart', function(event, next, current) {
         if(!_.isUndefined(next)) {
             if(next.$$route) {
-                if(next.$$route.originalPath == '/') {
+                if(next.$$route.originalPath == '/' || next.$$route.originalPath == '/success') {
                     $('nav').addClass('hide');
                 } else {
                     $('nav').removeClass('hide');

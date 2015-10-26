@@ -3,14 +3,23 @@
  */
 var app = angular.module('user-controllers', []);
 
-app.controller('UserRegistrationCtrl', ['$scope', '$route', '$location', 'UserFactory', 'UserRegistrationFactory', function($scope, $route, $location, UserFactory, UserRegistrationFactory) {
+app.controller('UserRegistrationCtrl', ['$scope', '$route', '$location', 'UserFactory', 'UserRegistrationFactory', '$templateCache', 'auth',
+    function($scope, $route, $location, UserFactory, UserRegistrationFactory, $templateCache, auth) {
     $scope.cancel = function() {
         $route.reload();
     };
 
     $scope.registration = function() {
         UserRegistrationFactory.save($scope.user, function() {
-            $location.path('/');
+            $templateCache.put('success-info.html', '<article class="success-info"><h2>Congratulation, you' +
+                ' successfully registered on Happ Project.</h2><h3>You will be login and redirect to main page in' +
+                ' {{seconds}}... or click the <a href="/">redirect</a></h3></article>');
+            var loginInfo = {
+                loginData : $scope.user.login,
+                password : $scope.user.password
+            };
+            auth.authenticate(loginInfo);
+            $location.path('/success');
         }, function(data) {
             $scope.error = data.data.error;
         })

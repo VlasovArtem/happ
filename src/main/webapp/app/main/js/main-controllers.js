@@ -3,8 +3,8 @@
  */
 var app = angular.module('main-controllers', []);
 
-app.controller('MainCtrl', ['$scope', 'auth', 'ApartmentFactory',
-    function($scope, auth, ApartmentFactory) {
+app.controller('MainCtrl', ['$scope', 'auth', 'ApartmentFactory', '$location',
+    function($scope, auth, ApartmentFactory, $location) {
         $scope.auth = auth;
         ApartmentFactory.get({count : 'count'}, function(data) {
             $scope.count = data.count;
@@ -25,5 +25,21 @@ app.controller('MainCtrl', ['$scope', 'auth', 'ApartmentFactory',
         $scope.logout = function() {
             auth.clear();
         };
+        $scope.addApartment = function() {
+            $location.path('/apartment/add');
+        }
+
     }
 ]);
+
+app.controller('SuccessCtrl', ['$scope', '$timeout', '$location', function($scope, $timeout, $location) {
+    $scope.seconds = 10;
+    var redirect = function() {
+        if($scope.seconds == 0) {
+            $location.path('/')
+        }
+        $scope.seconds--;
+        timeout = $timeout(redirect, 1000);
+    };
+    var timeout = $timeout(redirect, 1000);
+}]);
