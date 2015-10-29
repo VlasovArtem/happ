@@ -39,7 +39,7 @@
     </div>
     <article class="service happ-form col-md-offset-3 col-md-6" ng-show="service || payment.service || type.group == 'MAINTENANCE' || type.group == 'OTHER'" service-payment>
         <h3>Платёжная информация</h3>
-        <div class="service-payment-info"></div>
+        <regular-service></regular-service>
         <div class="col-md-12 buttons">
             <input type="button" class="btn btn-success" value="Добавить" ng-click="addPayment()" ng-disabled="paymentForm.$invalid">
         </div>

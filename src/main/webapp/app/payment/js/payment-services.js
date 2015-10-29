@@ -4,16 +4,24 @@
 var app = angular.module('payment-services', ['ngResource']);
 
 app.factory('ServiceFactory', function($resource) {
-    return $resource('/rest/service/:get/:all/:types/:meters', {
+    return $resource('/rest/service/:search/:get/:apartmentId/:all/:types/:meters', {
         get: '@get',
         all: '@all',
         types: '@types',
         meters: '@meters'
+    }, {
+        search: {
+            isArray : true,
+            params: {
+                search : 'search'
+            },
+            method: 'GET'
+        }
     })
 });
 
 app.factory('PaymentFactory', function($resource) {
-    return $resource('/rest/payment/:last/:unpaid/:count/:get/:stat/:month/:service/:all/:paid/:id', {
+    return $resource('/rest/payment/:last/:other/:unpaid/:count/:get/:stat/:month/:service/:all/:paid/:id', {
         last: '@last',
         unpaid: '@unpaid',
         count: '@count',
@@ -24,6 +32,14 @@ app.factory('PaymentFactory', function($resource) {
             method: 'GET',
             params: {
                 last: 'last'
+            }
+        },
+        lastOther: {
+            method: 'GET',
+            isArray: true,
+            params: {
+                last: 'last',
+                other: 'other'
             }
         },
         countUnpaid: {
@@ -53,18 +69,18 @@ app.service('StatisticService', function() {
         };
         var sum = 0;
         var paid = 0;
-        var unpaid_month_sum = 0;
+        var unpaidMonthSum = 0;
         _.each(payments, function(payment) {
             if(payment.paid) {
                 paid++;
             } else {
-                unpaid_month_sum += payment.payment_sum;
+                unpaidMonthSum += payment.paymentSum;
             }
-            sum += payment.payment_sum;
+            sum += payment.paymentSum;
         });
         summary.paid = paid;
         summary.unpaid = summary.total - paid;
-        summary.unpaid_month_sum = unpaid_month_sum.toFixed(2);
+        summary.unpaidMonthSum = unpaidMonthSum.toFixed(2);
         summary.sum = sum.toFixed(2);
         return summary;
     };
@@ -87,7 +103,7 @@ app.service('Service', function() {
             id: null,
             name: null,
             rates: [],
-            service_information: null,
+            serviceInformation: null,
             type: null,
             volumes: []
         }
@@ -119,15 +135,15 @@ app.service('Payment', function(Service) {
         initialPayment = {
             id: null,
             service: Service.clearService(),
-            personal_account: null,
-            meter_type: 'ORIGINAL',
+            personalAccount: null,
+            meterType: 'ORIGINAL',
             description: null,
-            apartment_id: apartment.id,
-            payment_sum: null,
-            payment_date: new Date(),
+            apartmentId: apartment.id,
+            paymentSum: null,
+            paymentDate: new Date(),
             paid: false,
-            prev_meter: [0, 0],
-            cur_meter: []
+            prevMeter: [0, 0],
+            curMeter: []
         }
     };
     this.clearPayment = function() {
@@ -152,13 +168,13 @@ app.service('Payment', function(Service) {
 });
 
 app.service('PreviousPayment', function() {
-    var ignoredKeys = ["id", "payment_date", "paid", "cur_meter", "prev_meter", "$promise", "$resolved", "created_date", "payment_sum"];
+    var ignoredKeys = ["id", "paymentDate", "paid", "curMeter", "prevMeter", "$promise", "$resolved", "createdDate", "paymentSum"];
     this.updatePayment = function(prevPayment, newPayment) {
         _.each(prevPayment, function(value, key) {
             if(!_.contains(ignoredKeys, key)) {
                 newPayment[key] = value;
-            } else if (key == "cur_meter") {
-                newPayment["prev_meter"] = value
+            } else if (key == "curMeter") {
+                newPayment["prevMeter"] = value
             }
         });
     }

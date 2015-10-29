@@ -6,11 +6,13 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.household.entity.Apartment;
 import com.household.entity.Payment;
 import com.household.persistence.StatisticRepository;
+import com.household.utils.converter.LocalDateConverter;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Repository;
 
@@ -20,8 +22,10 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static com.household.utils.converter.LocalDateConverter.*;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
 
 /**
@@ -40,9 +44,11 @@ public class StatisticRepositoryImpl implements StatisticRepository {
                                 Criteria.where("paid").is(false))),
                 group().sum("paymentSum").as("unpaidSum").count().as("unpaid")
         );
-        String object = mongoTemplate.aggregate(aggregation, Payment.class, String.class).getUniqueMappedResult();
         try {
-            return new ObjectMapper().readTree(object);
+            String object = mongoTemplate.aggregate(aggregation, Payment.class, String.class).getUniqueMappedResult();
+            if(Objects.nonNull(object)) {
+                return new ObjectMapper().readTree(object);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -64,15 +70,18 @@ public class StatisticRepositoryImpl implements StatisticRepository {
                         ("paymentCount").as("totalPaymentsCount")
         );
         String result = mongoTemplate.aggregate(payments, Payment.class, String.class).getUniqueMappedResult();
-        JsonNode mapper = new ObjectMapper().readTree(result);
-        mapper.fields().forEachRemaining(stringJsonNodeEntry -> {
-            if("apartmentsCount".equals(stringJsonNodeEntry.getKey())) {
-                if(stringJsonNodeEntry.getValue().asInt() != apartmentsId.size()) {
-                    stringJsonNodeEntry.setValue(JsonNodeFactory.instance.numberNode(apartmentsId.size()));
+        if(Objects.nonNull(result)) {
+            JsonNode mapper = new ObjectMapper().readTree(result);
+            mapper.fields().forEachRemaining(stringJsonNodeEntry -> {
+                if ("apartmentsCount".equals(stringJsonNodeEntry.getKey())) {
+                    if (stringJsonNodeEntry.getValue().asInt() != apartmentsId.size()) {
+                        stringJsonNodeEntry.setValue(JsonNodeFactory.instance.numberNode(apartmentsId.size()));
+                    }
                 }
-            }
-        });
-        return mapper;
+            });
+            return mapper;
+        }
+        return null;
     }
 
     public JsonNode getApartmentStatisticByMonth(String apartmentId, int month, int year) {
@@ -110,9 +119,8 @@ public class StatisticRepositoryImpl implements StatisticRepository {
         Aggregation aggregation = newAggregation(
                 match(new Criteria()
                         .andOperator(
-                                Criteria.where("paymentDate").gte(localDateConverter(year, month, 1)),
-                                Criteria.where("paymentDate").lte(localDateConverter(year, month, LocalDate.of(year,
-                                        month, 1).lengthOfMonth())),
+                                Criteria.where("paymentDate").gte(currentMonthStart()),
+                                Criteria.where("paymentDate").lte(currentMonthEnd()),
                                 Criteria.where("apartmentId").is(apartmentId))),
                 context -> {
                     return context.getMappedObject(dbObject);
@@ -127,7 +135,5 @@ public class StatisticRepositoryImpl implements StatisticRepository {
         return null;
     }
 
-    private Date localDateConverter(int year, int month, int date) {
-        return Date.from(LocalDate.of(year, month, date).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-    }
+
 }

@@ -75,6 +75,21 @@ var app = angular.module('household', [
                     }
                 }
             }).
+            when('/service/:apartmentId', {
+                templateUrl: 'app/payment/choose-service.html',
+                controller: 'ChooseServiceCtrl',
+                resolve: {
+                    types: function(ServiceFactory) {
+                        return ServiceFactory.query({get: 'get', types: 'types'}).$promise;
+                    },
+                    services: function(ServiceFactory, $route) {
+                        return ServiceFactory.query({get: 'get', apartmentId : $route.current.params.apartmentId}).$promise
+                    },
+                    apartment: function(ApartmentFactory, $route) {
+                        return ApartmentFactory.get({get: 'get', id : $route.current.params.apartmentId}).$promise
+                    }
+                }
+            }).
             when('/success', {
                 templateUrl: 'app/main/success.html',
                 controller: 'SuccessCtrl'
@@ -96,12 +111,68 @@ var app = angular.module('household', [
                     }
                 }
             }).
+            when('/test', {
+                templateUrl: 'app/payment/test.html',
+                controller: 'AddPaymentCtrl',
+                resolve: {
+                    types: function(ServiceFactory) {
+                        return ServiceFactory.query({get: 'get', types: 'types'}).$promise;
+                    },
+                    meters: function(ServiceFactory) {
+                        return ServiceFactory.query({get: 'get', meters: 'meters'}).$promise;
+                    },
+                    apartment: function($sessionStorage, Payment, Service) {
+                        Service.initService($sessionStorage.apartment);
+                        Payment.initPayment($sessionStorage.apartment);
+                        return $sessionStorage.apartment;
+                    }
+                }
+            }).
+            when('/payment/add/regular', {
+                templateUrl: 'app/payment/add-regular.html',
+                resolve: {
+                    meters: function(ServiceFactory) {
+                        return ServiceFactory.query({get: 'get', meters: 'meters'}).$promise;
+                    },
+                    apartment: function($sessionStorage, Payment, Service, $location) {
+                        if(angular.isDefined($sessionStorage.apartment)) {
+                            $location.path('/payment/add')
+                        }
+                        Service.initService($sessionStorage.apartment);
+                        Payment.initPayment($sessionStorage.apartment);
+                        return $sessionStorage.apartment;
+                    }
+                }
+            }).
+            when('/payment/add/maintenance', {
+                templateUrl: 'app/payment/add-maintenance.html',
+                resolve: {
+                    apartment: function($sessionStorage, Payment, Service) {
+                        Service.initService($sessionStorage.apartment);
+                        Payment.initPayment($sessionStorage.apartment);
+                        return $sessionStorage.apartment;
+                    }
+                }
+            }).
+            when('/payment/add/other', {
+                templateUrl: 'app/payment/add-other.html',
+                resolve: {
+                    apartment: function($sessionStorage, Payment, Service) {
+                        Service.initService($sessionStorage.apartment);
+                        Payment.initPayment($sessionStorage.apartment);
+                        return $sessionStorage.apartment;
+                    }
+                }
+            }).
             when('/payment/unpaid', {
                 templateUrl: 'app/payment/unpaid.html',
                 controller: 'UnpaidPaymentCtrl',
                 resolve: {
                     payments: function(PaymentFactory, $sessionStorage) {
-                        return PaymentFactory.query({unpaid: 'unpaid', addressId : $sessionStorage.apartment.address.id}).$promise;
+                        return PaymentFactory.query({unpaid: 'unpaid', apartmentId : $sessionStorage.apartment.id}).$promise;
+                    },
+                    address: function($sessionStorage) {
+                        return $sessionStorage.apartment.address;
                     }
                 }
             }).

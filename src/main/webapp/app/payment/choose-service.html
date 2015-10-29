@@ -1,0 +1,44 @@
+<section id="choose-service" class="container-fluid">
+    <h2>Выбор сервиса</h2>
+    <div class="error col-md-12" ng-bind="error" ng-class="error ? 'show-error' : ''"></div>
+    <div apartment="apartment"></div>
+    <div class="row">
+        <div class="col-md-2 info">
+            <label for="type">Сортировка по серсисам:</label>
+            <select name="type"
+                    id="type"
+                    ng-model="search.type"
+                    class="form-control happ-form-control"
+                    ng-options="(type.name | camelCase) for type in types">
+                <option value="" disabled selected>Выберите сервис...</option>
+            </select>
+        </div>
+        <div class="col-md-2 info" ng-show="search.type.alias == 'other'">
+            <label>Дополнительные сервисы:</label>
+            <select ng-model="search.subtype"
+                    class="form-control happ-form-control"
+                    ng-options="(subtype.name | camelCase) for subtype in search.type.subtypes">
+                <option value="" disabled selected>Выберите сервис...</option>
+            </select>
+        </div>
+        <div class="col-md-2 button" ng-show="search.type && search.type.alias != 'other' || search.type && search.subtype">
+            <input type="button" class="btn btn-info" value="Искать" ng-click="serviceSearch()">
+            <input type="button" class="btn btn-danger" value="Очистить" ng-click="resetSearch()">
+        </div>
+    </div>
+    <div class="col-md-12">
+        <h3 ng-bind="servicesHead"></h3>
+        <div ng-repeat="service in services" class="col-md-3 service">
+            <div class="service-block">
+                <img ng-src="{{service.type.alias == 'other' ? serviceImages[service.type.subtypes[0].alias] : serviceImages[service.type.alias]}}" class="service-img">
+                <ul>
+                    <li><b>Имя:</b> {{service.name}}</li>
+                    <li><b>Тип:</b> {{service.type.alias == 'other' ? (service.type.subtypes[0].name | camelCase) : (service.type.name | camelCase)}}</li>
+                </ul>
+                <div class="form-group">
+                    <input type="button" value="Добавить" ng-click="chooseService()" class="btn btn-success">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

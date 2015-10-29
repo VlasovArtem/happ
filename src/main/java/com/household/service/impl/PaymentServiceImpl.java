@@ -76,4 +76,9 @@ public class PaymentServiceImpl implements PaymentService {
         LocalDate yearEnd = LocalDate.of(year, Month.DECEMBER, 31);
         return paymentRepository.findPayments(apartmentId, yearStart, yearEnd);
     }
+
+    @Override
+    public List<Payment> getLastWithTypeOther(String apartmentId) {
+        return paymentRepository.findLastOtherPayments(apartmentId);
+    }
 }

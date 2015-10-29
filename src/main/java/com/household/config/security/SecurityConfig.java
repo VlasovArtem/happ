@@ -27,8 +27,7 @@ import java.util.Collections;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
-//@ComponentScan({"com.household.config", "com.household.persistence.custom.impl"})
-@ComponentScan("com.household")
+@ComponentScan({"com.household.config", "com.household.persistence.custom.impl", "com.household.controller"})
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired

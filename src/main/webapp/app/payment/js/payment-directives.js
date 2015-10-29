@@ -8,16 +8,16 @@ app.directive('originalMeter', function() {
         restrict: 'E',
         link: function(scope, element, attr) {
             var countSum = function() {
-                var sum = scope.countPaymentSum(scope.payment.prev_meter[0], scope.payment.cur_meter[0]);
+                var sum = scope.countPaymentSum(scope.payment.prevMeter[0], scope.payment.curMeter[0]);
                 scope.updateSum(sum)
             };
             scope.changed = function() {
                 scope.updateSum(null);
-                if(scope.payment.cur_meter.length > 0) {
+                if(scope.payment.curMeter.length > 0) {
                     if (checkBeforeSumCount()) {
                         countSum();
                     }
-                    if (scope.payment.prev_meter[0] > scope.payment.cur_meter[0]) {
+                    if (scope.payment.prevMeter[0] > scope.payment.curMeter[0]) {
                         scope.error = "Prev meter cannot be greater than cur meter"
                     } else {
                         scope.error = null
@@ -25,7 +25,7 @@ app.directive('originalMeter', function() {
                 }
             };
             var checkBeforeSumCount = function() {
-                return scope.payment.prev_meter[0] < scope.payment.cur_meter[0];
+                return scope.payment.prevMeter[0] < scope.payment.curMeter[0];
             }
         },
         templateUrl: 'app/payment/service-type/meters/original-meter.html'
@@ -37,18 +37,18 @@ app.directive('twoTariffMeter', function() {
         restrict: 'E',
         link: function(scope, element, attr) {
             var countSum = function() {
-                var daySum = Number(scope.countPaymentSum(scope.payment.prev_meter[0], scope.payment.cur_meter[0]));
-                var nightSum = Number(scope.countPaymentSum(scope.payment.prev_meter[1], scope.payment.cur_meter[1]));
+                var daySum = Number(scope.countPaymentSum(scope.payment.prevMeter[0], scope.payment.curMeter[0]));
+                var nightSum = Number(scope.countPaymentSum(scope.payment.prevMeter[1], scope.payment.curMeter[1]));
                 var sum = daySum + nightSum * 0.5;
                 scope.updateSum(sum.toFixed(2))
             };
             scope.changed = function() {
                 scope.updateSum(null);
-                if(scope.payment.cur_meter.length > 0) {
+                if(scope.payment.curMeter.length > 0) {
                     if (checkBeforeSumCount()) {
                         countSum();
                     }
-                    if (scope.payment.prev_meter[0] > scope.payment.cur_meter[0] || scope.payment.prev_meter[1] > scope.payment.cur_meter[1]) {
+                    if (scope.payment.prevMeter[0] > scope.payment.curMeter[0] || scope.payment.prevMeter[1] > scope.payment.curMeter[1]) {
                         scope.error = "Prev meter cannot be greater than cur meter"
                     } else {
                         scope.error = null
@@ -56,8 +56,8 @@ app.directive('twoTariffMeter', function() {
                 }
             };
             var checkBeforeSumCount = function() {
-                return _.every(scope.payment.prev_meter, function(value, index) {
-                    return value < scope.payment.cur_meter[index];
+                return _.every(scope.payment.prevMeter, function(value, index) {
+                    return value < scope.payment.curMeter[index];
                 });
             };
         },
@@ -107,7 +107,7 @@ app.directive('regularService', function($compile, Payment) {
                 return sum.toFixed(2);
             };
             scope.updateSum = function(sum) {
-                scope.payment.payment_sum = sum;
+                scope.payment.paymentSum = sum;
                 scope.paymentForm.sum.$setViewValue(sum);
                 scope.paymentForm.sum.$render();
             }
@@ -140,13 +140,14 @@ app.directive('maintenanceService', function() {
                 if(scope.payment.service.rates && scope.payment.service.volumes) {
                     if(scope.payment.service.rates[0] > 0 && scope.payment.service.volumes[0] > 0) {
                         var sum = scope.payment.service.rates[0] * scope.payment.service.volumes[0];
-                        scope.payment.payment_sum = Number(sum.toFixed(2));
+                        scope.payment.paymentSum = Number(sum.toFixed(2));
                     }
                 }
             };
             scope.userPreviousData = function() {
                 scope.payment.service = scope.previousPayment.service;
-                scope.payment.payment_sum = scope.previousPayment.payment_sum;
+                scope.payment.paymentSum = scope.previousPayment.paymentSum;
+                scope.payment.personalAccount = scope.previousPayment.personalAccount;
             }
         },
         templateUrl: 'app/payment/service-type/maintenance.html'
@@ -170,6 +171,11 @@ app.directive('otherService', function() {
                 }
             };
             scope.findLast();
+            scope.userPreviousData = function() {
+                scope.payment.service = scope.previousPayment.service;
+                scope.payment.paymentSum = scope.previousPayment.paymentSum;
+                scope.payment.personalAccount = scope.previousPayment.personalAccount
+            }
 
         },
         templateUrl: 'app/payment/service-type/other.html'
@@ -226,47 +232,65 @@ app.directive('servicePayment',
                     }
                 };
                 scope.findLast = function() {
-                    PaymentFactory.last({
-                            apartmentId: scope.apartment.id,
-                            type: scope.type.alias
-                        },
-                        function (prevPayment) {
-                            if(prevPayment) {
-                                if(scope.type.group == "ELECTRICITY") {
-                                    scope.changeMeterType(prevPayment.meter_type);
+                    if(scope.type.group != "OTHER") {
+                        PaymentFactory.last({
+                                apartmentId: scope.apartment.id,
+                                type: scope.type.alias
+                            },
+                            function (prevPayment) {
+                                if (prevPayment) {
+                                    if (scope.type.group == "ELECTRICITY") {
+                                        scope.changeMeterType(prevPayment.meterType);
+                                    } else if (scope.type.group == "MAINTENANCE" || scope.type.group == "OTHER") {
+                                        scope.previousPayment = prevPayment;
+                                    }
                                 }
-                                PreviousPayment.updatePayment(prevPayment, scope.payment);
-                                if(scope.type.group == "MAINTENANCE" && scope.type.group == "OTHER") {
-                                    Service.updateService(scope.payment.service);
-                                    scope.previousPayment = prevPayment;
+                            }, function () {
+                                scope.previousPayment = null;
+                                scope.payment = Payment.clearPayment();
+                                if (scope.type.group == "OTHER") {
+                                    scope.payment.service.type = {
+                                        subtypes: []
+                                    };
                                 }
                             }
-                        }, function() {
-                            scope.previousPayment = null;
-                            scope.payment = Payment.clearPayment();
-                            if(scope.type.group == "OTHER") {
-                                scope.payment.service.type = {
-                                    subtypes: []
-                                };
+                        );
+                    } else {
+                        PaymentFactory.lastOther({
+                            apartmentId: scope.apartment.id
+                        }, function(data) {
+                            console.log(data);
+                            if(data.length > 0) {
+                                if (data.length > 1) {
+                                    scope.previousPayments = data;
+                                } else {
+                                    scope.previousPayment = data[0];
+                                }
                             }
-                        }
-                    );
+                        })
+                    }
                 };
                 scope.addPayment = function () {
                     if(scope.service) {
                         scope.payment.service = scope.service;
+                    } else if(scope.type.group = "OTHER") {
+                        _.each(scope.type, function(value, key) {
+                            if(key != "subtypes") {
+                                scope.payment.service.type[key] = value
+                            }
+                        });
                     }
-                    scope.payment.payment_date = $filter('ToLocalDateFilter')(scope.payment.payment_date);
+                    scope.payment.paymentDate = $filter('ToLocalDateFilter')(scope.payment.paymentDate);
                     if(!scope.payment.service.city) {
                         scope.payment.service.city = scope.apartment.address.city;
                     }
                     var convertedPrevMeter = [];
-                    _.each(scope.payment.prev_meter, function(meter) {
+                    _.each(scope.payment.prevMeter, function(meter) {
                         if(meter != 0) {
                             convertedPrevMeter.push(meter);
                         }
                     });
-                    scope.payment.prev_meter = convertedPrevMeter.length > 0 ? convertedPrevMeter : null;
+                    scope.payment.prevMeter = convertedPrevMeter.length > 0 ? convertedPrevMeter : null;
                     Service.perPersistService(scope.payment.service);
                     Payment.prePersistPayment(scope.payment);
                     PaymentSaveFactory.save(scope.payment, function() {
@@ -276,17 +300,78 @@ app.directive('servicePayment',
                 scope.payment = angular.copy(scope.initPayment);
             }
         }
-    });
+    }
+);
+
+app.directive('chooseService', function(ServiceFactory, Payment, Service, $location) {
+    return {
+        link: function(scope, element, attr) {
+            ServiceFactory.query({get: 'get', types: 'types'}, function(data) {
+                scope.types = data;
+            });
+            scope.chooseServiceType = function(type) {
+                if (_.contains(['GAS', 'WATER', 'ELECTRICITY', 'HEATING'], type.group)) {
+                    $location.path('/payment/add/regular');
+                } else if(_.isEqual(type.group, 'MAINTENANCE')) {
+                    $location.path('/payment/add/maintenance');
+                } else {
+                    $location.path('/payment/add/other');
+                }
+                //angular.element('.service-data').remove();
+                //scope.payment = Payment.clearPayment();
+                //if(angular.isDefined(type.alias)) {
+                //    ServiceFactory.query({
+                //        get: 'get',
+                //        all: 'all',
+                //        city: scope.apartment.address.city.alias,
+                //        type: type.alias
+                //    }, function (services) {
+                //        _.each(services, function(service) {
+                //            Service.updateService(service);
+                //        });
+                //        if (services.length == 1) {
+                //            scope.service = services[0];
+                //        } else {
+                //            scope.services = services;
+                //        }
+                //    });
+                //    var appendedDirective;
+                //    var appendedElement;
+                //    if(_.isEqual(type.group, 'MAINTENANCE')) {
+                //        appendedDirective = 'maintenance-service';
+                //        appendedElement = '<maintenance-service></maintenance-service>'
+                //    } else if(_.contains(['GAS', 'WATER', 'ELECTRICITY', 'HEATING'], type.group)) {
+                //        appendedDirective = 'regular-service';
+                //        appendedElement = '<regular-service></regular-service>'
+                //    } else {
+                //        appendedDirective = 'other-service';
+                //        appendedElement = '<other-service></other-service>'
+                //    }
+                //
+                //    angular.element('.service-payment-info').append(appendedElement);
+                //    $compile(angular.element(appendedDirective))(scope)
+                //}
+            };
+        },
+        template:
+        '<div class="col-md-2 info"> ' +
+            '<label for="type">Сервис:</label> ' +
+            '<select name="type" id="type" ng-model="type" class="form-control happ-form-control" ng-change="chooseServiceType(type)" ng-options="(type.name | camelCase) for type in types"> ' +
+                '<option value="" disabled selected>Выберите сервис...</option> ' +
+            '</select> ' +
+        '</div>'
+    }
+});
 
 app.directive('statistic', function($sessionStorage, $compile) {
     var link = function(scope, element, attr) {
         scope.apartment = $sessionStorage.apartment;
         var statistics = {
-            by_month: {
+            byMonth: {
                 tag: '<statistic-by-month class="statistic"></statistic-by-month>',
                 class: '.by-month'
             },
-            by_service: {
+            byService: {
                 tag: '<statistic-by-service class="statistic"></statistic-by-service>',
                 class: '.by-service'
             },
@@ -305,7 +390,7 @@ app.directive('statistic', function($sessionStorage, $compile) {
             $compile(angular.element('.statistic'))(scope);
 
         };
-        scope.switch('by_month');
+        scope.switch('byMonth');
     };
     return {
         restrict: 'E',
@@ -315,11 +400,12 @@ app.directive('statistic', function($sessionStorage, $compile) {
 });
 
 app.directive('statisticByMonth', function(PaymentFactory, StatisticService) {
-    var controller = ['$scope', function($scope) {
+    var controller = ['$scope', '$filter', function($scope, $filter) {
+        $scope.viewInfo = null;
         $scope.months = StatisticService.months;
         $scope.years = StatisticService.getYears();
         $scope.currentMonth = $scope.months[new Date().getMonth()];
-        $scope.viewMonth = angular.copy($scope.currentMonth);
+        $scope.viewInfo = angular.copy($scope.currentMonth);
         $scope.currentYear = new Date().getFullYear();
         $scope.showNewStatistic = function() {
             PaymentFactory.query({
@@ -332,19 +418,21 @@ app.directive('statisticByMonth', function(PaymentFactory, StatisticService) {
             }, function(data) {
                 $scope.payments = data;
                 $scope.summary = StatisticService.getSummary(data);
-                $scope.viewMonth = angular.copy($scope.currentMonth);
+                $scope.viewInfo = angular.copy($scope.currentMonth);
             })
         };
         $scope.showNewStatistic();
     }];
     return {
         controller: controller,
+        scope: true,
         templateUrl: 'app/payment/statistic-by-month.html'
     }
 });
 
 app.directive('statisticByService', function(PaymentFactory, ServiceFactory, StatisticService) {
-    var controller = ['$scope', function($scope) {
+    var controller = ['$scope', '$filter', function($scope, $filter) {
+        $scope.viewInfo = null;
         $scope.years = StatisticService.getYears();
         ServiceFactory.query({get: 'get', types: 'types'}, function(data) {
             $scope.types = data;
@@ -363,13 +451,14 @@ app.directive('statisticByService', function(PaymentFactory, ServiceFactory, Sta
                 year: $scope.currentYear
             }, function(data) {
                 $scope.payments = data;
-                $scope.viewType = angular.copy($scope.currentType);
+                $scope.viewInfo = $filter('firstCapital')(angular.copy($scope.currentType.name));
                 $scope.summary = StatisticService.getSummary(data);
             });
         }
     }];
     return {
         controller: controller,
+        scope: true,
         templateUrl: 'app/payment/statistic-by-service.html'
     }
 });
@@ -394,6 +483,7 @@ app.directive('statisticAll', function(PaymentFactory, StatisticService) {
     }];
     return {
         controller: controller,
+        scope: true,
         templateUrl: 'app/payment/statistic-all.html'
     }
 });
@@ -415,15 +505,3 @@ app.directive('paid', function() {
 
     }
 });
-
-app.directive('statisticInfo', function() {
-    return {
-        replace: true,
-        link: function(scope, elem, attr) {
-            if(attr.viewInfo) {
-                scope.viewInfo = attr.viewInfo;
-            }
-        },
-        templateUrl: 'app/payment/statistic-info.html'
-    }
-})

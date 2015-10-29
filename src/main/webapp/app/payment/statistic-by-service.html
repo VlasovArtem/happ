@@ -24,7 +24,7 @@
             <input type="button" class="btn btn-sm btn-info" ng-click="showNewStatistic()" value="Показать">
         </form>
     </div>
-    <statistic-info view-info="{{viewType}}"></statistic-info>
+    <div ng-include="'/app/payment/statistic-info.html'"></div>
     <section ng-show="payments.length == 0">
         <h2>У вас нет платежей за этот год</h2>
     </section>

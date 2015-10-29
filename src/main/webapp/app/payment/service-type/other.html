@@ -1,9 +1,21 @@
 <div class="service-data">
+    <article class="previous-payments-list" ng-show="previousPayments">
+        <div class="form-group">
+            <label>Предыдущие платежи</label>
+            <select
+                    ng-model="previousPayment"
+                    class="form-control happ-form-control"
+                    ng-options="previousPayment.service.type.subtypes[0].name for previousPayment in previousPayments">
+                <option value="" disabled selected>Выберите платёж...</option>
+            </select>
+        </div>
+    </article>
     <article class="service-info" ng-show="previousPayment">
         Информация о предыдущей оплате
         <ul>
             <li><b>Имя сервиса:</b> {{previousPayment.service.name}}</li>
-            <li><b>Сумма оплаты:</b> {{previousPayment.payment_sum}}</li>
+            <li><b>Сумма оплаты:</b> {{previousPayment.paymentSum}}</li>
+            <li><b>Лицевой счёт:</b> {{previousPayment.personalAccount}}</li>
         </ul>
         <input type="button" class="btn btn-warning" value="Использовать" ng-click="userPreviousData()">
     </article>
@@ -38,7 +50,7 @@
             <tr>
                 <td><b>Лицевой счет:</b></td>
                 <td><input type="text"
-                           ng-model="payment.personal_account"
+                           ng-model="payment.personalAccount"
                            id="personalAccount"
                            name="personalAccount"
                            autocomplete="off"
@@ -57,7 +69,7 @@
                     <input
                             type="number"
                             min="0.01"
-                            ng-model="payment.payment_sum"
+                            ng-model="payment.paymentSum"
                             class="form-control happ-form-control"
                             name="sum"
                             autocomplete="off"
@@ -74,7 +86,8 @@
                 <input type="checkbox" value="true" ng-model="payment.paid" id="paid" name="paid">
             </div>
             <div class="input-group col-md-9">
-                <input type="text" ng-model="payment.payment_date" class="form-control" datepicker-popup="dd/MM/yyyy" max-date="today" is-open="status.opened" ng-required="true" close-text="Close">
+                <input type="text" ng-model="payment.paymentDate" class="form-control" datepicker-popup="dd/MM/yyyy"
+                       max-date="today" is-open="status.opened" ng-required="true" close-text="Close">
                     <span class="input-group-btn">
                         <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                     </span>

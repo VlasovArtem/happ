@@ -5,18 +5,18 @@
                 <td><b>Имя сервиса:</b></td>
                 <td>{{service.name}}</td>
             </tr>
-            <tr ng-show="service.service_information.bank_code != null">
+            <tr ng-show="service.serviceInformation.bankCode != null">
                 <td><b>МФО:</b></td>
-                <td>{{service.service_information.bank_code}}</td>
+                <td>{{service.serviceInformation.bankCode}}</td>
             </tr>
-            <tr ng-show="service.service_information.bank_code != null">
+            <tr ng-show="service.serviceInformation.bankCode != null">
                 <td><b>№ счёта:</b></td>
-                <td>{{service.service_information.checking_account}}</td>
+                <td>{{service.serviceInformation.checkingAccount}}</td>
             </tr>
             <tr>
                 <td><b>Лицевой счёт:</b></td>
                 <td><input type="text" class="form-control happ-form-control"
-                           ng-model="payment.personal_account"></td>
+                           ng-model="payment.personalAccount"></td>
             </tr>
         </table>
     </article>
@@ -28,7 +28,8 @@
             </tr>
             <tr>
                 <td>
-                    <input type="number" min="0.01" ng-model="payment.payment_sum" class="form-control happ-form-control" name="sum">
+                    <input type="number" min="0.01" ng-model="payment.paymentSum"
+                           class="form-control happ-form-control" name="sum">
                 </td>
             </tr>
         </table>
@@ -44,7 +45,7 @@
                 </div>
             </div>
             <div class="input-group col-md-9">
-                <input type="text" ng-model="payment.payment_date" class="form-control happ-form-control"
+                <input type="text" ng-model="payment.paymentDate" class="form-control happ-form-control"
                        datepicker-popup="dd/MM/yyyy" max-date="today" is-open="status.opened" ng-required="true" close-text="Close">
                     <span class="input-group-btn">
                         <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>

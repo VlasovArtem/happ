@@ -416,7 +416,7 @@ apartment .badge {
     height: 34px;
 }
 
-    /* Payment statistic */
+/* Payment statistic */
 .statistic-info {
     padding: 20px;
 }
@@ -446,6 +446,64 @@ h3 {
 .payment-form > table {
     width: 70%;
     margin-left: 15%;
+}
+
+/* Choose service page */
+#choose-service .button {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+    height: 60px;
+}
+#choose-service .button > input[type=button] {
+    margin-right: 20px;
+}
+.service {
+    margin-bottom: 10px;
+}
+.service-block {
+    background-color: rgba(195, 188, 189, 0.1);
+    padding: 10px;
+}
+.service-block > ul {
+    list-style: none;
+    padding-left: 0;
+}
+.service-block > .name {
+    float: left;
+}
+.service-block > .type {
+    float: right;
+}
+.service-block > .form-group {
+    text-align: center;
+    margin: 0;
+}
+.service-img {
+    position: absolute;
+    right: 15px;
+    width: inherit;
+    height: 50px;
+    margin-right: 20px;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    opacity: .1;
+}
+
+/* Unpaid page */
+#unpaid {
+    height: 80%;
+}
+#unpaid > div:last-child > h2 {
+    text-align: center;
+}
+.unpaid-info {
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgba(118, 178, 28, 1);
 }
 
 /* Loading image */

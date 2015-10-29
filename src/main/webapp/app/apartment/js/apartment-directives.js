@@ -12,15 +12,20 @@ app.directive('apartment', function ($sessionStorage, PaymentFactory, $location,
         link: function(scope, element, attr) {
             StatisticFactory.get({unpaid : 'unpaid', sum : 'sum', apartmentId : scope.apartment.id},
                 function(data) {
-                    if(data) {
+                    if(data.unpaid && data.unpaidSum) {
                         scope.unpaidPayments = data.unpaid;
                         scope.unpaidSum = data.unpaidSum.toFixed(2);
                     }
                 }
             );
+            //scope.addPayment = function() {
+            //    $sessionStorage.apartment = scope.apartment;
+            //    $location.path('/payment/add');
+            //};
             scope.addPayment = function() {
                 $sessionStorage.apartment = scope.apartment;
-                $location.path('/payment/add');
+                var preparedLink = '/service/' + scope.apartment.id;
+                $location.path(preparedLink);
             };
             scope.showUnpaid = function() {
                 $sessionStorage.apartment = scope.apartment;
@@ -31,8 +36,9 @@ app.directive('apartment', function ($sessionStorage, PaymentFactory, $location,
                 $location.path('/payment/statistic')
             };
             scope.removeApartment = function() {
-                ApartmentFactory.delete({delete : 'delete', id : scope.apartment.id});
-                $route.reload();
+                ApartmentFactory.delete({delete : 'delete', id : scope.apartment.id}, function() {
+                    $route.reload();
+                });
             }
         },
         templateUrl: 'app/apartment/apartment-block.html'

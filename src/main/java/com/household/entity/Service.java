@@ -1,14 +1,19 @@
 package com.household.entity;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.mongodb.morphia.annotations.Embedded;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Arrays;
+
 /**
  * Created by artemvlasov on 02/09/15.
  */
 @Document(collection = "services")
+@JsonAutoDetect
 public class Service {
     @Id
     private String id;
