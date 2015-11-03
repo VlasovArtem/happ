@@ -161,6 +161,7 @@ app.service('Payment', function(Service) {
 
 app.service('PreviousPayment', function() {
     var ignoredKeys = ["id", "paymentDate", "paid", "curMeter", "prevMeter", "$promise", "$resolved", "createdDate", "paymentSum"];
+    var ignoredKeysWithoutPaymentSum = angular.copy(_.reject(ignoredKeys, function(key) {return _.isEqual(key, "paymentSum")}));
     this.updatePayment = function(prevPayment, newPayment) {
         _.each(prevPayment, function(value, key) {
             if(!_.contains(ignoredKeys, key)) {
@@ -169,5 +170,14 @@ app.service('PreviousPayment', function() {
                 newPayment["prevMeter"] = value
             }
         });
+    };
+    this.updatePaymentWithPaymentSum = function(prevPayment, newPayment) {
+        _.each(prevPayment, function(value, key) {
+            if(!_.contains(ignoredKeysWithoutPaymentSum, key)) {
+                newPayment[key] = value;
+            } else if (key == "curMeter") {
+                newPayment["prevMeter"] = value
+            }
+        })
     }
 });

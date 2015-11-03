@@ -10,7 +10,6 @@
             <tr>
                 <th>Сервис</th>
                 <th>Информация</th>
-                <th>Тариф</th>
                 <th>Дата</th>
                 <th>Сумма</th>
                 <th>Показания</th>
@@ -20,13 +19,12 @@
             <tr ng-repeat="payment in payments">
                 <td ng-bind="payment.service.name"></td>
                 <td ng-bind="payment.service.type.name | camelCase"></td>
-                <td ng-bind="payment.service.rates | showArray"></td>
                 <td ng-bind="payment.paymentDate | dateFilter"></td>
                 <td ng-bind="payment.paymentSum"></td>
                 <td ng-bind="payment | paymentMeterFilter"></td>
                 <td ng-bind="payment.personalAccount"></td>
                 <td ng-hide="payment.paid">
-                    <input type="button" class="btn btn-sm btn-success" value="Paid" ng-click="setPaid(payment.id)">
+                    <input type="button" class="btn btn-sm btn-success" value="Оплачено" ng-click="setPaid(payment.id)">
                 </td>
             </tr>
         </table>

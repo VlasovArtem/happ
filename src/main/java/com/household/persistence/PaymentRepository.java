@@ -34,4 +34,6 @@ public interface PaymentRepository extends MongoRepository<Payment, ObjectId>, P
 
     @Query(value = "{'apartmentId' : ?0, 'paymentDate' : {$gte : ?1, $lte : ?2}}")
     List<Payment> findPayments (String apartmentId, LocalDate yearStart, LocalDate yearEnd);
+
+    List<Payment> findByApartmentIdAndServiceId (String apartmentId, ObjectId serviceId, Pageable pageable);
 }

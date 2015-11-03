@@ -98,7 +98,7 @@ var app = angular.module('household', [
                 controller: 'SuccessCtrl'
             }).
             when('/payment/add', {
-                templateUrl: 'app/payment/add-test.html',
+                templateUrl: 'app/payment/add.html',
                 controller: 'AddPaymentCtrl',
                 resolve: {
                     service: function($sessionStorage, $location) {
@@ -108,62 +108,6 @@ var app = angular.module('household', [
                             $location.path('/service/' + $sessionStorage.apartment.id);
                         }
                     },
-                    apartment: function($sessionStorage, Payment, Service) {
-                        Service.initService($sessionStorage.apartment);
-                        Payment.initPayment($sessionStorage.apartment);
-                        return $sessionStorage.apartment;
-                    }
-                }
-            }).
-            when('/test', {
-                templateUrl: 'app/payment/test.html',
-                controller: 'AddPaymentCtrl',
-                resolve: {
-                    types: function(ServiceFactory) {
-                        return ServiceFactory.query({get: 'get', types: 'types'}).$promise;
-                    },
-                    meters: function(ServiceFactory) {
-                        return ServiceFactory.query({get: 'get', meters: 'meters'}).$promise;
-                    },
-                    apartment: function($sessionStorage, Payment, Service) {
-                        Service.initService($sessionStorage.apartment);
-                        Payment.initPayment($sessionStorage.apartment);
-                        return $sessionStorage.apartment;
-                    }
-                }
-            }).
-            when('/payment/add/regular', {
-                templateUrl: 'app/payment/add-regular.html',
-                resolve: {
-                    meters: function(ServiceFactory) {
-                        return ServiceFactory.query({get: 'get', meters: 'meters'}).$promise;
-                    },
-                    service: function(ServiceFactory, $route) {
-                        return ServiceFactory.get({get: 'get', alias : $route.current.params.service}).$promise
-                    },
-                    apartment: function($sessionStorage, Payment, Service, $location) {
-                        if(angular.isDefined($sessionStorage.apartment)) {
-                            $location.path('/payment/add')
-                        }
-                        Service.initService($sessionStorage.apartment);
-                        Payment.initPayment($sessionStorage.apartment);
-                        return $sessionStorage.apartment;
-                    }
-                }
-            }).
-            when('/payment/add/maintenance', {
-                templateUrl: 'app/payment/add-maintenance.html',
-                resolve: {
-                    apartment: function($sessionStorage, Payment, Service) {
-                        Service.initService($sessionStorage.apartment);
-                        Payment.initPayment($sessionStorage.apartment);
-                        return $sessionStorage.apartment;
-                    }
-                }
-            }).
-            when('/payment/add/other', {
-                templateUrl: 'app/payment/add-other.html',
-                resolve: {
                     apartment: function($sessionStorage, Payment, Service) {
                         Service.initService($sessionStorage.apartment);
                         Payment.initPayment($sessionStorage.apartment);

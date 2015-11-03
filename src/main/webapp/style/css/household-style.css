@@ -33,7 +33,7 @@ section > h2 {
 #main-page {
     width: 100%;
     height: 100%;
-    background: url("../images/background1.jpg") no-repeat center center;
+    background: url("../images/happ-background.jpg") no-repeat center center;
 }
 #main-page > .content > .navbar-happ {
     background-color: transparent !important;
@@ -473,6 +473,34 @@ aside {
 .service-info > table tr {
     height: 34px;
 }
+.backward-arrow {
+    position: absolute;
+    display: inline-block;
+    top: 60px;
+    color: black;
+    font-size: 24px;
+    vertical-align: middle;
+}
+.backward-arrow > span {
+    display: inline-flex;
+}
+.backward-arrow {
+    cursor: pointer;
+}
+.backward-arrow > .glyphicon {
+    color: black;
+    -webkit-transition: color .5s ease;
+    transition: color .5s ease;
+}
+.backward-arrow > .text {
+    font-size: 14px;
+    padding: 0 0 0 5px;
+}
+.backward-arrow:hover > .glyphicon {
+    color: rgba(118, 178, 28, 1);
+    -webkit-transition: color .5s ease;
+    transition: color .5s ease;
+}
 
 /* Payment statistic */
 .statistic-info {
@@ -570,7 +598,7 @@ h3 {
     z-index: -1;
 }
 .service-block:hover > .service-img {
-    opacity: 0;
+    opacity: .5;
     transition: opacity .5s ease-in-out;
     -moz-transition: opacity .5s ease-in-out;
     -webkit-transition: opacity .5s ease-in-out;
@@ -608,6 +636,9 @@ legend:after {
 }
 .service-legend {
     height: 16px;
+}
+.show-apartment-services {
+    margin-top: 10px;
 }
 
 /* Unpaid page */
@@ -783,6 +814,35 @@ legend:after {
     transition: color .5s ease;
 }
 
+/* checkbox aspect */
+[type="checkbox"]:not(:checked) + label:before,
+[type="checkbox"]:checked + label:before {
+    content: '';
+    position: absolute;
+    left:0; top: 2px;
+    width: 17px; height: 17px;
+}
+/* checked mark aspect */
+[type="checkbox"]:not(:checked) + label:after,
+[type="checkbox"]:checked + label:after {
+    content: '✔';
+    position: absolute;
+    top: 3px; left: 2px;
+    font-size: 18px;
+    line-height: 0.8;
+    color: #09ad7e;
+    transition: all .2s;
+}
+/* checked mark aspect changes */
+[type="checkbox"]:not(:checked) + label:after {
+    opacity: 0;
+    transform: scale(0);
+}
+[type="checkbox"]:checked + label:after {
+    opacity: 1;
+    transform: scale(1);
+}
+
 .squaredFour {
     width: 20px;
     display: inline-block;
@@ -798,40 +858,6 @@ legend:after {
     background: white;
 }
 
-.squaredFour label:after {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-    filter: alpha(opacity=0);
-    opacity: 0;
-    content: '';
-    position: absolute;
-    width: 13px;
-    height: 5px;
-    font-size: xx-large;
-    background: transparent;
-    top: 6px;
-    left: 4px;
-    border: 3px solid #333;
-    border-top: none;
-    border-right: none;
-
-    -webkit-transform: rotate(-45deg);
-    -moz-transform: rotate(-45deg);
-    -o-transform: rotate(-45deg);
-    -ms-transform: rotate(-45deg);
-    transform: rotate(-45deg);
-}
-
-.squaredFour label:hover::after {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
-    filter: alpha(opacity=30);
-    opacity: .5;
-}
-
-.squaredFour input[type=checkbox]:checked + label:after {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
-    filter: alpha(opacity=30);
-    opacity: 0.5;
-}
 
 #squaredFour {
     -webkit-appearance: none;

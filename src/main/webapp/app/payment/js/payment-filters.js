@@ -56,3 +56,14 @@ app.filter('firstCapital', function() {
        }
    }
 });
+
+app.filter('serviceFilter', function() {
+    return function(services, showPaid, apartmentServices) {
+        if(showPaid) {
+            return _.filter(services, function(service) {
+                return _.contains(apartmentServices, service.id)
+            });
+        }
+        return services;
+    }
+});

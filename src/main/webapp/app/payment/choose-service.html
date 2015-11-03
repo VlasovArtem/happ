@@ -21,9 +21,21 @@
                 <option value="" disabled selected>Выберите сервис...</option>
             </select>
         </div>
-        <div class="col-md-2 button" ng-show="search.type && search.type.alias != 'other' || search.type && search.subtype">
+        <div class="col-md-2 button" ng-show="search.type && search.type.alias != 'other' || search.type">
             <input type="button" class="btn btn-info" value="Искать" ng-click="serviceSearch()">
             <input type="button" class="btn btn-danger" value="Очистить" ng-click="resetSearch()">
+        </div>
+    </div>
+    <div class="row show-apartment-services">
+        <div class="col-md-4">
+            <div class="form-group">
+                <div class="squaredFour">
+                    <input type="checkbox" value="true" id="squaredFour" name="paid"
+                           ng-model="showPaid"/>
+                    <label for="squaredFour"></label>
+                </div>
+                <b>Показывать только сервис предыдущих платежей</b>
+            </div>
         </div>
     </div>
     <div class="col-md-12">
@@ -32,7 +44,7 @@
             <!--<canvas id="line" width="40" height="3">Your browser does not support the-->
                 <!--HTML5 canvas tag.</canvas> - предыдущие платежи-->
         <!--</div>-->
-        <div ng-repeat="service in services" class="col-md-3 service">
+        <div ng-repeat="service in services | serviceFilter : showPaid : apartmentServices" class="col-md-3 service">
             <fieldset>
                 <div class="service-legend">
                     <legend ng-show="apartmentPayment(service.id)">Предыдущий платеж</legend>

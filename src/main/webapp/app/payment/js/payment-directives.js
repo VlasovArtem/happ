@@ -249,23 +249,16 @@ app.directive('servicePayment',
                             },
                             function (prevPayment) {
                                 if (prevPayment) {
-                                    console.log(prevPayment);
-                                    console.log(scope.service.id);
-                                    console.log(prevPayment.service.id);
                                     if(_.isEqual(scope.service.id, prevPayment.service.id)) {
-                                        if (scope.service.type.group == "WATER" || scope.service.type.group == "GAS") {
-                                            PreviousPayment.updatePayment(prevPayment, scope.payment);
-                                        } else if (scope.service.type.group == "ELECTRICITY" && prevPayment.meterType != scope.meterTypes[0].name) {
+                                        PreviousPayment.updatePayment(prevPayment, scope.payment);
+                                        if (scope.service.type.group == "ELECTRICITY" && prevPayment.meterType != scope.meterTypes[0].name) {
                                             scope.changeMeterType(prevPayment.meterType);
-                                            PreviousPayment.updatePayment(prevPayment, scope.payment);
                                         } else if (scope.service.type.group == "MAINTENANCE") {
-                                            scope.previousPayment = prevPayment;
-                                            PreviousPayment.updatePayment(prevPayment, scope.payment);
+                                            scope.payment.paymentSum = prevPayment.paymentSum;
                                         }
                                     }
                                 }
                             }, function () {
-                                scope.previousPayment = null;
                                 scope.payment = Payment.clearPayment();
                                 if (scope.service.type.group == "OTHER") {
                                     scope.payment.service.type = {
@@ -275,44 +268,42 @@ app.directive('servicePayment',
                             }
                         );
                     } else {
-                        PaymentFactory.lastOther({
-                            apartmentId: scope.apartment.id
+                        PaymentFactory.get({
+                            last: 'last',
+                            other: 'other',
+                            apartId: scope.apartment.id,
+                            serviceId: scope.service.id
                         }, function(data) {
-                            console.log(data);
-                            if(data.length > 0) {
-                                if (data.length > 1) {
-                                    scope.previousPayments = data;
-                                } else {
-                                    scope.previousPayment = data[0];
-                                }
-                            }
+                            PreviousPayment.updatePaymentWithPaymentSum(data, scope.payment);
                         })
                     }
                 };
                 scope.addPayment = function () {
+                    var createdPayment = angular.copy(scope.payment);
                     if(scope.service) {
-                        scope.payment.service = scope.service;
+                        createdPayment.service = scope.service;
                     } else if(scope.type.group = "OTHER") {
                         _.each(scope.type, function(value, key) {
                             if(key != "subtypes") {
-                                scope.payment.service.type[key] = value
+                                createdPayment.service.type[key] = value
                             }
                         });
                     }
-                    scope.payment.paymentDate = $filter('ToLocalDateFilter')(scope.payment.paymentDate);
-                    if(!scope.payment.service.city) {
-                        scope.payment.service.city = scope.apartment.address.city;
+                    createdPayment.paymentDate = $filter('ToLocalDateFilter')(createdPayment.paymentDate);
+                    if(!createdPayment.service.city) {
+                        createdPayment.service.city = scope.apartment.address.city;
                     }
                     var convertedPrevMeter = [];
-                    _.each(scope.payment.prevMeter, function(meter) {
+                    _.each(createdPayment.prevMeter, function(meter) {
                         if(meter != 0) {
                             convertedPrevMeter.push(meter);
                         }
                     });
-                    scope.payment.prevMeter = convertedPrevMeter.length > 0 ? convertedPrevMeter : null;
-                    Service.perPersistService(scope.payment.service);
-                    Payment.prePersistPayment(scope.payment);
-                    PaymentSaveFactory.save(scope.payment, function() {
+                    createdPayment.prevMeter = convertedPrevMeter.length > 0 ? convertedPrevMeter : null;
+                    Service.perPersistService(createdPayment.service);
+                    Payment.prePersistPayment(createdPayment);
+                    PaymentSaveFactory.save(createdPayment, function() {
+                        alert('Платеж добавлен');
                         $location.path('/apartments')
                     })
                 };
@@ -345,40 +336,6 @@ app.directive('chooseService', function(ServiceFactory, Payment, Service, $locat
                 } else {
                     $location.path('/payment/add/other');
                 }
-                //angular.element('.service-data').remove();
-                //scope.payment = Payment.clearPayment();
-                //if(angular.isDefined(type.alias)) {
-                //    ServiceFactory.query({
-                //        get: 'get',
-                //        all: 'all',
-                //        city: scope.apartment.address.city.alias,
-                //        type: type.alias
-                //    }, function (services) {
-                //        _.each(services, function(service) {
-                //            Service.updateService(service);
-                //        });
-                //        if (services.length == 1) {
-                //            scope.service = services[0];
-                //        } else {
-                //            scope.services = services;
-                //        }
-                //    });
-                //    var appendedDirective;
-                //    var appendedElement;
-                //    if(_.isEqual(type.group, 'MAINTENANCE')) {
-                //        appendedDirective = 'maintenance-service';
-                //        appendedElement = '<maintenance-service></maintenance-service>'
-                //    } else if(_.contains(['GAS', 'WATER', 'ELECTRICITY', 'HEATING'], type.group)) {
-                //        appendedDirective = 'regular-service';
-                //        appendedElement = '<regular-service></regular-service>'
-                //    } else {
-                //        appendedDirective = 'other-service';
-                //        appendedElement = '<other-service></other-service>'
-                //    }
-                //
-                //    angular.element('.service-payment-info').append(appendedElement);
-                //    $compile(angular.element(appendedDirective))(scope)
-                //}
             };
         },
         template:

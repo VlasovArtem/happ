@@ -32,6 +32,7 @@
             <div class="col-md-6">
                 <input type="number"
                        min="0.01"
+                       required
                        ng-model="payment.paymentSum"
                        placeholder="Введите сумму оплаты"
                        class="form-control happ-form-control"
@@ -57,7 +58,6 @@
                         <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                     </span>
             </div>
-
         </div>
     </form>
 </div>

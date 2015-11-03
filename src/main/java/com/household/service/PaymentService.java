@@ -29,5 +29,5 @@ public interface PaymentService {
 
     List<Payment> get(String apartmentId, int year);
 
-    List<Payment> getLastWithTypeOther (String apartmentId);
+    Payment getLastWithTypeOther (String apartmentId, String serviceId);
 }

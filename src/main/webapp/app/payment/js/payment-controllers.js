@@ -3,10 +3,22 @@
  */
 var app = angular.module('payment-controllers', []);
 
-app.controller('AddPaymentCtrl', ['$scope', '$sessionStorage', 'service', 'apartment',
-    function($scope, $sessionStorage, service, apartment) {
+app.controller('AddPaymentCtrl', ['$scope', '$sessionStorage', '$compile', '$location', 'service', 'apartment',
+    function($scope, $sessionStorage, $compile, $location, service, apartment) {
+        var element = angular.element('.service-form');
+        if(_.isEqual(service.type.group, 'MAINTENANCE')) {
+            element.append('<maintenance-service></maintenance-service>');
+        } else if(_.contains(['GAS', 'WATER', 'ELECTRICITY', 'HEATING'], service.type.group)) {
+            element.append('<regular-service></regular-service>');
+        } else {
+            element.append('<other-service></other-service>');
+        }
+        $compile(element)($scope);
         $scope.service = service;
         $scope.apartment = apartment;
+        $scope.backwardToServices = function() {
+            $location.path('/service/' + apartment.id);
+        };
         delete $sessionStorage.service;
     }
 ]);
@@ -31,10 +43,10 @@ app.controller('PaymentStatisticCtrl', ['$scope', 'apartment',
     }
 ]);
 
-app.controller('ChooseServiceCtrl', ['$scope', '$route', '$filter', '$location', '$sessionStorage', 'apartment', 'services', 'types', 'apartmentServices', 'ServiceFactory',
-    function($scope, $route, $filter, $location, $sessionStorage, apartment, services, types, apartmentServices, ServiceFactory) {
-        console.log(apartmentServices);
-        console.log(services);
+app.controller('ChooseServiceCtrl', ['$scope', '$route', '$filter', '$location', '$sessionStorage', 'apartment', 'services', 'types', 'apartmentServices', 'ServiceFactory', '$timeout',
+    function($scope, $route, $filter, $location, $sessionStorage, apartment, services, types, apartmentServices, ServiceFactory, $timeout) {
+        $scope.apartmentServices = apartmentServices;
+        $scope.showPaid = false;
         $scope.servicesHead = 'Доступные сервисы';
         $scope.apartment = apartment;
         $scope.types = types;

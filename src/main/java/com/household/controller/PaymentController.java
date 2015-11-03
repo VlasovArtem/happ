@@ -30,8 +30,9 @@ public class PaymentController {
     }
 
     @RequestMapping(value = "/last/other", method = GET)
-    public ResponseEntity<List<Payment>> lastWithTypeOther (@RequestParam String apartmentId) {
-        return ResponseEntity.ok(service.getLastWithTypeOther(apartmentId));
+    public ResponseEntity lastWithTypeOther (@RequestParam(value = "apartId") String apartmentId, @RequestParam String
+            serviceId) {
+        return ResponseEntity.ok(service.getLastWithTypeOther(apartmentId, serviceId));
     }
 
     @RequestMapping(value = "/last", method = GET, produces = APPLICATION_JSON_VALUE)

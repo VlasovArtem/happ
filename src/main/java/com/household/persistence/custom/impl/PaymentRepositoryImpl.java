@@ -59,7 +59,7 @@ public class PaymentRepositoryImpl implements PaymentRepositoryCustom {
     @Override
     public List<String> findApartmentPaymentServices(String apartmentId) {
         Aggregation aggregation = newAggregation(
-                match(Criteria.where("apartmentId").is("56113e02ad6d064ae69bd867")),
+                match(Criteria.where("apartmentId").is(apartmentId)),
                 group("service.id").first("service.id").as("id"),
                 project("id").andExclude("_id")
         );

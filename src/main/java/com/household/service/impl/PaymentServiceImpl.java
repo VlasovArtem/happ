@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by artemvlasov on 06/10/15.
@@ -86,7 +87,13 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public List<Payment> getLastWithTypeOther(String apartmentId) {
-        return paymentRepository.findLastOtherPayments(apartmentId);
+    public Payment getLastWithTypeOther(String apartmentId, String serviceId) {
+        Pageable pageable = new PageRequest(0, 1, new Sort(Sort.Direction.DESC, "createdDate"));
+        List<Payment> payments = paymentRepository.findByApartmentIdAndServiceId(apartmentId, new ObjectId(serviceId),
+                pageable);
+        if(payments.size() != 0) {
+            return payments.get(0);
+        }
+        return null;
     }
 }
