@@ -1,8 +1,11 @@
 package com.household.entity;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+
 /**
  * Created by artemvlasov on 04/10/15.
  */
+@JsonAutoDetect
 public class ServiceInformation {
     private int bankCode;
     private long checkingAccount;

@@ -24,6 +24,11 @@ public class ApartmentController {
     @Autowired
     private ApartmentService apartmentService;
 
+    @RequestMapping("/get/{id}")
+    public Apartment get (@PathVariable String id) {
+        return apartmentService.getApartment(id);
+    }
+
     @RequestMapping("/get/all")
     public List<Apartment> getAll() {
         return apartmentService.getAll();

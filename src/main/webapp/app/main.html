@@ -83,7 +83,7 @@
                         <tr>
                             <th>Неоплаченная сумма</th>
                             <th><span class="glyphicon glyphicon-eur"></span></th>
-                            <td>{{info.totalPaymentSum}}</td>
+                            <td>{{info.totalPaymentSum | paymentSumFilter}}</td>
                         </tr>
                         <tr>
                             <th>Неоплаченных счетов</th>

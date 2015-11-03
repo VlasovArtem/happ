@@ -5,6 +5,7 @@ import com.household.entity.enums.ServiceTypeAlias;
 import com.household.service.ServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +18,23 @@ import org.springframework.web.bind.annotation.RestController;
 public class ServiceController {
     @Autowired
     private ServiceService service;
+
+    @RequestMapping("/search")
+    public ResponseEntity search(@RequestParam String city,
+                                 @RequestParam String type,
+                                 @RequestParam(required = false) String subtype) {
+        return ResponseEntity.ok(service.search(city, type, subtype));
+    }
+
+    @RequestMapping("/get/{apartmentId}")
+    public ResponseEntity getServices (@PathVariable String apartmentId) {
+        return ResponseEntity.ok(service.getAll(apartmentId));
+    }
+
+    @RequestMapping("/get/{apartmentId}/services")
+    public ResponseEntity getApartmentServices (@PathVariable String apartmentId) {
+        return ResponseEntity.ok(service.findPaymentsServiceIds(apartmentId));
+    }
 
     @RequestMapping("/get/types")
     public ResponseEntity getServiceTypes() {

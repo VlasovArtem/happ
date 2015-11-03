@@ -52,11 +52,22 @@ app.directive('validationMessages', function () {
     }
 });
 
-app.directive('accountInfo', function(StatisticFactory, $rootScope, auth) {
+app.directive('accountInfo', function(StatisticFactory, $rootScope, auth, $q) {
     return {
         scope: true,
         link: function(scope, element, attr) {
-            if(auth.authenticated) {
+            function authSync() {
+                return $q(function(resolve, reject) {
+                    setTimeout(function() {
+                        if(auth.authenticated) {
+                            resolve(auth.authenticated)
+                        } else {
+                            reject(auth.authenticated)
+                        }
+                    }, 10)
+                })
+            }
+            authSync().then(function(info) {
                 StatisticFactory.get({account: 'account', stat: 'stat'}).$promise.then(function (data) {
                     $rootScope.count = data.apartmentsCount;
                     scope.info = data;
@@ -64,7 +75,8 @@ app.directive('accountInfo', function(StatisticFactory, $rootScope, auth) {
                 }, function() {
                     scope.emptyAccountInfo = true;
                 });
-            }
+            }, function(reason) {
+            });
         }
     }
 });

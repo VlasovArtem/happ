@@ -1,6 +1,6 @@
 <section ng-show="payments.length > 0">
     <div class="col-md-8 col-md-offset-2">
-        <h3 class="col-md-12" ng-show="viewInfo">{{viewInfo}}</h3>
+        <h3 class="col-md-12" ng-show="viewInfo" ng-bind="viewInfo"></h3>
         <table class="table payment-table">
             <tr>
                 <th>Сервис</th>
@@ -11,10 +11,11 @@
             </tr>
             <tr ng-repeat="payment in payments">
                 <td ng-bind="payment.service.name"></td>
-                <td  ng-bind="payment.service.type.name | camelCase"></td>
-                <td class="center" ng-bind="payment.payment_date | dateFilter"></td>
+                <td
+                        ng-bind="payment.service.type.alias != 'other' ? (payment.service.type.name | camelCase) : payment.service.type.subtypes[0].name"></td>
+                <td class="center" ng-bind="payment.paymentDate | dateFilter"></td>
                 <td class="center"><paid paid="{{payment.paid}}"></paid></td>
-                <td ng-bind="payment.payment_sum"></td>
+                <td ng-bind="payment.paymentSum"></td>
             </tr>
         </table>
     </div>
@@ -23,7 +24,7 @@
             <li><b>Количество платежей:</b> {{summary.total}}</li>
             <li><b>Неоплаченных:</b> {{summary.unpaid}}</li>
             <li><b>Оплаченных:</b> {{summary.paid}}</li>
-            <li><b>Неоплаченная сумма:</b> {{summary.unpaid_month_sum}}</li>
+            <li><b>Неоплаченная сумма:</b> {{summary.unpaidMonthSum}}</li>
             <li><b>Месячная сумма:</b> {{summary.sum}}</li>
         </ul>
     </div>

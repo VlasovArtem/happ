@@ -11,5 +11,12 @@ import java.util.List;
  */
 public interface ServiceService {
     List<Service> getAll(String city, String type);
+
     List<ServiceType> getServiceTypes();
+
+    List<Service> getAll(String apartmentId);
+
+    List<Service> search (String city, String type, String subtype);
+
+    List<String> findPaymentsServiceIds (String apartmentId);
 }

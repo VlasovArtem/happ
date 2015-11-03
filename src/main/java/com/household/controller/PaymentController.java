@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Month;
+import java.util.List;
 
 import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.MediaType.*;
@@ -26,6 +27,12 @@ public class PaymentController {
     @ResponseStatus(OK)
     public void add(@RequestBody Payment payment) {
         service.add(payment);
+    }
+
+    @RequestMapping(value = "/last/other", method = GET)
+    public ResponseEntity lastWithTypeOther (@RequestParam(value = "apartId") String apartmentId, @RequestParam String
+            serviceId) {
+        return ResponseEntity.ok(service.getLastWithTypeOther(apartmentId, serviceId));
     }
 
     @RequestMapping(value = "/last", method = GET, produces = APPLICATION_JSON_VALUE)

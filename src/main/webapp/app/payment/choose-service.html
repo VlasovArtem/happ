@@ -1,0 +1,69 @@
+<section id="choose-service" class="container-fluid">
+    <h2>Выбор сервиса</h2>
+    <div class="error col-md-12" ng-bind="error" ng-class="error ? 'show-error' : ''"></div>
+    <div apartment="apartment"></div>
+    <div class="row">
+        <div class="col-md-2 info">
+            <label for="type">Сортировка по серсисам:</label>
+            <select name="type"
+                    id="type"
+                    ng-model="search.type"
+                    class="form-control happ-form-control"
+                    ng-options="(type.name | camelCase) for type in types">
+                <option value="" disabled selected>Выберите сервис...</option>
+            </select>
+        </div>
+        <div class="col-md-2 info" ng-show="search.type.alias == 'other'">
+            <label>Дополнительные сервисы:</label>
+            <select ng-model="search.subtype"
+                    class="form-control happ-form-control"
+                    ng-options="(subtype.name | camelCase) for subtype in search.type.subtypes">
+                <option value="" disabled selected>Выберите сервис...</option>
+            </select>
+        </div>
+        <div class="col-md-2 button" ng-show="search.type && search.type.alias != 'other' || search.type">
+            <input type="button" class="btn btn-info" value="Искать" ng-click="serviceSearch()">
+            <input type="button" class="btn btn-danger" value="Очистить" ng-click="resetSearch()">
+        </div>
+    </div>
+    <div class="row show-apartment-services">
+        <div class="col-md-4">
+            <div class="form-group">
+                <div class="squaredFour">
+                    <input type="checkbox" value="true" id="squaredFour" name="paid"
+                           ng-model="showPaid"/>
+                    <label for="squaredFour"></label>
+                </div>
+                <b>Показывать только сервис предыдущих платежей</b>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <h3 ng-bind="servicesHead"></h3>
+        <!--<div class="container-fluid">-->
+            <!--<canvas id="line" width="40" height="3">Your browser does not support the-->
+                <!--HTML5 canvas tag.</canvas> - предыдущие платежи-->
+        <!--</div>-->
+        <div ng-repeat="service in services | serviceFilter : showPaid : apartmentServices" class="col-md-3 service">
+            <fieldset>
+                <div class="service-legend">
+                    <legend ng-show="apartmentPayment(service.id)">Предыдущий платеж</legend>
+                </div>
+
+            <!--ng-class="apartmentPayment(service.id) ? 'apartment-service' : ''"-->
+                <div class="service-block">
+                    <img ng-src="{{service.type.alias == 'other' ? serviceImages[service.type.subtypes[0].alias].original : serviceImages[service.type.alias].original}}" class="service-img">
+                    <!--<img ng-src="{{service.type.alias == 'other' ? serviceImages[service.type.subtypes[0].alias].hover : serviceImages[service.type.alias].hover}}" class="service-hover-img">-->
+                    <ul>
+                        <li><b>Имя:</b> {{service.name}}</li>
+                        <li><b>Тип:</b> {{service.type.alias == 'other' ? (service.type.subtypes[0].name | camelCase) : (service.type.name | camelCase)}}</li>
+                    </ul>
+                    <div class="form-group">
+                        <input type="button" value="Добавить" ng-click="addPayment(service)"
+                               class="btn btn-success">
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+</section>
