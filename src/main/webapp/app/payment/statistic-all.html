@@ -14,35 +14,7 @@
             <input type="button" class="btn btn-sm btn-info" ng-click="showNewStatistic()" value="Показать">
         </form>
     </div>
-    <statistic-info></statistic-info>
-    <!--<section ng-show="payments.length > 0">-->
-        <!--<div class="col-md-8 col-md-offset-2">-->
-            <!--<table class="table payment-table">-->
-                <!--<tr>-->
-                    <!--<th>Сервис</th>-->
-                    <!--<th>Информация</th>-->
-                    <!--<th>Дата</th>-->
-                    <!--<th>Оплачено</th>-->
-                    <!--<th>Сумма</th>-->
-                <!--</tr>-->
-                <!--<tr ng-repeat="payment in payments">-->
-                    <!--<td ng-bind="payment.service.name"></td>-->
-                    <!--<td ng-bind="payment.service.type | camelCase"></td>-->
-                    <!--<td ng-bind="payment.payment_date | dateFilter"></td>-->
-                    <!--<td><paid paid="{{payment.paid}}"></paid></td>-->
-                    <!--<td ng-bind="payment.payment_sum"></td>-->
-                <!--</tr>-->
-            <!--</table>-->
-        <!--</div>-->
-        <!--<div class="col-md-12">-->
-            <!--<ul class="summary">-->
-                <!--<li><b>Количество платежей:</b> {{summary.total}}</li>-->
-                <!--<li><b>Неоплаченных:</b> {{summary.unpaid}}</li>-->
-                <!--<li><b>Оплаченных:</b> {{summary.paid}}</li>-->
-                <!--<li><b>Месячная сумма:</b> {{summary.sum}}</li>-->
-            <!--</ul>-->
-        <!--</div>-->
-    <!--</section>-->
+    <div ng-include="'/app/payment/statistic-info.html'"></div>
     <section ng-show="payments.length == 0">
         <h2>У вас нет платежей за этот год</h2>
     </section>

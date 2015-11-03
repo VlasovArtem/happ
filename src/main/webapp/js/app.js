@@ -75,6 +75,24 @@ var app = angular.module('household', [
                     }
                 }
             }).
+            when('/service/:apartmentId', {
+                templateUrl: 'app/payment/choose-service.html',
+                controller: 'ChooseServiceCtrl',
+                resolve: {
+                    types: function(ServiceFactory) {
+                        return ServiceFactory.query({get: 'get', types: 'types'}).$promise;
+                    },
+                    services: function(ServiceFactory, $route) {
+                        return ServiceFactory.query({get: 'get', apartmentId : $route.current.params.apartmentId}).$promise
+                    },
+                    apartment: function(ApartmentFactory, $route) {
+                        return ApartmentFactory.get({get: 'get', id : $route.current.params.apartmentId}).$promise
+                    },
+                    apartmentServices: function(ServiceFactory, $route) {
+                        return ServiceFactory.query({get : 'get', apartmentId : $route.current.params.apartmentId, services : 'services'})
+                    }
+                }
+            }).
             when('/success', {
                 templateUrl: 'app/main/success.html',
                 controller: 'SuccessCtrl'
@@ -83,11 +101,12 @@ var app = angular.module('household', [
                 templateUrl: 'app/payment/add.html',
                 controller: 'AddPaymentCtrl',
                 resolve: {
-                    types: function(ServiceFactory) {
-                        return ServiceFactory.query({get: 'get', types: 'types'}).$promise;
-                    },
-                    meters: function(ServiceFactory) {
-                        return ServiceFactory.query({get: 'get', meters: 'meters'}).$promise;
+                    service: function($sessionStorage, $location) {
+                        if($sessionStorage.service) {
+                            return $sessionStorage.service
+                        } else {
+                            $location.path('/service/' + $sessionStorage.apartment.id);
+                        }
                     },
                     apartment: function($sessionStorage, Payment, Service) {
                         Service.initService($sessionStorage.apartment);
@@ -101,7 +120,10 @@ var app = angular.module('household', [
                 controller: 'UnpaidPaymentCtrl',
                 resolve: {
                     payments: function(PaymentFactory, $sessionStorage) {
-                        return PaymentFactory.query({unpaid: 'unpaid', addressId : $sessionStorage.apartment.address.id}).$promise;
+                        return PaymentFactory.query({unpaid: 'unpaid', apartmentId : $sessionStorage.apartment.id}).$promise;
+                    },
+                    address: function($sessionStorage) {
+                        return $sessionStorage.apartment.address;
                     }
                 }
             }).

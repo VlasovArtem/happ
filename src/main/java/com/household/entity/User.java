@@ -1,5 +1,6 @@
 package com.household.entity;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.mongodb.morphia.annotations.Embedded;
@@ -15,6 +16,7 @@ import java.util.Set;
  * Created by artemvlasov on 03/09/15.
  */
 @Document(collection = "users")
+@JsonAutoDetect
 public class User {
     @Id
     private String id;

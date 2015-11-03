@@ -1,5 +1,6 @@
 package com.household.entity;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.household.entity.enums.MeterType;
 import org.mongodb.morphia.annotations.Embedded;
 import org.mongodb.morphia.annotations.NotSaved;
@@ -11,18 +12,19 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
 /**
  * Created by artemvlasov on 02/09/15.
  */
 @Document(collection = "payments")
+@JsonAutoDetect
 public class Payment {
     @Id
     private String id;
     @CreatedDate
     private LocalDateTime createdDate;
     private String apartmentId;
-    @Embedded
     private Service service;
     private String personalAccount;
     private MeterType meterType;
@@ -127,5 +129,10 @@ public class Payment {
 
     public void setCurMeter(int[] curMeter) {
         this.curMeter = curMeter;
+    }
+
+    @PrePersist
+    public void test() {
+        System.out.println("Test");
     }
 }

@@ -33,7 +33,7 @@ section > h2 {
 #main-page {
     width: 100%;
     height: 100%;
-    background: url("../images/background1.jpg") no-repeat center center;
+    background: url("../images/happ-background.jpg") no-repeat center center;
 }
 #main-page > .content > .navbar-happ {
     background-color: transparent !important;
@@ -355,11 +355,34 @@ apartment .badge {
 }
 
 /* Add Payment Apartment */
+#add-payment tr {
+    margin: 5px 0;
+}
+#add-payment .service {
+    margin-top: 80px;
+}
+.info-block {
+    background-color: rgba(195, 188, 189, 0.02);
+    border: 1px solid gainsboro;
+    padding: 10px;
+}
+#add-payment {
+    height: 100%;
+}
+.info-block > .service-name {
+    text-align: center;
+    font-weight: bold;
+    font-size: large;
+    width: 100%;
+}
+aside {
+    height: 100%;
+}
 .apartment-info {
     font-size: larger;
     margin: 10px 0;
 }
-.service, .payment-sum, .service-data .paid {
+.payment-sum {
     margin-top: 20px;
 }
 #add-payment .info {
@@ -387,9 +410,26 @@ apartment .badge {
     width: 80%;
     margin-left: 10%;
 }
-.meter-reading, .payment-sum, .service-data .paid {
+.meter-reading, .payment-sum {
     margin-left: 15%;
     width: 70%;
+}
+.service-data .paid {
+    margin-bottom: 0 !important;
+}
+.paid > div:first-child label {
+    display: inline-block;
+    height: 20px;
+}
+.paid .input-group {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.paid .form-group {
+    padding-top: 4px;
+}
+.meter-type {
+    margin-bottom: 0 !important;
 }
 .service .buttons {
     margin: 20px 0 0 0;
@@ -397,10 +437,28 @@ apartment .badge {
 .service-data .paid {
     display: inline-block;
 }
-.service-data .paid > div:first-child {
+.service-data .row {
+    margin-bottom: 20px;
+}
+.service-data .form-group {
+    margin-bottom: 0;
+}
+.meter .col-md-12 {
+    padding-left: 0;
+    padding-right: 0;
+}
+.meter-head > div {
     padding-left: 0;
 }
-
+.meter-head label {
+    justify-content: center !important;
+}
+.service-data .row label {
+    height: 34px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
 .payment-form > table tr > td:first-child {
     width: 30%;
 }
@@ -415,8 +473,36 @@ apartment .badge {
 .service-info > table tr {
     height: 34px;
 }
+.backward-arrow {
+    position: absolute;
+    display: inline-block;
+    top: 60px;
+    color: black;
+    font-size: 24px;
+    vertical-align: middle;
+}
+.backward-arrow > span {
+    display: inline-flex;
+}
+.backward-arrow {
+    cursor: pointer;
+}
+.backward-arrow > .glyphicon {
+    color: black;
+    -webkit-transition: color .5s ease;
+    transition: color .5s ease;
+}
+.backward-arrow > .text {
+    font-size: 14px;
+    padding: 0 0 0 5px;
+}
+.backward-arrow:hover > .glyphicon {
+    color: rgba(118, 178, 28, 1);
+    -webkit-transition: color .5s ease;
+    transition: color .5s ease;
+}
 
-    /* Payment statistic */
+/* Payment statistic */
 .statistic-info {
     padding: 20px;
 }
@@ -446,6 +532,128 @@ h3 {
 .payment-form > table {
     width: 70%;
     margin-left: 15%;
+}
+
+/* Choose service page */
+#choose-service .button {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+    height: 60px;
+}
+#choose-service .button > input[type=button] {
+    margin-right: 20px;
+}
+.service {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 0;
+}
+.service-block {
+    background-color: rgba(195, 188, 189, 0.1);
+    padding: 10px;
+    border: 3px solid rgba(195, 188, 189, 0);
+}
+.service-block > ul {
+    list-style: none;
+    padding-left: 0;
+}
+.service-block > .name {
+    float: left;
+}
+.service-block > .type {
+    float: right;
+}
+.service-block > .form-group {
+    text-align: center;
+    margin: 0;
+}
+.service-img {
+    position: absolute;
+    right: 15px;
+    width: inherit;
+    height: 50px;
+    margin-right: 20px;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    opacity: .1;
+    transition: opacity .5s ease-in-out;
+    -moz-transition: opacity .5s ease-in-out;
+    -webkit-transition: opacity .5s ease-in-out;
+}
+.service-hover-img {
+    position: absolute;
+    right: 15px;
+    width: inherit;
+    height: 50px;
+    margin-right: 20px;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    opacity: 0;
+    transition: opacity .5s ease-in-out;
+    -moz-transition: opacity .5s ease-in-out;
+    -webkit-transition: opacity .5s ease-in-out;
+    z-index: -1;
+}
+.service-block:hover > .service-img {
+    opacity: .5;
+    transition: opacity .5s ease-in-out;
+    -moz-transition: opacity .5s ease-in-out;
+    -webkit-transition: opacity .5s ease-in-out;
+}
+.service-block:hover > .service-hover-img {
+    opacity: 1;
+    transition: opacity .5s ease-in-out;
+    -moz-transition: opacity .5s ease-in-out;
+    -webkit-transition: opacity .5s ease-in-out;
+}
+.apartment-service {
+    border: 3px solid rgba(118, 178, 28, 1);
+}
+legend {
+    display: block;
+    margin-bottom: 0.5rem;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .06rem;
+    font-size: .8rem;
+    color: rgba(118, 178, 28, 1);
+    border-bottom: none;
+}
+legend:after {
+    content: "";
+    width: 100%;
+    position: absolute;
+    height: 1px;
+    top: 0.5rem;
+    margin-left: 0.25rem;
+    background: rgba(118, 178, 28, 1)
+}
+.service-legend {
+    height: 16px;
+}
+.show-apartment-services {
+    margin-top: 10px;
+}
+
+/* Unpaid page */
+#unpaid {
+    height: 80%;
+}
+#unpaid > div:last-child > h2 {
+    text-align: center;
+}
+.unpaid-info {
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgba(118, 178, 28, 1);
 }
 
 /* Loading image */
@@ -606,6 +814,35 @@ h3 {
     transition: color .5s ease;
 }
 
+/* checkbox aspect */
+[type="checkbox"]:not(:checked) + label:before,
+[type="checkbox"]:checked + label:before {
+    content: '';
+    position: absolute;
+    left:0; top: 2px;
+    width: 17px; height: 17px;
+}
+/* checked mark aspect */
+[type="checkbox"]:not(:checked) + label:after,
+[type="checkbox"]:checked + label:after {
+    content: '✔';
+    position: absolute;
+    top: 3px; left: 2px;
+    font-size: 18px;
+    line-height: 0.8;
+    color: #09ad7e;
+    transition: all .2s;
+}
+/* checked mark aspect changes */
+[type="checkbox"]:not(:checked) + label:after {
+    opacity: 0;
+    transform: scale(0);
+}
+[type="checkbox"]:checked + label:after {
+    opacity: 1;
+    transform: scale(1);
+}
+
 .squaredFour {
     width: 20px;
     display: inline-block;
@@ -616,54 +853,17 @@ h3 {
     cursor: pointer;
     position: absolute;
     width: 20px;
-    height: 20px;
+    height: 20px !important;
     top: 0;
     background: white;
 }
 
-.squaredFour label:after {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-    filter: alpha(opacity=0);
-    opacity: 0;
-    content: '';
-    position: absolute;
-    width: 13px;
-    height: 5px;
-    font-size: xx-large;
-    background: transparent;
-    top: 6px;
-    left: 4px;
-    border: 3px solid #333;
-    border-top: none;
-    border-right: none;
-
-    -webkit-transform: rotate(-45deg);
-    -moz-transform: rotate(-45deg);
-    -o-transform: rotate(-45deg);
-    -ms-transform: rotate(-45deg);
-    transform: rotate(-45deg);
-}
-
-.squaredFour label:hover::after {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
-    filter: alpha(opacity=30);
-    opacity: .5;
-}
-
-.squaredFour input[type=checkbox]:checked + label:after {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
-    filter: alpha(opacity=30);
-    opacity: 0.5;
-}
 
 #squaredFour {
     -webkit-appearance: none;
 }
 .squaredFour {
     border: 1px solid #ccc
-}
-.paid > div:first-child > div {
-    margin: 5px 0;
 }
 .payment-form tr {
     height: 45px;

@@ -29,14 +29,41 @@ app.filter('monthFilter', function() {
     }
 });
 
+app.filter('paymentSumFilter', function() {
+    return function(paymentSum) {
+        if(angular.isNumber(paymentSum)) {
+            return paymentSum.toFixed(2);
+        }
+    }
+});
+
 app.filter('paymentMeterFilter', function($filter) {
     return function(payment) {
             var meter = "";
-        if(payment.prev_meter && payment.prev_meter.length > 0 && payment.cur_meter && payment.cur_meter.length > 0) {
-            meter = $filter('showArray')(payment.prev_meter) + ' - ' + $filter('showArray')(payment.cur_meter);
+        if(payment.prevMeter && payment.prevMeter.length > 0 && payment.curMeter && payment.curMeter.length > 0) {
+            meter = $filter('showArray')(payment.prevMeter) + ' - ' + $filter('showArray')(payment.curMeter);
             return meter;
         } else {
             return meter;
         }
+    }
+});
+
+app.filter('firstCapital', function() {
+   return function(text) {
+       if(angular.isDefined(text)) {
+           return text.charAt(0).toUpperCase() + text.substr(1).toLowerCase();
+       }
+   }
+});
+
+app.filter('serviceFilter', function() {
+    return function(services, showPaid, apartmentServices) {
+        if(showPaid) {
+            return _.filter(services, function(service) {
+                return _.contains(apartmentServices, service.id)
+            });
+        }
+        return services;
     }
 });

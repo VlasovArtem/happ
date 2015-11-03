@@ -2,6 +2,7 @@ package com.household.service.impl;
 
 import com.household.entity.Payment;
 import com.household.persistence.PaymentRepository;
+import com.household.persistence.ServiceRepository;
 import com.household.service.PaymentService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by artemvlasov on 06/10/15.
@@ -22,9 +24,15 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Autowired
     private PaymentRepository paymentRepository;
+    @Autowired
+    private ServiceRepository serviceRepository;
 
     @Override
     public void add (Payment payment) {
+        com.household.entity.Service service = payment.getService();
+        service.setServiceInformation(null);
+        service.setRates(null);
+        service.setVolumes(null);
         paymentRepository.save(payment);
     }
 
@@ -65,9 +73,10 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public List<Payment> get (String apartmentId, String type, int year) {
-        LocalDate yearStart = LocalDate.of(year, Month.JANUARY, 1);
-        LocalDate yearEnd = LocalDate.of(year, Month.DECEMBER, 31);
-        return paymentRepository.findPaymentsByServiceTypeAlias(apartmentId, type, yearStart, yearEnd);
+        LocalDate yearStart = LocalDate.of(year, Month.JANUARY, 1).minusDays(1);
+        LocalDate yearEnd = LocalDate.of(year, Month.DECEMBER, 31).plusDays(1);
+        return paymentRepository.findByApartmentIdAndServiceTypeAliasInAndPaymentDateBetween(apartmentId, type,
+                yearStart, yearEnd);
     }
 
     @Override
@@ -75,5 +84,16 @@ public class PaymentServiceImpl implements PaymentService {
         LocalDate yearStart = LocalDate.of(year, Month.JANUARY, 1);
         LocalDate yearEnd = LocalDate.of(year, Month.DECEMBER, 31);
         return paymentRepository.findPayments(apartmentId, yearStart, yearEnd);
+    }
+
+    @Override
+    public Payment getLastWithTypeOther(String apartmentId, String serviceId) {
+        Pageable pageable = new PageRequest(0, 1, new Sort(Sort.Direction.DESC, "createdDate"));
+        List<Payment> payments = paymentRepository.findByApartmentIdAndServiceId(apartmentId, new ObjectId(serviceId),
+                pageable);
+        if(payments.size() != 0) {
+            return payments.get(0);
+        }
+        return null;
     }
 }
