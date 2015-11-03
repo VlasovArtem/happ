@@ -40,15 +40,42 @@ app.controller('ChooseServiceCtrl', ['$scope', '$route', '$filter', '$location',
         $scope.types = types;
         $scope.services = services;
         $scope.serviceImages = {
-            electricity: '/style/images/services/electricity.png',
-            heating: '/style/images/services/heating.png',
-            water: '/style/images/services/water.png',
-            rent: '/style/images/services/house.png',
-            gas: '/style/images/services/gas.png',
-            internet: '/style/images/services/internet.png',
-            tel: '/style/images/services/tel.png',
-            tv: '/style/images/services/tv.png',
-            intercom: '/style/images/services/intercom.png'
+            electricity: {
+                original : '/style/images/services/electricity.png',
+                hover : '/style/images/services/electricity-hover.png'
+            },
+            heating: {
+                original : '/style/images/services/heating.png',
+                hover : '/style/images/services/heating-hover.png'
+            },
+            water: {
+                original : '/style/images/services/water.png',
+                hover : '/style/images/services/water-hover.png'
+            },
+            rent: {
+                original : '/style/images/services/house.png',
+                hover : '/style/images/services/house-hover.png'
+            },
+            gas: {
+                original : '/style/images/services/gas.png',
+                hover : '/style/images/services/gas-hover.png'
+            },
+            internet: {
+                original : '/style/images/services/internet.png',
+                hover : '/style/images/services/internet-hover.png'
+            },
+            tel: {
+                original : '/style/images/services/tel.png',
+                hover : '/style/images/services/tel-hover.png'
+            },
+            tv: {
+                original : '/style/images/services/tv.png',
+                hover : '/style/images/services/tv-hover.png'
+            },
+            intercom: {
+                original : '/style/images/services/intercom.png',
+                hover : '/style/images/services/intercom-hover.png'
+            }
         };
         $scope.resetSearch = function() {
             $scope.search = null;

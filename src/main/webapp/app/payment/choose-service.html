@@ -40,7 +40,8 @@
 
             <!--ng-class="apartmentPayment(service.id) ? 'apartment-service' : ''"-->
                 <div class="service-block">
-                    <img ng-src="{{service.type.alias == 'other' ? serviceImages[service.type.subtypes[0].alias] : serviceImages[service.type.alias]}}" class="service-img">
+                    <img ng-src="{{service.type.alias == 'other' ? serviceImages[service.type.subtypes[0].alias].original : serviceImages[service.type.alias].original}}" class="service-img">
+                    <!--<img ng-src="{{service.type.alias == 'other' ? serviceImages[service.type.subtypes[0].alias].hover : serviceImages[service.type.alias].hover}}" class="service-hover-img">-->
                     <ul>
                         <li><b>Имя:</b> {{service.name}}</li>
                         <li><b>Тип:</b> {{service.type.alias == 'other' ? (service.type.subtypes[0].name | camelCase) : (service.type.name | camelCase)}}</li>

@@ -524,7 +524,7 @@ h3 {
 .service-block {
     background-color: rgba(195, 188, 189, 0.1);
     padding: 10px;
-    border: 3px solid rgba(195, 188, 189, 0.1);
+    border: 3px solid rgba(195, 188, 189, 0);
 }
 .service-block > ul {
     list-style: none;
@@ -550,6 +550,36 @@ h3 {
     -moz-box-shadow: none;
     box-shadow: none;
     opacity: .1;
+    transition: opacity .5s ease-in-out;
+    -moz-transition: opacity .5s ease-in-out;
+    -webkit-transition: opacity .5s ease-in-out;
+}
+.service-hover-img {
+    position: absolute;
+    right: 15px;
+    width: inherit;
+    height: 50px;
+    margin-right: 20px;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    opacity: 0;
+    transition: opacity .5s ease-in-out;
+    -moz-transition: opacity .5s ease-in-out;
+    -webkit-transition: opacity .5s ease-in-out;
+    z-index: -1;
+}
+.service-block:hover > .service-img {
+    opacity: 0;
+    transition: opacity .5s ease-in-out;
+    -moz-transition: opacity .5s ease-in-out;
+    -webkit-transition: opacity .5s ease-in-out;
+}
+.service-block:hover > .service-hover-img {
+    opacity: 1;
+    transition: opacity .5s ease-in-out;
+    -moz-transition: opacity .5s ease-in-out;
+    -webkit-transition: opacity .5s ease-in-out;
 }
 .apartment-service {
     border: 3px solid rgba(118, 178, 28, 1);
