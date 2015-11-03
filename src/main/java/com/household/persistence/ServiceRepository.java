@@ -13,8 +13,13 @@ import java.util.List;
  * Created by artemvlasov on 05/10/15.
  */
 public interface ServiceRepository extends MongoRepository<Service, ObjectId> {
+
     List<Service> findByCityAliasAndTypeAlias (String city, String type);
+
     @Query(value = "{ 'city.alias' : ?0 , 'type.subtypes' : { '$exists' : true} , 'type.subtypes.alias' : ?1}")
     List<Service> findByCityAliasTypeSubtypesAlias (String city, String subtype);
+
     List<Service> findByCityAlias (String city, Sort sort);
+
+    Service findByTypeAlias (String service);
 }

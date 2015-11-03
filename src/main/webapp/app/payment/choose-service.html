@@ -28,17 +28,29 @@
     </div>
     <div class="col-md-12">
         <h3 ng-bind="servicesHead"></h3>
+        <!--<div class="container-fluid">-->
+            <!--<canvas id="line" width="40" height="3">Your browser does not support the-->
+                <!--HTML5 canvas tag.</canvas> - предыдущие платежи-->
+        <!--</div>-->
         <div ng-repeat="service in services" class="col-md-3 service">
-            <div class="service-block">
-                <img ng-src="{{service.type.alias == 'other' ? serviceImages[service.type.subtypes[0].alias] : serviceImages[service.type.alias]}}" class="service-img">
-                <ul>
-                    <li><b>Имя:</b> {{service.name}}</li>
-                    <li><b>Тип:</b> {{service.type.alias == 'other' ? (service.type.subtypes[0].name | camelCase) : (service.type.name | camelCase)}}</li>
-                </ul>
-                <div class="form-group">
-                    <input type="button" value="Добавить" ng-click="chooseService()" class="btn btn-success">
+            <fieldset>
+                <div class="service-legend">
+                    <legend ng-show="apartmentPayment(service.id)">Предыдущий платеж</legend>
                 </div>
-            </div>
+
+            <!--ng-class="apartmentPayment(service.id) ? 'apartment-service' : ''"-->
+                <div class="service-block">
+                    <img ng-src="{{service.type.alias == 'other' ? serviceImages[service.type.subtypes[0].alias] : serviceImages[service.type.alias]}}" class="service-img">
+                    <ul>
+                        <li><b>Имя:</b> {{service.name}}</li>
+                        <li><b>Тип:</b> {{service.type.alias == 'other' ? (service.type.subtypes[0].name | camelCase) : (service.type.name | camelCase)}}</li>
+                    </ul>
+                    <div class="form-group">
+                        <input type="button" value="Добавить" ng-click="addPayment(service)"
+                               class="btn btn-success">
+                    </div>
+                </div>
+            </fieldset>
         </div>
     </div>
 </section>

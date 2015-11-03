@@ -25,7 +25,6 @@ public class Payment {
     @CreatedDate
     private LocalDateTime createdDate;
     private String apartmentId;
-    @Embedded
     private Service service;
     private String personalAccount;
     private MeterType meterType;
@@ -132,8 +131,8 @@ public class Payment {
         this.curMeter = curMeter;
     }
 
-    @Override
-    public String toString() {
-        return ", service=" + service;
+    @PrePersist
+    public void test() {
+        System.out.println("Test");
     }
 }

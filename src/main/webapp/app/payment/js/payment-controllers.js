@@ -3,11 +3,11 @@
  */
 var app = angular.module('payment-controllers', []);
 
-app.controller('AddPaymentCtrl', ['$scope', 'types', 'meters', 'apartment',
-    function($scope, types, meters, apartment) {
-        $scope.types = types;
-        $scope.meters = meters;
+app.controller('AddPaymentCtrl', ['$scope', '$sessionStorage', 'service', 'apartment',
+    function($scope, $sessionStorage, service, apartment) {
+        $scope.service = service;
         $scope.apartment = apartment;
+        delete $sessionStorage.service;
     }
 ]);
 
@@ -31,8 +31,10 @@ app.controller('PaymentStatisticCtrl', ['$scope', 'apartment',
     }
 ]);
 
-app.controller('ChooseServiceCtrl', ['$scope', '$route', '$filter', 'apartment', 'services', 'types', 'ServiceFactory',
-    function($scope, $route, $filter, apartment, services, types, ServiceFactory) {
+app.controller('ChooseServiceCtrl', ['$scope', '$route', '$filter', '$location', '$sessionStorage', 'apartment', 'services', 'types', 'apartmentServices', 'ServiceFactory',
+    function($scope, $route, $filter, $location, $sessionStorage, apartment, services, types, apartmentServices, ServiceFactory) {
+        console.log(apartmentServices);
+        console.log(services);
         $scope.servicesHead = 'Доступные сервисы';
         $scope.apartment = apartment;
         $scope.types = types;
@@ -71,8 +73,16 @@ app.controller('ChooseServiceCtrl', ['$scope', '$route', '$filter', 'apartment',
                 });
             }
         };
-        console.log(apartment)
-        console.log(services)
-        console.log(types);
+        $scope.addPayment = function(service) {
+            $sessionStorage.service = service;
+            $location.path('/payment/add');
+        };
+        $scope.apartmentPayment = function(id) {
+            return _.contains(apartmentServices, id);
+        };
+        //var canvas = document.getElementById('line');
+        //var ctx = canvas.getContext("2d");
+        //ctx.fillStyle = "76B21C";
+        //ctx.fillRect(0,0,canvas.width,canvas.height);
     }
 ]);

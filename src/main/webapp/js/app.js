@@ -87,6 +87,9 @@ var app = angular.module('household', [
                     },
                     apartment: function(ApartmentFactory, $route) {
                         return ApartmentFactory.get({get: 'get', id : $route.current.params.apartmentId}).$promise
+                    },
+                    apartmentServices: function(ServiceFactory, $route) {
+                        return ServiceFactory.query({get : 'get', apartmentId : $route.current.params.apartmentId, services : 'services'})
                     }
                 }
             }).
@@ -95,14 +98,15 @@ var app = angular.module('household', [
                 controller: 'SuccessCtrl'
             }).
             when('/payment/add', {
-                templateUrl: 'app/payment/add.html',
+                templateUrl: 'app/payment/add-test.html',
                 controller: 'AddPaymentCtrl',
                 resolve: {
-                    types: function(ServiceFactory) {
-                        return ServiceFactory.query({get: 'get', types: 'types'}).$promise;
-                    },
-                    meters: function(ServiceFactory) {
-                        return ServiceFactory.query({get: 'get', meters: 'meters'}).$promise;
+                    service: function($sessionStorage, $location) {
+                        if($sessionStorage.service) {
+                            return $sessionStorage.service
+                        } else {
+                            $location.path('/service/' + $sessionStorage.apartment.id);
+                        }
                     },
                     apartment: function($sessionStorage, Payment, Service) {
                         Service.initService($sessionStorage.apartment);
@@ -133,6 +137,9 @@ var app = angular.module('household', [
                 resolve: {
                     meters: function(ServiceFactory) {
                         return ServiceFactory.query({get: 'get', meters: 'meters'}).$promise;
+                    },
+                    service: function(ServiceFactory, $route) {
+                        return ServiceFactory.get({get: 'get', alias : $route.current.params.service}).$promise
                     },
                     apartment: function($sessionStorage, Payment, Service, $location) {
                         if(angular.isDefined($sessionStorage.apartment)) {

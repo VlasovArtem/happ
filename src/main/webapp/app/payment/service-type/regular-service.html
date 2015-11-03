@@ -1,51 +1,57 @@
 <div class="service-data">
-    <article class="service-info row">
-        <table class="col-md-6">
-            <tr>
-                <td><b>Имя сервиса:</b></td>
-                <td>{{service.name}}</td>
-            </tr>
-            <tr ng-show="service.serviceInformation.bankCode != null">
-                <td><b>МФО:</b></td>
-                <td>{{service.serviceInformation.bankCode}}</td>
-            </tr>
-            <tr ng-show="service.serviceInformation.bankCode != null">
-                <td><b>№ счёта:</b></td>
-                <td>{{service.serviceInformation.checkingAccount}}</td>
-            </tr>
-            <tr>
-                <td><b>Лицевой счёт:</b></td>
-                <td><input type="text" class="form-control happ-form-control"
-                           ng-model="payment.personalAccount"></td>
-            </tr>
-        </table>
-    </article>
     <form name="paymentForm">
-        <div class="meter-data"></div>
-        <table class="payment-sum">
-            <tr>
-                <th rowspan="2" width="40%">Сумма оплаты:</th>
-            </tr>
-            <tr>
-                <td>
-                    <input type="number" min="0.01" ng-model="payment.paymentSum"
-                           class="form-control happ-form-control" name="sum">
-                </td>
-            </tr>
-        </table>
-        <div class="paid">
-            <div class="col-md-3">
+        <div class="row peronal-account">
+            <div class="col-md-3 col-md-offset-2">
+                <label>Лицевой счёт:</label>
+            </div>
+            <div class="col-md-6">
+                <input type="text"
+                       class="form-control happ-form-control"
+                       ng-model="payment.personalAccount"
+                        placeholder="Введите лицевой счёт">
+            </div>
+        </div>
+        <div class="row meter-type" ng-show="service.type.alias == 'electricity'">
+            <div class="col-md-3 col-md-offset-2">
+                <label>Тип счётчика:</label>
+            </div>
+            <div class="col-md-6">
+                <select
+                        ng-model="payment.meterType"
+                        class="form-control happ-form-control"
+                        ng-change="changeMeterType(payment.meterType)"
+                        ng-options="meterType.name as meterType.alias for meterType in meterTypes">
+                </select>
+            </div>
+        </div>
+        <div class="meter-data row"></div>
+        <div class="row">
+            <div class="col-md-3 col-md-offset-2">
+                <label>Сумма оплаты:</label>
+            </div>
+            <div class="col-md-6">
+                <input type="number"
+                       min="0.01"
+                       ng-model="payment.paymentSum"
+                       placeholder="Введите сумму оплаты"
+                       class="form-control happ-form-control"
+                       name="sum">
+            </div>
+        </div>
+        <div class="row paid">
+            <div class="col-md-3 col-md-offset-2">
                 <div class="form-group">
+                    <label>Оплачено</label>
                     <div class="squaredFour">
                         <input type="checkbox" value="true" id="squaredFour" name="paid"
                                ng-model="payment.paid"/>
                         <label for="squaredFour"></label>
                     </div>
-                    <label>Оплачено</label>
                 </div>
             </div>
-            <div class="input-group col-md-9">
+            <div class="input-group col-md-6">
                 <input type="text" ng-model="payment.paymentDate" class="form-control happ-form-control"
+                       placeholder="Выберите дату оплаты"
                        datepicker-popup="dd/MM/yyyy" max-date="today" is-open="status.opened" ng-required="true" close-text="Close">
                     <span class="input-group-btn">
                         <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>

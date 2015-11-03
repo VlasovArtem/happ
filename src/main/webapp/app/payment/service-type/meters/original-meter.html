@@ -1,29 +1,33 @@
-<table class="meter-reading">
+<div class="meter">
     <div class="error" ng-show="error" ng-bind="error"></div>
-    <tr>
-        <th rowspan="2" width="40%">Показания счётчика: </th>
-        <th width="30%">Пред.</th>
-        <th>Тек.</th>
-    </tr>
-    <tr>
-        <td>
-            <input type="number"
-                   min="0"
-                   ng-model="payment.prevMeter[0]"
-                   name="prev"
-                   class="form-control prev happ-form-control"
-                   ng-model-options='{ debounce: 1000 }'
-                   autocomplete="off"
-                   ng-change="changed()">
-        </td>
-        <td><input
+    <div class="col-md-offset-5 col-md-6 meter-head">
+        <div class="col-md-6"><label>Пред.</label></div>
+        <div class="col-md-6"><label>Тек.</label></div>
+    </div>
+    <div class="col-md-3 col-md-offset-2 form-label">
+        <label>Показания:</label>
+    </div>
+    <div class="form-group col-md-3">
+        <input type="number"
+               min="0"
+               ng-model="payment.prevMeter[0]"
+               name="prev"
+               placeholder="Предыдущие"
+               class="form-control prev happ-form-control"
+               ng-model-options='{ debounce: 1000 }'
+               autocomplete="off"
+               ng-change="changed()">
+    </div>
+    <div class="form-group col-md-3">
+        <input
                 type="number"
                 min="0"
                 ng-model="payment.curMeter[0]"
                 name="cur"
+                placeholder="Текущие"
                 class="form-control cur happ-form-control"
                 ng-model-options='{ debounce: 1000 }'
                 autocomplete="off"
-                ng-change="changed()"></td>
-    </tr>
-</table>
+                ng-change="changed()">
+    </div>
+</div>

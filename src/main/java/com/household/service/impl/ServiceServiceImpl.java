@@ -3,6 +3,7 @@ package com.household.service.impl;
 import com.household.entity.Service;
 import com.household.entity.ServiceType;
 import com.household.persistence.ApartmentRepository;
+import com.household.persistence.PaymentRepository;
 import com.household.persistence.ServiceRepository;
 import com.household.persistence.ServiceTypeRepository;
 import com.household.service.ServiceService;
@@ -22,6 +23,8 @@ public class ServiceServiceImpl implements ServiceService {
     private ServiceTypeRepository serviceTypeRepository;
     @Autowired
     private ApartmentRepository apartmentRepository;
+    @Autowired
+    private PaymentRepository paymentRepository;
 
     @Override
     public List<Service> getAll(String city, String type) {
@@ -46,5 +49,10 @@ public class ServiceServiceImpl implements ServiceService {
         } else {
             return serviceRepository.findByCityAliasTypeSubtypesAlias(city, subtype);
         }
+    }
+
+    @Override
+    public List<String> findPaymentsServiceIds(String apartmentId) {
+        return paymentRepository.findApartmentPaymentServices(apartmentId);
     }
 }

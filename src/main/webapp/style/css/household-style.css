@@ -355,11 +355,34 @@ apartment .badge {
 }
 
 /* Add Payment Apartment */
+#add-payment tr {
+    margin: 5px 0;
+}
+#add-payment .service {
+    margin-top: 80px;
+}
+.info-block {
+    background-color: rgba(195, 188, 189, 0.02);
+    border: 1px solid gainsboro;
+    padding: 10px;
+}
+#add-payment {
+    height: 100%;
+}
+.info-block > .service-name {
+    text-align: center;
+    font-weight: bold;
+    font-size: large;
+    width: 100%;
+}
+aside {
+    height: 100%;
+}
 .apartment-info {
     font-size: larger;
     margin: 10px 0;
 }
-.service, .payment-sum, .service-data .paid {
+.payment-sum {
     margin-top: 20px;
 }
 #add-payment .info {
@@ -387,9 +410,26 @@ apartment .badge {
     width: 80%;
     margin-left: 10%;
 }
-.meter-reading, .payment-sum, .service-data .paid {
+.meter-reading, .payment-sum {
     margin-left: 15%;
     width: 70%;
+}
+.service-data .paid {
+    margin-bottom: 0 !important;
+}
+.paid > div:first-child label {
+    display: inline-block;
+    height: 20px;
+}
+.paid .input-group {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.paid .form-group {
+    padding-top: 4px;
+}
+.meter-type {
+    margin-bottom: 0 !important;
 }
 .service .buttons {
     margin: 20px 0 0 0;
@@ -397,10 +437,28 @@ apartment .badge {
 .service-data .paid {
     display: inline-block;
 }
-.service-data .paid > div:first-child {
+.service-data .row {
+    margin-bottom: 20px;
+}
+.service-data .form-group {
+    margin-bottom: 0;
+}
+.meter .col-md-12 {
+    padding-left: 0;
+    padding-right: 0;
+}
+.meter-head > div {
     padding-left: 0;
 }
-
+.meter-head label {
+    justify-content: center !important;
+}
+.service-data .row label {
+    height: 34px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
 .payment-form > table tr > td:first-child {
     width: 30%;
 }
@@ -459,11 +517,14 @@ h3 {
     margin-right: 20px;
 }
 .service {
+    margin-top: 10px;
     margin-bottom: 10px;
+    border-radius: 0;
 }
 .service-block {
     background-color: rgba(195, 188, 189, 0.1);
     padding: 10px;
+    border: 3px solid rgba(195, 188, 189, 0.1);
 }
 .service-block > ul {
     list-style: none;
@@ -489,6 +550,34 @@ h3 {
     -moz-box-shadow: none;
     box-shadow: none;
     opacity: .1;
+}
+.apartment-service {
+    border: 3px solid rgba(118, 178, 28, 1);
+}
+legend {
+    display: block;
+    margin-bottom: 0.5rem;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .06rem;
+    font-size: .8rem;
+    color: rgba(118, 178, 28, 1);
+    border-bottom: none;
+}
+legend:after {
+    content: "";
+    width: 100%;
+    position: absolute;
+    height: 1px;
+    top: 0.5rem;
+    margin-left: 0.25rem;
+    background: rgba(118, 178, 28, 1)
+}
+.service-legend {
+    height: 16px;
 }
 
 /* Unpaid page */
@@ -674,7 +763,7 @@ h3 {
     cursor: pointer;
     position: absolute;
     width: 20px;
-    height: 20px;
+    height: 20px !important;
     top: 0;
     background: white;
 }
@@ -719,9 +808,6 @@ h3 {
 }
 .squaredFour {
     border: 1px solid #ccc
-}
-.paid > div:first-child > div {
-    margin: 5px 0;
 }
 .payment-form tr {
     height: 45px;

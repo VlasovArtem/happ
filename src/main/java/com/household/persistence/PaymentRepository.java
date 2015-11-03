@@ -17,7 +17,8 @@ import java.util.List;
  * Created by artemvlasov on 04/10/15.
  */
 public interface PaymentRepository extends MongoRepository<Payment, ObjectId>, PaymentRepositoryCustom {
-    Page<Payment> findByApartmentIdAndServiceTypeAlias (String apartmentId, String type, Pageable pageable);
+
+    Page<Payment> findByApartmentIdAndServiceTypeAlias(String apartmentId, String type, Pageable pageable);
 
     long countByApartmentIdAndPaidFalse (String apartmentId);
 
@@ -28,8 +29,8 @@ public interface PaymentRepository extends MongoRepository<Payment, ObjectId>, P
     @Query(value = "{'apartmentId' : ?0, 'paymentDate' : {$gte : ?1, $lte : ?2}}")
     List<Payment> findPaymentsBetweenDates (String apartmentId, LocalDate monthStart, LocalDate monthEnd);
 
-    @Query(value = "{'apartmentId' : ?0, 'service.type.alias' : ?1, 'paymentDate' : {$gte : ?2, $lte : ?3}}")
-    List<Payment> findPaymentsByServiceTypeAlias (String apartmentId, String type, LocalDate yearStart, LocalDate yearEnd);
+    List<Payment> findByApartmentIdAndServiceTypeAliasInAndPaymentDateBetween (String apartmentId, String type,
+                                                                       LocalDate yearStart, LocalDate yearEnd);
 
     @Query(value = "{'apartmentId' : ?0, 'paymentDate' : {$gte : ?1, $lte : ?2}}")
     List<Payment> findPayments (String apartmentId, LocalDate yearStart, LocalDate yearEnd);

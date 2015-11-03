@@ -1,12 +1,14 @@
 package com.household.persistence.custom.impl;
 
 import com.household.entity.Payment;
+import com.household.entity.Service;
 import com.household.persistence.custom.PaymentRepositoryCustom;
 import com.mongodb.DBObject;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
@@ -47,5 +49,21 @@ public class PaymentRepositoryImpl implements PaymentRepositoryCustom {
                                         project("paymentId").andExclude("_id")
                                 ), Payment.class, DBObject.class).getMappedResults().stream().map(ob -> (ObjectId) ob.get("paymentId")).collect(Collectors.toList()))),
                 Payment.class);
+    }
+
+    /**
+     * Find all payment distinct services for particular apartment
+     * @param apartmentId id of apartment
+     * @return List of ids of the services
+     */
+    @Override
+    public List<String> findApartmentPaymentServices(String apartmentId) {
+        Aggregation aggregation = newAggregation(
+                match(Criteria.where("apartmentId").is("56113e02ad6d064ae69bd867")),
+                group("service.id").first("service.id").as("id"),
+                project("id").andExclude("_id")
+        );
+        return mongoTemplate.aggregate(aggregation, Payment.class, DBObject.class).getMappedResults().stream()
+                .map(dbObject -> dbObject.get("id").toString()).collect(Collectors.toList());
     }
 }

@@ -12,6 +12,7 @@ import java.util.List;
 public interface PaymentService {
 
     void add(Payment payment);
+
     Payment findLastPayment (String apartmentId, String type);
 
     long countUnpaid (String apartmentId);

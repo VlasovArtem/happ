@@ -27,8 +27,13 @@ public class ServiceController {
     }
 
     @RequestMapping("/get/{apartmentId}")
-    public ResponseEntity get(@PathVariable String apartmentId) {
+    public ResponseEntity getServices (@PathVariable String apartmentId) {
         return ResponseEntity.ok(service.getAll(apartmentId));
+    }
+
+    @RequestMapping("/get/{apartmentId}/services")
+    public ResponseEntity getApartmentServices (@PathVariable String apartmentId) {
+        return ResponseEntity.ok(service.findPaymentsServiceIds(apartmentId));
     }
 
     @RequestMapping("/get/types")

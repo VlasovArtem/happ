@@ -4,7 +4,7 @@
 var app = angular.module('payment-services', ['ngResource']);
 
 app.factory('ServiceFactory', function($resource) {
-    return $resource('/rest/service/:search/:get/:apartmentId/:all/:types/:meters', {
+    return $resource('/rest/service/:search/:get/:apartmentId/:all/:types/:meters/:services', {
         get: '@get',
         all: '@all',
         types: '@types',
@@ -32,14 +32,6 @@ app.factory('PaymentFactory', function($resource) {
             method: 'GET',
             params: {
                 last: 'last'
-            }
-        },
-        lastOther: {
-            method: 'GET',
-            isArray: true,
-            params: {
-                last: 'last',
-                other: 'other'
             }
         },
         countUnpaid: {
