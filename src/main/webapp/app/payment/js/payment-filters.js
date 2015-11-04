@@ -57,13 +57,29 @@ app.filter('firstCapital', function() {
    }
 });
 
-app.filter('serviceFilter', function() {
+app.filter('serviceFilter', function($filter) {
     return function(services, showPaid, apartmentServices) {
         if(showPaid) {
-            return _.filter(services, function(service) {
+            var paidServices = _.filter(services, function(service) {
                 return _.contains(apartmentServices, service.id)
             });
+            return $filter('serviceOrderFilter')(paidServices);
         }
-        return services;
+        return $filter('serviceOrderFilter')(services);
+    }
+});
+
+app.filter('serviceOrderFilter', function() {
+    return function(services) {
+        var servicesGroupsOrder = ["ELECTRICITY", "WATER", "GAS", "MAINTENANCE", "HEATING", "OTHER"];
+        if(services) {
+            return _.sortBy(services, function (service) {
+                if(_.has(service, 'type')) {
+                    return servicesGroupsOrder.indexOf(service.type.group);
+                } else {
+                    return servicesGroupsOrder.indexOf(service.group);
+                }
+            });
+        }
     }
 });

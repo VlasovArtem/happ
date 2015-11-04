@@ -1,20 +1,12 @@
 package com.household.service.impl;
 
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.household.entity.User;
-import com.household.entity.UserRole;
-import com.household.persistence.ApartmentRepository;
-import com.household.persistence.StatisticRepository;
-import com.household.persistence.custom.impl.StatisticRepositoryImpl;
+import com.household.entity.enums.UserRole;
 import com.household.persistence.UserRepository;
 import com.household.service.UserService;
 import com.household.utils.exception.UserRegistrationException;
 import com.household.utils.security.AuthenticatedUserPrincipalUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 

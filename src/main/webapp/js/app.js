@@ -6,7 +6,8 @@ var app = angular.module('household', [
     'apartment-controllers', 'apartment-services', 'apartment-directives', 'apartment-filters',
     'main-controllers', 'main-directives', 'main-filters', 'main-services',
     'payment-controllers', 'payment-services', 'payment-directives', 'payment-filters',
-    'user-services', 'user-directives', 'user-controllers'
+    'user-services', 'user-directives', 'user-controllers',
+    'custom-service-services', 'custom-service-controllers'
 ]).config(
     function($routeProvider, $locationProvider, $httpProvider, $provide) {
         var isSafari = /Safari/.test(navigator.userAgent) && /Apple Computer/.test(navigator.vendor);
@@ -33,7 +34,11 @@ var app = angular.module('household', [
         $provide.factory('myHttpInterceptor', function($q) {
             return {
                 'response': function(response) {
-                    removeLoading();
+                    if(response.config.url == '/rest/street/search') {
+                        angular.element('.loading-street').addClass('hide');
+                    } else {
+                        removeLoading();
+                    }
                     return response;
                 },
                 'responseError': function(rejection) {
@@ -41,7 +46,11 @@ var app = angular.module('household', [
                     return $q.reject(rejection);
                 },
                 'request': function(config) {
-                    addLoading();
+                    if(config.url == '/rest/street/search') {
+                        angular.element('.loading-street').removeClass('hide');
+                    } else {
+                        addLoading();
+                    }
                     return config;
                 }
             }
@@ -133,6 +142,18 @@ var app = angular.module('household', [
                 resolve: {
                     apartment: function($sessionStorage) {
                         return $sessionStorage.apartment;
+                    }
+                }
+            }).
+            when('/custom/service/add', {
+                templateUrl: 'app/custom-service/add.html',
+                controller: 'AddCustomService',
+                resolve: {
+                    cities : function(Cities) {
+                        return Cities.query().$promise;
+                    },
+                    subtypes: function(ServiceFactory) {
+                        return ServiceFactory.query({get: 'get', subtypes: 'subtypes'}).$promise;
                     }
                 }
             }).

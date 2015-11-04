@@ -354,6 +354,15 @@ apartment .badge {
     transition: width 1s ease;
 }
 
+/* Add Apartment */
+.loading-street {
+    position: absolute;
+    height: 25px;
+    width: 25px;
+    right: 40px;
+    top: 20px
+}
+
 /* Add Payment Apartment */
 #add-payment tr {
     margin: 5px 0;
@@ -639,6 +648,26 @@ legend:after {
 }
 .show-apartment-services {
     margin-top: 10px;
+}
+.happ-btn {
+    border: 1px solid #ccc;
+    border-radius: 2px;
+}
+.happ-btn-reset {
+    background: rgba(201, 48, 44, .8);
+}
+.happ-btn-search {
+    background: rgba(49, 179, 213, .8);
+}
+/*.happ-btn-reset:hover {*/
+
+/*}*/
+/* Custom Service */
+form[name=addServiceForm] select {
+    color: #9c9c9c;
+}
+.custom-service-hint {
+    color: #9c9c9c;
 }
 
 /* Unpaid page */

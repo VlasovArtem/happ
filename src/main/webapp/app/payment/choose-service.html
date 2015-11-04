@@ -9,7 +9,7 @@
                     id="type"
                     ng-model="search.type"
                     class="form-control happ-form-control"
-                    ng-options="(type.name | camelCase) for type in types">
+                    ng-options="(type.name | camelCase) for type in types | serviceOrderFilter">
                 <option value="" disabled selected>Выберите сервис...</option>
             </select>
         </div>
@@ -22,8 +22,10 @@
             </select>
         </div>
         <div class="col-md-2 button" ng-show="search.type && search.type.alias != 'other' || search.type">
-            <input type="button" class="btn btn-info" value="Искать" ng-click="serviceSearch()">
-            <input type="button" class="btn btn-danger" value="Очистить" ng-click="resetSearch()">
+            <input type="button" class="btn btn-info happ-btn happ-btn-search" value="Искать"
+                   ng-click="serviceSearch()">
+            <input type="button" class="btn btn-danger happ-btn happ-btn-reset" value="Очистить"
+                   ng-click="resetSearch()">
         </div>
     </div>
     <div class="row show-apartment-services">
@@ -60,7 +62,7 @@
                     </ul>
                     <div class="form-group">
                         <input type="button" value="Добавить" ng-click="addPayment(service)"
-                               class="btn btn-success">
+                               class="btn btn-success happ-btn">
                     </div>
                 </div>
             </fieldset>

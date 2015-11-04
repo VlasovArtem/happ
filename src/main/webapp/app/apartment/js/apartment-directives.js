@@ -36,9 +36,12 @@ app.directive('apartment', function ($sessionStorage, PaymentFactory, $location,
                 $location.path('/payment/statistic')
             };
             scope.removeApartment = function() {
-                ApartmentFactory.delete({delete : 'delete', id : scope.apartment.id}, function() {
-                    $route.reload();
-                });
+                var deleteConfirmed = confirm('Вы уверены, что хотите удалить эту квартиру?');
+                if(deleteConfirmed) {
+                    ApartmentFactory.delete({delete: 'delete', id: scope.apartment.id}, function () {
+                        $route.reload();
+                    });
+                }
             }
         },
         templateUrl: 'app/apartment/apartment-block.html'

@@ -1,0 +1,119 @@
+<section id="add-custom-service">
+    <h2>Добавить сервис</h2>
+    <div class="error col-md-12" ng-bind="error" ng-class="error ? 'show-error' : ''"></div>
+    <form name="addServiceForm" class="col-md-offset-3 col-md-6 happ-form">
+        <div class="happ-form-group has-feedback col-md-6" ng-class="addServiceForm.city.$viewValue ? 'is-active' : ''">
+            <label class="float-label">Город</label>
+            <select
+                    id="city"
+                    name="city"
+                    ng-model="customService.service.city"
+                    ng-focus="setFocus('city')"
+                    ng-blur="setBlur('city')"
+                    ng-change="changeSelect('city')"
+                    required
+                    ng-options="city.name for city in cities"
+                    class="form-control test-happ-form-control">
+                <option value="" disabled selected>Выбирите город</option>
+            </select>
+        </div>
+        <div class="happ-form-group col-md-6" ng-class="addServiceForm.name.$viewValue.length > 0 ? 'is-active' : ''">
+            <label class="float-label">Имя сервиса</label>
+            <input type="text"
+                   ng-model="customService.service.name"
+                   id="name"
+                   name="name"
+                   class="form-control test-happ-form-control"
+                   placeholder="Введите имя сервиса"
+                   ng-focus="setFocus('name')"
+                   ng-blur="setBlur('name')"
+                   minlength="3"
+                   maxlength="50"
+                   required
+                   ng-pattern="/^[а-яА-Яa-zA-z ]*$/"
+                   autocomplete="off">
+            <div validation-messages
+                 model-controller="addServiceForm.name"
+                 messages="validationMessages"></div>
+        </div>
+        <div class="happ-form-group col-md-6" ng-class="addServiceForm.bankCode.$viewValue > 0 ? 'is-active' : ''">
+            <label class="float-label">Код банка</label>
+            <input type="number"
+                   ng-model="customService.service.serviceInformation.bankCode"
+                   id="bankCode"
+                   name="bankCode"
+                   class="form-control test-happ-form-control"
+                   placeholder="Введите код банка"
+                   ng-focus="setFocus('bankCode')"
+                   ng-blur="setBlur('bankCode')"
+                   min="300000"
+                   max="399999"
+                   autocomplete="off">
+            <div validation-messages
+                 model-controller="addServiceForm.bankCode"
+                 messages="validationMessages"></div>
+        </div>
+        <div class="happ-form-group col-md-6" ng-class="addServiceForm.checkingAccount.$viewValue > 0 ? 'is-active' : ''">
+            <label class="float-label">Расчётный счёт</label>
+            <input type="number"
+                   ng-model="customService.service.serviceInformation.checkingAccount"
+                   id="checkingAccount"
+                   name="checkingAccount"
+                   class="form-control test-happ-form-control"
+                   placeholder="Введите расчётный счёт"
+                   ng-focus="setFocus('checkingAccount')"
+                   ng-blur="setBlur('checkingAccount')"
+                   min="26000000000000"
+                   max="26999999999999"
+                   autocomplete="off">
+            <div validation-messages
+                 model-controller="addServiceForm.checkingAccount"
+                 messages="validationMessages"></div>
+        </div>
+        <div class="happ-form-group has-feedback col-md-12"
+             ng-class="addServiceForm.subtype.$viewValue ? 'is-active' : ''">
+            <label class="float-label">Тип сервиса</label>
+            <select
+                    id="subtype"
+                    name="subtype"
+                    ng-model="subtype"
+                    ng-change="selectSubtype(subtype)"
+                    ng-focus="setFocus('subtype')"
+                    ng-blur="setBlur('subtype')"
+                    required
+                    ng-options="subtype.name for subtype in subtypes"
+                    class="form-control test-happ-form-control">
+                <option value="" disabled selected>Выбирите тип сервиса</option>
+            </select>
+        </div>
+        <div class="happ-form-group col-md-12"
+             ng-class="addServiceForm.customSubtype.$viewValue.length > 0 ? 'is-active' : ''"
+             ng-show="subtype.alias == 'other'">
+            <label class="float-label">Ваш тип сервиса</label>
+            <input type="text"
+                   ng-model="customService.service.type.subtypes[0].name"
+                   id="customSubtype"
+                   name="customSubtype"
+                   class="form-control test-happ-form-control"
+                   placeholder="Введите ваш тип сервиса"
+                   ng-focus="setFocus('customSubtype')"
+                   ng-blur="setBlur('customSubtype')"
+                   minlength="3"
+                   maxlength="100"
+                   required
+                   autocomplete="off">
+            <div validation-messages
+                 model-controller="addServiceForm.customSubtype"
+                 messages="validationMessages"></div>
+        </div>
+        <div class="col-md-12" ng-show="subtype.alias == 'other'">
+            <small class="custom-service-hint">Пример пользовательского сервиса: Услиги телефоной связи или
+                Интернет</small>
+        </div>
+        <div class="form-group buttons col-md-12">
+            <input type="button" class="btn btn-success happ-btn" value="Добавить" ng-click="addCustomService()"
+                   ng-disabled="addServiceForm.$invalid">
+            <input type="button" class="btn btn-danger happ-btn" value="Cancel" ng-click="cancel()">
+        </div>
+    </form>
+</section>

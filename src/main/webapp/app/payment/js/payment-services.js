@@ -4,7 +4,7 @@
 var app = angular.module('payment-services', ['ngResource']);
 
 app.factory('ServiceFactory', function($resource) {
-    return $resource('/rest/service/:search/:get/:apartmentId/:all/:types/:meters/:services', {
+    return $resource('/rest/service/:search/:get/:apartmentId/:all/:types/:meters/:services/:subtypes', {
         get: '@get',
         all: '@all',
         types: '@types',

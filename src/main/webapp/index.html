@@ -36,6 +36,8 @@
     <script src="app/user/js/user-controllers.js"></script>
     <script src="app/user/js/user-directives.js"></script>
     <script src="app/user/js/user-services.js"></script>
+    <script src="app/custom-service/js/custom-service-controllers.js"></script>
+    <script src="app/custom-service/js/custom-service-services.js"></script>
 </head>
 <body ng-cloak class="ng-cloak">
 <nav class="navbar navbar-default navbar-happ" ng-controller="MainCtrl">
@@ -55,6 +57,9 @@
         </div>
         <div class="collapse navbar-collapse" id="navbar-collapse" ng-show="auth.authenticated != undefined">
             <ul class="nav navbar-right navbar-nav" ng-show="authenticated()">
+                <li>
+                    <a href="/custom/service/add">Добавить Сервис</a>
+                </li>
                 <li>
                     <a href="/apartments">
                         <span class="content">Квартиры</span>
