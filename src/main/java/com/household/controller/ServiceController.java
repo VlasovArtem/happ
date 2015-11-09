@@ -41,6 +41,11 @@ public class ServiceController {
         return ResponseEntity.ok(service.getServiceTypes());
     }
 
+    @RequestMapping("/get/subtypes")
+    public ResponseEntity getServiceSubtypes() {
+        return ResponseEntity.ok(service.getServiceSubtypes());
+    }
+
     @RequestMapping("/get/meters")
     public ResponseEntity getMeterTypes() {
         return ResponseEntity.ok(MeterType.values());

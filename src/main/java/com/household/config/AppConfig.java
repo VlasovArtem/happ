@@ -1,12 +1,15 @@
 package com.household.config;
 
-import com.mongodb.*;
+import com.household.config.security.SpringSecurityAuditorAware;
+import com.mongodb.Mongo;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-
-import java.util.Collections;
 
 /**
  * Created by artemvlasov on 03/09/15.
@@ -23,21 +26,17 @@ public class AppConfig extends AbstractMongoConfiguration {
     @Override
     public Mongo mongo() throws Exception {
         String url = System.getenv("OPENSHIFT_MONGODB_DB_URL");
-//        String openshiftHost = System.getenv("OPENSHIFT_MONGODB_DB_HOST");
-//        int openshiftPort = Integer.parseInt(System.getenv("OPENSHIFT_MONGODB_DB_PORT"));
-//        String username = System.getenv("OPENSHIFT_MONGODB_DB_USERNAME");
-//        String password = System.getenv("OPENSHIFT_MONGODB_DB_PASSWORD");
-//        String databaseName = System.getenv("OPENSHIFT_APP_NAME");
-//        ServerAddress serverAddress = new DBAddress(openshiftHost, openshiftPort, databaseName);
-//        MongoCredential mongoCredential = MongoCredential.createMongoCRCredential(username, databaseName, password
-//                .toCharArray());
-//        return new MongoClient(serverAddress, Collections.singletonList(mongoCredential));
         return new MongoClient(new MongoClientURI(url));
     }
 
     @Override
     protected String getMappingBasePackage() {
         return "com.household";
+    }
+
+    @Bean
+    public AuditorAware<String> myAuditorProvider() {
+        return new SpringSecurityAuditorAware();
     }
 
 }

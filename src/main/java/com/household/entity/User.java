@@ -3,6 +3,7 @@ package com.household.entity;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.household.entity.enums.UserRole;
 import org.mongodb.morphia.annotations.Embedded;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;

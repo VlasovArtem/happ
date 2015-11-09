@@ -1,4 +1,4 @@
-package com.household.entity;
+package com.household.entity.enums;
 
 /**
  * Created by artemvlasov on 21/10/15.

@@ -2,6 +2,7 @@ package com.household.service;
 
 import com.household.entity.Service;
 import com.household.entity.ServiceType;
+import com.household.entity.Subtype;
 import com.household.entity.enums.ServiceTypeAlias;
 
 import java.util.List;
@@ -19,4 +20,6 @@ public interface ServiceService {
     List<Service> search (String city, String type, String subtype);
 
     List<String> findPaymentsServiceIds (String apartmentId);
+
+    List<Subtype> getServiceSubtypes();
 }
