@@ -1,7 +1,7 @@
 package com.household.utils.security;
 
 import com.household.config.security.HappUserDetails;
-import com.household.entity.UserRole;
+import com.household.entity.enums.UserRole;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 

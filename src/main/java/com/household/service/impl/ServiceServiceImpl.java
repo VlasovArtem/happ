@@ -2,6 +2,7 @@ package com.household.service.impl;
 
 import com.household.entity.Service;
 import com.household.entity.ServiceType;
+import com.household.entity.Subtype;
 import com.household.persistence.ApartmentRepository;
 import com.household.persistence.PaymentRepository;
 import com.household.persistence.ServiceRepository;
@@ -17,14 +18,18 @@ import java.util.List;
  */
 @org.springframework.stereotype.Service
 public class ServiceServiceImpl implements ServiceService {
-    @Autowired
     private ServiceRepository serviceRepository;
-    @Autowired
     private ServiceTypeRepository serviceTypeRepository;
-    @Autowired
     private ApartmentRepository apartmentRepository;
-    @Autowired
     private PaymentRepository paymentRepository;
+
+    @Autowired
+    public ServiceServiceImpl(ServiceRepository serviceRepository, ServiceTypeRepository serviceTypeRepository, ApartmentRepository apartmentRepository, PaymentRepository paymentRepository) {
+        this.serviceRepository = serviceRepository;
+        this.serviceTypeRepository = serviceTypeRepository;
+        this.apartmentRepository = apartmentRepository;
+        this.paymentRepository = paymentRepository;
+    }
 
     @Override
     public List<Service> getAll(String city, String type) {
@@ -54,5 +59,10 @@ public class ServiceServiceImpl implements ServiceService {
     @Override
     public List<String> findPaymentsServiceIds(String apartmentId) {
         return paymentRepository.findApartmentPaymentServices(apartmentId);
+    }
+
+    @Override
+    public List<Subtype> getServiceSubtypes() {
+        return serviceTypeRepository.findSubtypes().getSubtypes();
     }
 }

@@ -15,6 +15,7 @@
             </select>
         </div>
         <div class="happ-form-group col-md-6 col-sm-12">
+            <img src="/style/images/loading-gif/loading.GIF" class="loading-street hide">
             <street-select></street-select>
         </div>
         <div class="happ-form-group col-md-6 col-sm-12"
@@ -49,7 +50,8 @@
                    ng-model="apartment.address.apartment"/>
         </div>
         <div class="col-md-12 buttons">
-            <input type="button" class="btn btn-success" value="Добавить" ng-click="add()" ng-disabled="addApartment.$invalid"/>
+            <input type="button" class="btn btn-success happ-btn" value="Добавить" ng-click="add()"
+                   ng-disabled="addApartment.$invalid"/>
         </div>
     </form>
 </section>

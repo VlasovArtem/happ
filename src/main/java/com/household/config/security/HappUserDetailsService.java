@@ -1,7 +1,7 @@
 package com.household.config.security;
 
 import com.household.entity.User;
-import com.household.entity.UserRole;
+import com.household.entity.enums.UserRole;
 import com.household.persistence.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
