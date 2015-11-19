@@ -6,26 +6,21 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.household.entity.Apartment;
 import com.household.entity.Payment;
 import com.household.persistence.StatisticRepository;
-import com.household.utils.converter.LocalDateConverter;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
-import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static com.household.utils.converter.LocalDateConverter.*;
+import static com.household.utils.converter.LocalDateConverter.currentMonthEnd;
+import static com.household.utils.converter.LocalDateConverter.currentMonthStart;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
 
 /**

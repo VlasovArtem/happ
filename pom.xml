@@ -6,11 +6,11 @@
     <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
     <properties>
-        <spring.version>4.2.2.RELEASE</spring.version>
+        <spring.version>4.2.3.RELEASE</spring.version>
         <jackson.version>2.6.1</jackson.version>
-        <spring.security.version>4.0.2.RELEASE</spring.security.version>
-        <spring.data.mongodb.version>1.8.0.RELEASE</spring.data.mongodb.version>
-        <spring.data.commons.version>1.11.0.RELEASE</spring.data.commons.version>
+        <spring.security.version>4.0.3.RELEASE</spring.security.version>
+        <spring.data.mongodb.version>1.8.1.RELEASE</spring.data.mongodb.version>
+        <spring.data.commons.version>1.11.1.RELEASE</spring.data.commons.version>
     </properties>
     <dependencies>
 
@@ -26,7 +26,7 @@
         <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>mongo-java-driver</artifactId>
-            <version>3.0.3</version>
+            <version>3.1.0</version>
         </dependency>
         <dependency>
             <groupId>org.mongodb.morphia</groupId>
