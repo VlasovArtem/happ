@@ -250,11 +250,13 @@ app.directive('servicePayment',
                             function (prevPayment) {
                                 if (prevPayment) {
                                     if(_.isEqual(scope.service.id, prevPayment.service.id)) {
-                                        PreviousPayment.updatePayment(prevPayment, scope.payment);
                                         if (scope.service.type.group == "ELECTRICITY" && prevPayment.meterType != scope.meterTypes[0].name) {
                                             scope.changeMeterType(prevPayment.meterType);
-                                        } else if (scope.service.type.group == "MAINTENANCE") {
-                                            scope.payment.paymentSum = prevPayment.paymentSum;
+                                            PreviousPayment.updatePayment(prevPayment, scope.payment);
+                                        } else if (_.contains(['GAS', 'WATER', 'HEATING'], scope.service.type.group)) {
+                                            PreviousPayment.updatePayment(prevPayment, scope.payment);
+                                        } else {
+                                            PreviousPayment.updatePaymentWithPaymentSum(prevPayment, scope.payment);
                                         }
                                     }
                                 }
