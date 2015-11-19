@@ -4,11 +4,9 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.household.entity.CustomService;
 import com.household.utils.exception.EntityValidationException;
-import org.apache.commons.validator.routines.EmailValidator;
 
 import java.util.Arrays;
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * Created by artemvlasov on 04/11/15.
@@ -20,27 +18,25 @@ public class CustomServiceValidator extends EntityValidator {
      * @return true if all validate data matches their patterns otherwise throw {@code EntityValidationException}
      */
     public static boolean validate(CustomService customService) {
-        try {
-            Optional.of(customService).ifPresent(p -> {
-                if(Objects.nonNull(p.getService())) {
-                    ObjectNode objectNode = JsonNodeFactory.instance.objectNode();
-                    Arrays.stream(PersonValidationInfo.values()).allMatch(dc -> {
-                        if (!validate(dc, p)) {
-                            objectNode.put(dc.name().toLowerCase(), dc.getError());
-                        }
-                        return true;
-                    });
-                    if (objectNode.size() != 0) {
-                        throw new EntityValidationException(objectNode, "Сервис содержит некорректные данные");
-                    }
-                } else {
-                    throw new EntityValidationException(null, "Данные по сервису не может быть пустым.");
-                }
-            });
-        } catch (NullPointerException e) {
+        if(Objects.isNull(customService)) {
             return false;
+        } else {
+            if (Objects.nonNull(customService.getService())) {
+                ObjectNode objectNode = JsonNodeFactory.instance.objectNode();
+                Arrays.stream(PersonValidationInfo.values()).allMatch(dc -> {
+                    if (!validate(dc, customService)) {
+                        objectNode.put(dc.name().toLowerCase(), dc.getError());
+                    }
+                    return true;
+                });
+                if (objectNode.size() != 0) {
+                    throw new EntityValidationException(objectNode, "Сервис содержит некорректные данные");
+                }
+            } else {
+                throw new EntityValidationException(null, "Данные по сервису нe могут быть пустыми.");
+            }
+            return true;
         }
-        return true;
     }
 
     /**
@@ -84,7 +80,7 @@ public class CustomServiceValidator extends EntityValidator {
         CITY("Поле город обязательно", ""),
         BANK_CODE("Диапазон значений кода банка равен 300000 - 399999",
                 "3[0-9]{5}"),
-        CHECKING_ACCOUNT("Расчётный счёт должне начинаться с 26 и быть длинной в 14 цифр",
+        CHECKING_ACCOUNT("Расчётный счёт должне начинаться с 26 и быть 14 цифр длинной",
                 "26[0-9]{12}"),
         SUBTYPE("Имя типа сервиса должно содержать буквы или пробелы. Длинна должна быть между 3 до 100 символов",
                 "^[а-яА-Яa-zA-z ]{3,100}$");
