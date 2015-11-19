@@ -1,6 +1,6 @@
 <article class="service-info col-md-12">
     <ul>
-        <li><b>Город:</b> {{address.city.name}}</li>
+        <li ng-bind="'<b>Город:</b> ' + address.city.name"></li>
         <li><b>Улица:</b> {{address.street | streetConverter}}</li>
         <li><b>Дом:</b> {{address.house}}</li>
         <li><b>Квартира:</b> {{address.apartment}}</li>

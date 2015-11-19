@@ -10,49 +10,34 @@ var app = angular.module('household', [
     'custom-service-services', 'custom-service-controllers'
 ]).config(
     function($routeProvider, $locationProvider, $httpProvider, $provide) {
-        //var isSafari = /Safari/.test(navigator.userAgent) && /Apple Computer/.test(navigator.vendor);
-        //var addLoading = function() {
-            //if(isSafari) {
-            //$('.view').addClass('white');
-            //} else {
-            //    $('nav').addClass('blurred');
-            //    $('.view').addClass('blurred');
-            //    $('footer').addClass('blurred');
-            //}
-        //    $('.loading-img').show();
-        //};
-        //var removeLoading = function() {
-            //if(isSafari) {
-            //$('.view').removeClass('white');
-            //} else {
-            //    $('nav').removeClass('blurred');
-            //    $('.view').removeClass('blurred');
-            //    $('footer').removeClass('blurred');
-            //}
-            //$(".loading-img").hide();
-        //};
+        var addLoading = function() {
+            $('.view').addClass('white');
+            $('.loading-img').show();
+        };
+        var removeLoading = function() {
+            $('.view').removeClass('white');
+            $(".loading-img").hide();
+        };
         $provide.factory('myHttpInterceptor', function($q) {
             return {
                 'response': function(response) {
                     if(response.config.url == '/rest/street/search') {
                         angular.element('.loading-street').addClass('hide');
+                    } else {
+                        removeLoading();
                     }
-                    //else {
-                    //    removeLoading();
-                    //}
                     return response;
                 },
                 'responseError': function(rejection) {
-                    //removeLoading();
+                    removeLoading();
                     return $q.reject(rejection);
                 },
                 'request': function(config) {
                     if(config.url == '/rest/street/search') {
                         angular.element('.loading-street').removeClass('hide');
+                    } else if(!angular.element('body').hasClass('not-load')) {
+                        addLoading();
                     }
-                    //else {
-                    //    addLoading();
-                    //}
                     return config;
                 }
             }
@@ -164,16 +149,18 @@ var app = angular.module('household', [
         })
     });
 app.run(['$rootScope', 'auth', function($rootScope, auth) {
-    auth.init('/', '/', '/logout');
     $rootScope.$on('$routeChangeStart', function(event, next, current) {
         if(!_.isUndefined(next)) {
             if(next.$$route) {
                 if(next.$$route.originalPath == '/' || next.$$route.originalPath == '/success') {
                     $('nav').addClass('hide');
+                    $('body').addClass('not-load')
                 } else {
                     $('nav').removeClass('hide');
+                    $('body').removeClass('not-load')
                 }
             }
         }
     });
+    auth.init('/', '/', '/logout');
 }]);

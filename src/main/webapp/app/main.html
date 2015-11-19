@@ -1,4 +1,4 @@
-<section id="main-page" class="container-fluid">
+<section id="main-page" class="container-fluid ng-cloak">
     <div class="overlay"></div>
     <h2 class="hide">Happ project main page</h2>
     <div class="row content">
@@ -26,7 +26,7 @@
                         <li>
                             <a href="/apartments">
                                 <span class="content">Квартиры</span>
-                                <span class="house-badge">{{count}}</span>
+                                <span class="house-badge" ng-bind="count"></span>
                                 <span class="line"></span></a>
                         </li>
                         <li>
@@ -82,17 +82,17 @@
                         <tr>
                             <th>Добавленных</th>
                             <th><span class="glyphicon glyphicon-home"></span></th>
-                            <td>{{info.apartmentsCount}}</td>
+                            <td ng-bind="info.apartmentsCount"></td>
                         </tr>
                         <tr>
                             <th>Неоплаченная сумма</th>
                             <th><span class="glyphicon glyphicon-eur"></span></th>
-                            <td>{{info.totalPaymentSum | paymentSumFilter}}</td>
+                            <td ng-bind="info.totalPaymentSum | paymentSumFilter"></td>
                         </tr>
                         <tr>
                             <th>Неоплаченных счетов</th>
                             <th><span class="glyphicon glyphicon-list-alt"></span></th>
-                            <td>{{info.totalPaymentsCount}}</td>
+                            <td ng-bind="info.totalPaymentsCount"></td>
                         </tr>
                     </table>
                     <hr class="hr-line">
