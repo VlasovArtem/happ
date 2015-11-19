@@ -6,10 +6,14 @@ import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.convert.Jsr310Converters;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
+import org.springframework.data.mongodb.core.convert.CustomConversions;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+
+import java.util.Arrays;
 
 /**
  * Created by artemvlasov on 03/09/15.

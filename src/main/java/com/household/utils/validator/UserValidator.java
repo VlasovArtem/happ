@@ -28,26 +28,24 @@ public class UserValidator extends EntityValidator {
      * @return true if all validate data matches their patterns otherwise throw {@code EntityValidationException}
      */
     public static boolean validate(User user, boolean update) {
-        try {
-            Optional.of(user).ifPresent(p -> {
-                ObjectNode objectNode = JsonNodeFactory.instance.objectNode();
-                Arrays.stream(PersonValidationInfo.values()).allMatch(dc -> {
-                    if(update && dc.equals(PersonValidationInfo.PASSWORD)) {
-                        return true;
-                    }
-                    if (!validate(dc, p)) {
-                        objectNode.put(dc.name().toLowerCase(), dc.getError());
-                    }
-                    return true;
-                });
-                if (objectNode.size() != 0) {
-                    throw new EntityValidationException(objectNode, "Person form contains invalid data");
-                }
-            });
-        } catch (NullPointerException e) {
+        if(Objects.isNull(user)) {
             return false;
+        } else {
+            ObjectNode objectNode = JsonNodeFactory.instance.objectNode();
+            Arrays.stream(PersonValidationInfo.values()).allMatch(dc -> {
+                if(update && dc.equals(PersonValidationInfo.PASSWORD)) {
+                    return true;
+                }
+                if (!validate(dc, user)) {
+                    objectNode.put(dc.name().toLowerCase(), dc.getError());
+                }
+                return true;
+            });
+            if (objectNode.size() != 0) {
+                throw new EntityValidationException(objectNode, "Person form contains invalid data");
+            }
+            return true;
         }
-        return true;
     }
 
     /**
