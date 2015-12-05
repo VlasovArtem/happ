@@ -482,6 +482,12 @@ aside {
 .payment-form > table tr > td:last-child {
     width: 70%;
 }
+.service-warning {
+    text-align: center;
+    padding: 5px 0;
+    color: gray;
+    font-size: small;
+}
 
 .service-info > table {
     margin-bottom: 20px;
