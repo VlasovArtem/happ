@@ -14,12 +14,25 @@
                 <span><b>МФО: </b>{{service.serviceInformation.bankCode}}</span><br>
                 <span><b>№ счёт: </b>{{service.serviceInformation.checkingAccount}}</span><br>
             </div>
+            <div class="meter-rates" ng-show="serviceRates">
+                <b>Тариф <span ng-bind-html="rateType"></span>:</b> <span ng-show="serviceRates.length == 1">{{serviceRates[0][1]
+                }}</span>
+                <div ng-repeat="rate in serviceRates" ng-show="serviceRates.length > 1">
+                    <div>
+                        <b>{{rate[0]}}</b> : {{rate[1]}}
+                    </div>
+                </div>
+            </div>
             <div class="service-name col-md-12">Квартира</div>
             <span>{{(apartment.address.street | streetConverter) + " " + apartment.address.house + ", кв. " + apartment.address.apartment}}</span>
         </div>
     </aside>
     <article class="service happ-form col-md-6" service-payment>
         <h3>Платёжная информация</h3>
+        <div class="col-md-12 service-warning" ng-hide="service.type.group != 'GAS'">
+            <span>Внимание: Тариф указан только для преготовления пищи и
+                подогрева воды</span>
+        </div>
         <div class="service-form"></div>
         <div class="col-md-12 buttons">
             <input type="button" class="btn btn-success" value="Добавить" ng-click="addPayment()" ng-disabled="paymentForm.$invalid">
