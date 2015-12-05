@@ -7,6 +7,7 @@
                 <th>Информация</th>
                 <th class="center">Дата</th>
                 <th class="center">Оплачено</th>
+                <th>Показания</th>
                 <th>Сумма</th>
             </tr>
             <tr ng-repeat="payment in payments">
@@ -15,6 +16,7 @@
                         ng-bind="payment.service.type.alias != 'other' ? (payment.service.type.name | camelCase) : payment.service.type.subtypes[0].name"></td>
                 <td class="center" ng-bind="payment.paymentDate | dateFilter"></td>
                 <td class="center"><paid paid="{{payment.paid}}"></paid></td>
+                <td ng-bind="payment | paymentMeterFilter"></td>
                 <td ng-bind="payment.paymentSum"></td>
             </tr>
         </table>

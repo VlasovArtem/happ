@@ -254,7 +254,10 @@ app.directive('servicePayment',
                                             scope.changeMeterType(prevPayment.meterType);
                                             PreviousPayment.updatePayment(prevPayment, scope.payment);
                                         } else if (_.contains(['GAS', 'WATER', 'HEATING'], scope.service.type.group)) {
+                                            console.log(prevPayment);
+                                            console.log(scope.payment);
                                             PreviousPayment.updatePayment(prevPayment, scope.payment);
+                                            console.log(scope.payment);
                                         } else {
                                             PreviousPayment.updatePaymentWithPaymentSum(prevPayment, scope.payment);
                                         }
