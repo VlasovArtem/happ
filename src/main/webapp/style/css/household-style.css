@@ -8,7 +8,10 @@ section > h2 {
 .view {
     height: 100%;
 }
-
+.loading-bg {
+    background-color: rgba(0, 0, 0, .8) !important;
+    z-index: 2000;
+}
 .main-title {
     height: 80vh;
     display: flex;
@@ -16,7 +19,12 @@ section > h2 {
     justify-content: center;
     text-align: center;
 }
-[ng\:cloak], [ng-cloak], .ng-cloak {
+[ng\:cloak],
+[ng-cloak],
+[data-ng-cloak],
+[x-ng-cloak],
+.ng-cloak,
+.x-ng-cloak {
     display: none !important;
 }
 
@@ -473,6 +481,12 @@ aside {
 }
 .payment-form > table tr > td:last-child {
     width: 70%;
+}
+.service-warning {
+    text-align: center;
+    padding: 5px 0;
+    color: gray;
+    font-size: small;
 }
 
 .service-info > table {

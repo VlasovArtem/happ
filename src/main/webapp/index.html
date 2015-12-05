@@ -39,47 +39,49 @@
     <script src="/app/custom-service/js/custom-service-controllers.js"></script>
     <script src="/app/custom-service/js/custom-service-services.js"></script>
 </head>
-<body ng-cloak class="ng-cloak">
-<nav class="navbar navbar-default navbar-happ" ng-controller="MainCtrl">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button"
-                    class="navbar-toggle collapsed"
-                    data-toggle="collapse"
-                    data-target="#navbar-collapse"
-                    aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/"><img ng-src="/style/images/nav-icon1.png" class="nav-icon"></a>
+<body class="ng-cloak not-load">
+    <nav class="navbar navbar-default navbar-happ" ng-controller="MainCtrl">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button"
+                        class="navbar-toggle collapsed"
+                        data-toggle="collapse"
+                        data-target="#navbar-collapse"
+                        aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/"><img ng-src="style/images/nav-icon1.png" class="nav-icon"></a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-collapse" ng-show="auth.authenticated != undefined">
+                <ul class="nav navbar-right navbar-nav" ng-show="authenticated()">
+                    <li>
+                        <a href="/custom/service/add">Добавить Сервис
+                            <span class="line"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/apartments">
+                            <span class="content">Квартиры</span>
+                            <span class="house-badge">{{count}}</span>
+                            <span class="line"></span></a>
+                    </li>
+                    <li>
+                        <a href="" ng-click="logout()">Выход <span class="glyphicon glyphicon-user"></span><span
+                                class="line"></span></a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-right navbar-nav" ng-hide="authenticated()">
+                    <li>
+                        <a href="/signup">Регистрация <span class="glyphicon glyphicon-user"></span><span class="line"></span></a>
+                    </li>
+                </ul>
+            </div>
         </div>
-        <div class="collapse navbar-collapse" id="navbar-collapse" ng-show="auth.authenticated != undefined">
-            <ul class="nav navbar-right navbar-nav" ng-show="authenticated()">
-                <li>
-                    <a href="/custom/service/add">Добавить Сервис</a>
-                </li>
-                <li>
-                    <a href="/apartments">
-                        <span class="content">Квартиры</span>
-                        <span class="house-badge">{{count}}</span>
-                        <span class="line"></span></a>
-                </li>
-                <li>
-                    <a href="" ng-click="logout()">Выход <span class="glyphicon glyphicon-user"></span><span
-                            class="line"></span></a>
-                </li>
-            </ul>
-            <ul class="nav navbar-right navbar-nav" ng-hide="authenticated()">
-                <li>
-                    <a href="/signup">Регистрация <span class="glyphicon glyphicon-user"></span><span class="line"></span></a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-<!--<loading></loading>-->
-<div ng-view class="view"></div>
+    </nav>
+    <loading></loading>
+    <div ng-view class="view"></div>
 </body>
 </html>

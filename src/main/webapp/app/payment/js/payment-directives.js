@@ -203,6 +203,8 @@ app.directive('servicePayment',
                 scope.open = function($event) {
                     scope.status.opened = true;
                 };
+                scope.serviceRates = Service.prepareServiceRates(scope.service);
+                scope.rateType = Service.rateType(scope.service.type.group);
                 scope.today = new Date();
                 scope.today.setHours(0, 0, 0, 0);
                 scope.chooseServiceType = function(type) {
@@ -342,10 +344,10 @@ app.directive('chooseService', function(ServiceFactory, Payment, Service, $locat
         },
         template:
         '<div class="col-md-2 info"> ' +
-            '<label for="type">Сервис:</label> ' +
-            '<select name="type" id="type" ng-model="type" class="form-control happ-form-control" ng-change="chooseServiceType(type)" ng-options="(type.name | camelCase) for type in types"> ' +
-                '<option value="" disabled selected>Выберите сервис...</option> ' +
-            '</select> ' +
+        '<label for="type">Сервис:</label> ' +
+        '<select name="type" id="type" ng-model="type" class="form-control happ-form-control" ng-change="chooseServiceType(type)" ng-options="(type.name | camelCase) for type in types"> ' +
+        '<option value="" disabled selected>Выберите сервис...</option> ' +
+        '</select> ' +
         '</div>'
     }
 });

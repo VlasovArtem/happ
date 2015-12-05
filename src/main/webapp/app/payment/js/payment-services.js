@@ -118,6 +118,45 @@ app.service('Service', function() {
                 service[key] = null;
             }
         })
+    };
+    this.prepareServiceRates = function(service) {
+        if(service.rates) {
+            var rates = [];
+            if (service.rates.length > 1) {
+                for (var i = 0; i < service.rates.length; i++) {
+                    var text = [];
+                    if (i == 0) {
+                        text[0] = "0 - " + service.volumes[i];
+                        text[1] = service.rates[i];
+                    } else if (i == service.rates.length - 1) {
+                        text[0] = "с выше " + service.volumes[i - 1];
+                        text[1] = service.rates[i];
+                    } else {
+                        text[0] = service.volumes[i - 1] + " - " + service.volumes[i];
+                        text[1] = service.rates[i];
+                    }
+                    rates.push(text);
+                }
+                return rates;
+            } else {
+                var text = [];
+                text[0] = "";
+                text[1] = service.rates[0];
+                rates.push(text);
+                return rates;
+            }
+        }
+    };
+    this.rateType = function(serviceGroup) {
+        switch (serviceGroup) {
+            case "GAS" :
+                return "грн/м<sup>3<sup>";
+            case "WATER":
+                return "грн/м<sup>3<sup>";
+            case "ELECTRICITY":
+                return "кВт/ч"
+        }
+
     }
 });
 
