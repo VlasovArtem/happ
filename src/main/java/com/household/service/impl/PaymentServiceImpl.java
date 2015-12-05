@@ -38,7 +38,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public Payment findLastPayment (String apartmentId, String type) {
-        Pageable request = new PageRequest(0, 1, new Sort(Sort.Direction.ASC, "paymentDate"));
+        Pageable request = new PageRequest(0, 1, new Sort(Sort.Direction.DESC, "paymentDate"));
         return paymentRepository.findByApartmentIdAndServiceTypeAlias(apartmentId, type, request).getContent().stream().findFirst().get();
     }
 
